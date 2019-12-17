@@ -1,6 +1,6 @@
 {
   "name": "switch-apps",
-  "version": "0.0.1-alpha1",
+  "version": "0.0.1",
   "description": "Switch apps with a keyboard shortcut on Windows.",
   "main": "SwitchApps.ahk",
   "scripts": {
