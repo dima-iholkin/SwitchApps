@@ -29,14 +29,14 @@ CheckKeyPress(letter)
 
 	if (UserInput = CharTab_local or UserInput = "c") {
 		if (UserInput = CharTab_local) {
-			Send {Esc}
+			; Send {Esc}
 			Send #t
-			Send {Down}
+			; Send {Down}
 		}
 		else {
-			Send {Esc}
+			; Send {Esc}
 			Send +#t
-			Send {Down}
+			; Send {Down}
 		}
 		CheckKeyPress(letter)
 		return
@@ -49,9 +49,9 @@ CheckKeyPress(letter)
 			return
 		}
 		else {
+			Send {Esc}
+			Send {Esc}
 			MsgBox, how the fuck
-			Send {Esc}
-			Send {Esc}
 			return
 		}
 	}
@@ -76,7 +76,7 @@ $!Tab::
 ; Sleep 200
 
 Send #t
-Send {Down}
+; Send {Down}
 
 HotKey, !Tab, Off
 
