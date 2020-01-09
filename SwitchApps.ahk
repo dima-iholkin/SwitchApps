@@ -29,9 +29,19 @@ CheckKeyPress(letter)
 
   if (UserInput = CharTab_local or UserInput = "c") {
     if (UserInput = CharTab_local) {
-      ; Send {Esc}
-      Send #t
-      ; Send {Down}
+      If (GetKeyState("LShift") = 1) {
+        ; if LShift is pressed
+
+        Send +#t
+        ; Send Win + Shift + T. It switches to the left hand side.
+      }
+
+      If (GetKeyState("LShift") = 0) {
+        ; if LShift is not pressed
+
+        Send #t
+        ; Send Win + T. It switches to the right hand side.
+      }
     }
     else {
       ; Send {Esc}
@@ -70,7 +80,9 @@ Callback()
 
 
 
+; $!#+Tab::
 $!Tab::
+$!+Tab::
   ; I wanted to reduce the number of flashy animations.
   ; Send #d
   ; Sleep 200
@@ -79,6 +91,7 @@ $!Tab::
   ; Send {Down}
 
   HotKey, !Tab, Off
+  HotKey, !+Tab, Off
 
   HotKey, LAlt Up, Callback
   HotKey, LAlt Up, On
@@ -89,5 +102,6 @@ $!Tab::
   HotKey, LAlt Up, Off
 
   HotKey, !Tab, On
+  HotKey, !+Tab, On
 
 return
