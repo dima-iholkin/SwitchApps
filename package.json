@@ -1,10 +1,10 @@
 {
   "name": "switch-apps",
-  "version": "0.0.4",
+  "version": "0.1.0-rc1",
   "description": "Switch apps with a keyboard shortcut on Windows.",
   "main": "SwitchApps.ahk",
   "scripts": {
-    "try": "./SwitchApps.ahk"
+    "try": "start SwitchApps.ahk"
   },
   "author": "Dima Iholkin",
   "license": "ISC"

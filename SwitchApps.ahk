@@ -25,29 +25,21 @@ CheckKeyPress(letter)
      }
   }
 
-  CharTab_local := Chr(9)
+  if (UserInput = letter) {
+    If (GetKeyState("LShift") = 1) {
+      ; if LShift is pressed
 
-  if (UserInput = CharTab_local or UserInput = "c") {
-    if (UserInput = CharTab_local) {
-      If (GetKeyState("LShift") = 1) {
-        ; if LShift is pressed
-
-        Send +#t
-        ; Send Win + Shift + T. It switches to the left hand side.
-      }
-
-      If (GetKeyState("LShift") = 0) {
-        ; if LShift is not pressed
-
-        Send #t
-        ; Send Win + T. It switches to the right hand side.
-      }
-    }
-    else {
-      ; Send {Esc}
       Send +#t
-      ; Send {Down}
+      ; Send Win + Shift + T. It switches to the left hand side.
     }
+
+    If (GetKeyState("LShift") = 0) {
+      ; if LShift is not pressed
+
+      Send #t
+      ; Send Win + T. It switches to the right hand side.
+    }
+
     CheckKeyPress(letter)
     return
   }
@@ -61,7 +53,7 @@ CheckKeyPress(letter)
     else {
       Send {Esc}
       Send {Esc}
-      MsgBox, how the fuck
+      MsgBox, woops
       return
     }
   }
@@ -70,38 +62,54 @@ CheckKeyPress(letter)
 }
 
 
-
 Callback()
 {
-  ; Sleep, 500
   Send {Enter}
   return
 }
 
 
-
-; $!#+Tab::
 $!Tab::
 $!+Tab::
-  ; I wanted to reduce the number of flashy animations.
-  ; Send #d
-  ; Sleep 200
+  ; If we start from the Alt+Shift+Tab - the selection should be 
+  ; not on the first app (the standard behaviour of Win+Shift+T)
+  ; and the selection should be on the last app.
 
-  Send #t
-  ; Send {Down}
+  If (GetKeyState("LShift") = 0) {
+    ; if LShift is not pressed
+
+    Send #t
+    ; Send Win + T. It starts at the first app.
+
+  } else {
+    ; if LShift is pressed
+
+    Send +#t
+    ; Send Win + Shift + T the first time. 
+
+    Send +#t
+    ; Send Win + Shift + T the second time. It switches to the last app.
+  }
 
   HotKey, !Tab, Off
   HotKey, !+Tab, Off
+  ; Turn off this global handler, so it's not triggered multiple times.
 
   HotKey, LAlt Up, Callback
   HotKey, LAlt Up, On
+  ; Lol, I'm not sure at this point why I did this. It works apparently.
 
   CharTab := Chr(9)
+  ; The character code expected to be the right one to compare against the input to AHK,
+  ; look to the next routine.
+
   CheckKeyPress(CharTab)
+  ; Start the routine to handle the next Tab presses.
 
   HotKey, LAlt Up, Off
+  ; I'm not sure why. Turns of the Callback, apparently. 
 
   HotKey, !Tab, On
   HotKey, !+Tab, On
-
+  ; After the CheckKeyPress routine has exited, turn on the globar handler.
 return
