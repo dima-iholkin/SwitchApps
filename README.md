@@ -1,150 +1,54 @@
-<!-- <a href="http://fvcproductions.com"><img src="https://avatars1.githubusercontent.com/u/4284691?v=3&s=200" title="FVCproductions" alt="FVCproductions"></a> -->
-
-<!-- [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) -->
-
-<!-- ***INSERT GRAPHIC HERE (include hyperlink in image)*** -->
-
 # SwitchApps
 
-<!-- > Subtitle or Short Description Goes Here -->
+A better way to switch apps (`Alt+Tab`) on Windows 10.
 
-An app to switch apps (Alt+Tab) in Windows 10 in a better way.
+This solution overrides the `Alt+Tab`, `Alt+Shift+Tab` shortcut behaviour.  
+When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
+> The author was annoyed with the Windows10’s switching app behaviours with the `Alt+Tab` shortcut and the other possibilities; and wanted a behaviour similar to:
+>
+> * switching the tabs in a web browser, in Chrome and Opera it's: `Ctrl+PageUp`, `Ctrl+PageDown`,
+> * switching the desktops in WIndows 10 with `Ctrl+Win+LeftArrow`, `Ctrl+Win+RightArrow`.
 
-<!-- **example GIF** -->
-<!-- ![example GIF](http://example.com/example.gif) -->
+The solution is based on the original `Win+T` shortcut.
 
-<!-- ---
+**how it works**  
+![example how it works](https://example.com/example.gif)
 
-## Table of Contents (Optional)
+---
 
-> If your `README` has a lot of info, section headers might be nice.
+## Table of Contents
 
-- [Installation](#installation)
-- [Features](#features)
-- [Contributing](#contributing)
-- [Team](#team)
-- [FAQ](#faq)
-- [Support](#support)
-- [License](#license) -->
+* [Installation](#installation)
+* [Recomendations](#recomendations)
+* [Known issues](#known-issues)
+* [License](#license)
 
-
-<!-- ---
-
-## Example (Optional)
-
-```javascript
-// code away!
-
-let generateProject = project => {
-  let code = [];
-  for (let js = 0; js < project.length; js++) {
-    code.push(js);
-  }
-};
-``` -->
-
-<!-- ---
+---
 
 ## Installation
 
-- All the `code` required to get started
-- Images of what it should look like
+1. install AutoHotKey with UI-Access. (without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps, like Task Manager, HWInfo and others) [a picture of the installer menu and a URL to the AHK docs on the subject]
+2. start the SwitchApps.ahk script (with “with UI-Access”) [a picture of the Windows 10 menu]
+3. make each app window separate (with 7+ Taskbar Tweaker) [a picture of the selected settings and a URL to the app]
+4. to stop the Office ad popping up, when pressing Alt+Shift+Tab with AHK started. [a URL to the solution and maybe a script]
+5. to increase the thumbnail app preview size. (example: I personally use the value of 800; and it certainly doesn’t scale to this size - I’m maxxing it out for my config, your results may be different, you may experiment with it.) [a URL to the solution, an image of how it looks and maybe a PS script]
+6. to autostart the SwitchApps.ahk with UI-Access. [figure out the best way to do it]
+7. to change thumbnail delay to 0. [a URL to the solution and maybe a PS script]
 
-### Clone
+---
 
-- Clone this repo to your local machine using `https://github.com/fvcproductions/SOMEREPO`
+## Recomendations
 
-### Setup
+* If you’re using a multi-monitor setup: use the Windows’ taskbar setting: show apps only on the display they’re are on. [show the settings screenshot]
 
-- If you want more syntax highlighting, format your code like this:
+---
 
-> update and install this package first
+## Known issues
 
-```shell
-$ brew update
-$ brew install fvcproductions
-```
-
-> now install npm and bower packages
-
-```shell
-$ npm install
-$ bower install
-```
-
-- For all the possible languages that support syntax highlithing on GitHub (which is basically all of them), refer <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml" target="_blank">here</a>. -->
-
-<!-- ---
-
-## Features
-## Usage (Optional)
-## Documentation (Optional)
-## Tests (Optional)
-
-- Going into more detail on code and technologies used
-- I utilized this nifty <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Markdown Cheatsheet</a> for this sample `README`. -->
-
-<!-- ---
-
-## Contributing
-
-> To get started...
-
-### Step 1
-
-- **Option 1**
-    - 🍴 Fork this repo!
-
-- **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/joanaz/HireDot2.git`
-
-### Step 2
-
-- **HACK AWAY!** 🔨🔨🔨
-
-### Step 3
-
-- 🔃 Create a new pull request using <a href="https://github.com/joanaz/HireDot2/compare/" target="_blank">`https://github.com/joanaz/HireDot2/compare/`</a>. -->
-
-<!-- ---
-
-## Team
-
-> Or Contributors/People
-
-| <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> | <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> | <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> |
-| :---: |:---:| :---:|
-| [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com)    | [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) | [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com)  |
-| <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> | <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> | <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> |
-
-- You can just grab their GitHub profile image URL
-- You should probably resize their picture using `?s=200` at the end of the image URL. -->
-
-<!-- ---
-
-## FAQ
-
-- **How do I do *specifically* so and so?**
-    - No problem! Just do this. -->
-
-<!-- ---
-
-## Support
-
-Reach out to me at one of the following places!
-
-- Website at <a href="http://fvcproductions.com" target="_blank">`fvcproductions.com`</a>
-- Twitter at <a href="http://twitter.com/fvcproductions" target="_blank">`@fvcproductions`</a>
-- Insert more social links here. -->
-
-<!-- ---
-
-## Donations (Optional)
-
-- You could include a <a href="https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png" target="_blank">Gratipay</a> link as well.
-
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png)](https://gratipay.com/fvcproductions/) -->
-
+1. the shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
+2. occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
+3. it’s not perfect; it’s built on top of a few native things.
+not a lot can be improved from the author’s perspective; it doesn’t have access to the UI information.
 
 ---
 
@@ -152,5 +56,5 @@ Reach out to me at one of the following places!
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-- **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
+* **[MIT License](http://opensource.org/licenses/mit-license.php)**
+* Copyright 2020 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
