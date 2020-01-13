@@ -1,6 +1,8 @@
 # SwitchApps
 
-A better way to switch apps (`Alt+Tab`) on Windows 10.
+A better way to switch apps (Alt+Tab) on Windows 10.
+
+The solution is based on the original `Win+T` shortcut.
 
 This solution overrides the `Alt+Tab`, `Alt+Shift+Tab` shortcut behaviour.  
 When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
@@ -9,12 +11,8 @@ When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 r
 > * switching the tabs in a web browser, in Chrome and Opera it's: `Ctrl+PageUp`, `Ctrl+PageDown`,
 > * switching the desktops in WIndows 10 with `Ctrl+Win+LeftArrow`, `Ctrl+Win+RightArrow`.
 
-The solution is based on the original `Win+T` shortcut.
-
 **how it works**  
 ![example how it works](https://example.com/example.gif)
-
----
 
 ## Table of Contents
 
@@ -22,8 +20,6 @@ The solution is based on the original `Win+T` shortcut.
 * [Recomendations](#recomendations)
 * [Known issues](#known-issues)
 * [License](#license)
-
----
 
 ## Installation
 
@@ -35,13 +31,9 @@ The solution is based on the original `Win+T` shortcut.
 6. to autostart the SwitchApps.ahk with UI-Access. [figure out the best way to do it]
 7. to change thumbnail delay to 0. [a URL to the solution and maybe a PS script]
 
----
-
 ## Recomendations
 
 * If you’re using a multi-monitor setup: use the Windows’ taskbar setting: show apps only on the display they’re are on. [show the settings screenshot]
-
----
 
 ## Known issues
 
@@ -49,8 +41,6 @@ The solution is based on the original `Win+T` shortcut.
 2. occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
 3. it’s not perfect; it’s built on top of a few native things.
 not a lot can be improved from the author’s perspective; it doesn’t have access to the UI information.
-
----
 
 ## License
 
