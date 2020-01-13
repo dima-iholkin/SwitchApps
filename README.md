@@ -1,11 +1,12 @@
 # SwitchApps
 
-A better way to switch apps (Alt+Tab) on Windows 10.
-
-The solution is based on the original `Win+T` shortcut.
+A better way to switch apps (Alt+Tab) for Windows 10.
 
 This solution overrides the `Alt+Tab`, `Alt+Shift+Tab` shortcut behaviour.  
 When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
+
+The solution is based on the original `Win+T` shortcut.
+
 > The author was annoyed with the Windows10’s switching app behaviours with the `Alt+Tab` shortcut and the other possibilities; and wanted a behaviour similar to:
 >
 > * switching the tabs in a web browser, in Chrome and Opera it's: `Ctrl+PageUp`, `Ctrl+PageDown`,
