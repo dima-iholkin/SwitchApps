@@ -37,34 +37,35 @@ The solution is based on the original `Win+T` shortcut.
 
 ## Additional set up (Optional)
 
-* To make each app icon on the taskbar separate (to not group the icons):  
+* Separate each app icon on the taskbar (to not group the icons):  
 install [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker),  
 in it's Settings select Grouping > **Don't group**.  
 [a picture of the selected settings]
 
-* To stop an Office ad popping up, when `Alt+Shift+Tab` is pressed:  
+* Stop an Office pop up, when `Alt+Shift+Tab` is pressed:  
 disable the `Office` key is press from opening an Office app, by modifying the Registry with a PowerShell script [from this article](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):
 
 ```powershell
 REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
 ```
 
-* to increase the thumbnail app preview size.  
+* Increase the thumbnail preview size.  
 [a URL to the solution]  
 [an image of how it looks]  
 [maybe a PS script]
 
 > Me personally use the value of 800. It certainly doesn’t scale to this size on my config - your results may differ, you can experiment with the value.
 
-* to change thumbnail delay to 0.  
+* Change the thumbnail preview delay to 0.  
 [a URL to the solution and maybe a PS script]
 
-* to autostart the SwitchApps.ahk with UI-Access.  
+* Autostart the `SwitchApps.ahk` with UI-Access.  
 [figure out the best way to do it]
 
 ## Recomendations
 
-* If you’re using a multi-monitor setup: use the Windows’ taskbar setting: show apps only on the display they’re are on.  
+* If you’re using a multi-monitor setup, show the apps in the taskbar of only the display they are in:  
+Settings > blah blah 
 [show the settings screenshot]
 
 ## Known issues
