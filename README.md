@@ -22,26 +22,58 @@ The solution is based on the original `Win+T` shortcut.
 * [Known issues](#known-issues)
 * [License](#license)
 
-## Installation
+## Basic set up
 
-1. install AutoHotKey with UI-Access. (without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps, like Task Manager, HWInfo and others) [a picture of the installer menu and a URL to the AHK docs on the subject]
-2. start the SwitchApps.ahk script (with “with UI-Access”) [a picture of the Windows 10 menu]
-3. make each app window separate (with 7+ Taskbar Tweaker) [a picture of the selected settings and a URL to the app]
-4. to stop the Office ad popping up, when pressing Alt+Shift+Tab with AHK started. [a URL to the solution and maybe a script]
-5. to increase the thumbnail app preview size. (example: I personally use the value of 800; and it certainly doesn’t scale to this size - I’m maxxing it out for my config, your results may be different, you may experiment with it.) [a URL to the solution, an image of how it looks and maybe a PS script]
-6. to autostart the SwitchApps.ahk with UI-Access. [figure out the best way to do it]
-7. to change thumbnail delay to 0. [a URL to the solution and maybe a PS script]
+* Install [AutoHotKey](https://www.autohotkey.com) (version 1.1.32 or newer v1) **with UI-Access**.  
+[a picture of the installer menu]  
+
+> Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
+
+* Download the `SwitchApps.ahk` script.  
+[a link to the releases]
+
+* Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
+[a picture of the Windows 10 menu]
+
+## Additional set up (Optional)
+
+* To make each app icon on the taskbar separate (to not group the icons):  
+install [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker),  
+in it's Settings select Grouping > **Don't group**.  
+[a picture of the selected settings]
+
+* To stop an Office ad popping up, when `Alt+Shift+Tab` is pressed:  
+disable the `Office` key is press from opening an Office app, by modifying the Registry with a PowerShell script [from this article](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):
+
+```powershell
+REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
+```
+
+* to increase the thumbnail app preview size.  
+[a URL to the solution]  
+[an image of how it looks]  
+[maybe a PS script]
+
+> Me personally use the value of 800. It certainly doesn’t scale to this size on my config - your results may differ, you can experiment with the value.
+
+* to change thumbnail delay to 0.  
+[a URL to the solution and maybe a PS script]
+
+* to autostart the SwitchApps.ahk with UI-Access.  
+[figure out the best way to do it]
 
 ## Recomendations
 
-* If you’re using a multi-monitor setup: use the Windows’ taskbar setting: show apps only on the display they’re are on. [show the settings screenshot]
+* If you’re using a multi-monitor setup: use the Windows’ taskbar setting: show apps only on the display they’re are on.  
+[show the settings screenshot]
 
 ## Known issues
 
-1. the shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
-2. occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
-3. it’s not perfect; it’s built on top of a few native things.
-not a lot can be improved from the author’s perspective; it doesn’t have access to the UI information.
+* The shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
+
+* Occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
+
+* It’s not perfect; it’s built on top of a few native things.
 
 ## License
 
