@@ -26,7 +26,7 @@ When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 w
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
 * Download the `SwitchApps.ahk` script.  
-[a link to the releases](/release/latest)
+[a link to the releases](https://github.com/dima-iholkin/SwitchApps/releases/latest)
 
 * Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
 [a picture of the Windows 10 menu]
