@@ -38,6 +38,7 @@ Based on the Windows 10's `Win+T` shortcut.
 install [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker),  
 in it's Settings select Grouping > **Don't group**.  
 [a picture of the selected settings]
+![picture](assets/readme/7-Taskbar-Tweaker.png)
 
 * Stop an Office pop up, when `Alt+Shift+Tab` is pressed:  
 disable the `Office` key is press from opening an Office app, by modifying the Registry with a PowerShell script [from this article](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):
