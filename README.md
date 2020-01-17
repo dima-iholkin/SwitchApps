@@ -1,30 +1,27 @@
 # SwitchApps
 
-A better way to switch apps (Alt+Tab) for Windows 10.
+> A better way to switch apps (Alt+Tab) for Windows 10.
 
-This solution overrides the `Alt+Tab`, `Alt+Shift+Tab` shortcut behaviour.  
+This solution overrides the `Alt+Tab` and `Alt+Shift+Tab` shortcut behaviour.
+
 When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
 
-The solution is based on the original `Win+T` shortcut.
-
-> The author was annoyed with the Windows10’s switching app behaviours with the `Alt+Tab` shortcut and the other possibilities; and wanted a behaviour similar to:
->
-> * switching the tabs in a web browser, in Chrome and Opera it's: `Ctrl+PageUp`, `Ctrl+PageDown`,
-> * switching the desktops in WIndows 10 with `Ctrl+Win+LeftArrow`, `Ctrl+Win+RightArrow`.
+Based on the Windows 10's `Win+T` shortcut.
 
 **how it works**  
 ![example how it works](https://example.com/example.gif)
 
 ## Table of Contents
 
-* [Installation](#installation)
+* [Basic set up](#basic-set-up)
+* [Additional set up (Optional)](#additional-set-up-optional)
 * [Recomendations](#recomendations)
 * [Known issues](#known-issues)
 * [License](#license)
 
 ## Basic set up
 
-* Install [AutoHotKey](https://www.autohotkey.com) (version 1.1.32 or newer v1) **with UI-Access**.  
+* Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or newer v1).  
 [a picture of the installer menu]  
 
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
