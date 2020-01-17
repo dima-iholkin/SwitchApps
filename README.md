@@ -7,31 +7,36 @@ Based on the Windows 10's `Win+T` shortcut.
 
 When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 will be resumed.
 
+> The author was annoyed with the Windows 10 `Alt+Tab` behaviour of the shortcut and the other options,
+and wanted a behaviour similar to:  
+     * switching the tabs in a web browser, like in Chrome and Opera with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
+     * switching the desktops in Windows 10 with: `Ctrl+Win+LeftArrow` and `Ctrl+Win+RightArrow`.
+
+
 **how it works**  
 ![demonstation](../assets/readme/demo.gif)
 
 ## Table of Contents
 
-* [Basic set up](#basic-set-up)
-* [Additional set up (Optional)](#additional-set-up-optional)
+* [Installation](#installation)
+* [Additional setup (Optional)](#additional-setup-optional)
 * [Recomendations](#recomendations)
 * [Known issues](#known-issues)
 * [License](#license)
 
-## Basic set up
+## Installation
 
 * Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
 [a picture of the installer menu]  
 
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
-* Download the `SwitchApps.ahk` script.  
-[a link to the releases](https://github.com/dima-iholkin/SwitchApps/releases/latest)
+* Download [the SwitchApps.ahk script](https://github.com/dima-iholkin/SwitchApps/releases/latest).
 
 * Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
 [a picture of the Windows 10 menu]
 
-## Additional set up (Optional)
+## Additional setup (optional)
 
 * Separate each app icon on the taskbar (to not group the icons) with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
 Grouping > **Don't group**.  
@@ -67,6 +72,14 @@ Taskbar settings > Show taskbar buttons on > Taskbar where window is open
 * Occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
 
 * It’s not perfect; it’s built on top of a few native things.
+
+## Future plans
+
+## Say hello (and get support)
+
+## Contributing
+
+## Support the author
 
 ## License
 
