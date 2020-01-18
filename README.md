@@ -1,156 +1,105 @@
-<!-- <a href="http://fvcproductions.com"><img src="https://avatars1.githubusercontent.com/u/4284691?v=3&s=200" title="FVCproductions" alt="FVCproductions"></a> -->
-
-<!-- [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) -->
-
-<!-- ***INSERT GRAPHIC HERE (include hyperlink in image)*** -->
-
 # SwitchApps
 
-<!-- > Subtitle or Short Description Goes Here -->
+Maybe a better way to switch apps (Alt+Tab) for Windows 10.
 
-An app to switch apps (Alt+Tab) in Windows 10 in a better way.
+This solution overrides the `Alt+Tab` and `Alt+Shift+Tab` shortcut behaviour.
+Based on the Windows 10's `Win+T` shortcut.
 
-<!-- **example GIF** -->
-<!-- ![example GIF](http://example.com/example.gif) -->
+When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
 
-<!-- ---
+> The author was annoyed with the Windows 10 `Alt+Tab` behaviour of the shortcut and the other options,
+and wanted a behaviour similar to:  
+     * switching the tabs in Chrome with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
+     * switching the desktops in Windows 10 with: `Ctrl+Win+LeftArrow` and `Ctrl+Win+RightArrow`.
 
-## Table of Contents (Optional)
+## Demo
 
-> If your `README` has a lot of info, section headers might be nice.
+This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
+<img src="../assets/readme/demo.gif" width="600" title="a demonstation of the solution">
 
-- [Installation](#installation)
-- [Features](#features)
-- [Contributing](#contributing)
-- [Team](#team)
-- [FAQ](#faq)
-- [Support](#support)
-- [License](#license) -->
+## Table of Contents
 
-
-<!-- ---
-
-## Example (Optional)
-
-```javascript
-// code away!
-
-let generateProject = project => {
-  let code = [];
-  for (let js = 0; js < project.length; js++) {
-    code.push(js);
-  }
-};
-``` -->
-
-<!-- ---
+* [Installation](#installation)
+* [Additional setup (optional)](#additional-setup-optional)
+* [Recomendations](#recomendations)
+* [Known issues](#known-issues)
+* [Support](#support)
+* [Contribute](#contribute)
+* [License](#license)
+<!-- * [Donate](#donate) -->
 
 ## Installation
 
-- All the `code` required to get started
-- Images of what it should look like
+1. Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
+<img src="../assets/readme/ahk-setup.png" width="200" title="AutoHotKey installer">  
 
-### Clone
+> Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
-- Clone this repo to your local machine using `https://github.com/fvcproductions/SOMEREPO`
+2. Download the `SwitchApps.ahk` [script](https://github.com/dima-iholkin/SwitchApps/releases/latest).
 
-### Setup
+3. Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
+<img src="../assets/readme/ahk-start.png" width="200" title="AutoHotKey script start">  
 
-- If you want more syntax highlighting, format your code like this:
+## Additional setup (optional)
 
-> update and install this package first
+* Increase the thumbnail preview size with [this solution](https://winaero.com/blog/change-taskbar-thumbnail-size-windows-10/). 
 
-```shell
-$ brew update
-$ brew install fvcproductions
-```
+> I used the value of 800 to maximize the thumbnail size.  
+> It certainly doesn’t scale to this size on my config - you may experiment with the value.
 
-> now install npm and bower packages
+* Change the thumbnail preview delay to 0 with [this solution](https://www.tenforums.com/tutorials/21005-change-delay-time-show-taskbar-thumbnails-windows-10-a.html).
 
-```shell
-$ npm install
-$ bower install
-```
+* Stop an Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
+disable the `Office key` from opening the Office stuff, by adding to the registry
 
-- For all the possible languages that support syntax highlithing on GitHub (which is basically all of them), refer <a href="https://github.com/github/linguist/blob/master/lib/linguist/languages.yml" target="_blank">here</a>. -->
+```powershell
+REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
+``` 
 
-<!-- ---
+* Make each app icon on the taskbar separate with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
+in settings: Grouping > **Don't group**.  
+<img src="../assets/readme/7tt.png" width="200" title="7+ Taskbar Tweaker settings">  
 
-## Features
-## Usage (Optional)
-## Documentation (Optional)
-## Tests (Optional)
+* Autostart the `SwitchApps.ahk` with UI-Access.  
+[TODO:]
 
-- Going into more detail on code and technologies used
-- I utilized this nifty <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Markdown Cheatsheet</a> for this sample `README`. -->
+## Recomendations
 
-<!-- ---
+* If you’re using a multi-monitor setup:  
+show the apps only on the taskbar of the same display:  
+Taskbar settings > Show taskbar buttons on > Taskbar where window is open  
+<img src="../assets/readme/taskbar-settings.png" width="200" title="Taskbar settings">  
 
-## Contributing
+* Recommendation to unpin all the pinned apps from the taskbar, maybe move them to Start or Desktop.
 
-> To get started...
+## Known issues
 
-### Step 1
+* The shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
 
-- **Option 1**
-    - 🍴 Fork this repo!
+* Sometimes it may not trigger or send an `Enter` or some other weird bit to Windows.
 
-- **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/joanaz/HireDot2.git`
+## Future plans
 
-### Step 2
-
-- **HACK AWAY!** 🔨🔨🔨
-
-### Step 3
-
-- 🔃 Create a new pull request using <a href="https://github.com/joanaz/HireDot2/compare/" target="_blank">`https://github.com/joanaz/HireDot2/compare/`</a>. -->
-
-<!-- ---
-
-## Team
-
-> Or Contributors/People
-
-| <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> | <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> | <a href="http://fvcproductions.com" target="_blank">**FVCproductions**</a> |
-| :---: |:---:| :---:|
-| [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com)    | [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com) | [![FVCproductions](https://avatars1.githubusercontent.com/u/4284691?v=3&s=200)](http://fvcproductions.com)  |
-| <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> | <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> | <a href="http://github.com/fvcproductions" target="_blank">`github.com/fvcproductions`</a> |
-
-- You can just grab their GitHub profile image URL
-- You should probably resize their picture using `?s=200` at the end of the image URL. -->
-
-<!-- ---
-
-## FAQ
-
-- **How do I do *specifically* so and so?**
-    - No problem! Just do this. -->
-
-<!-- ---
+No plans to unlock any new functionality.
 
 ## Support
 
-Reach out to me at one of the following places!
+You can open an issue or contact me at:  
+[TODO: email, some real-time messenger...]
 
-- Website at <a href="http://fvcproductions.com" target="_blank">`fvcproductions.com`</a>
-- Twitter at <a href="http://twitter.com/fvcproductions" target="_blank">`@fvcproductions`</a>
-- Insert more social links here. -->
+## Contribute
 
-<!-- ---
+Probably you should contact me first.  
+Make PRs, open issues, do the usual stuff - I'm a rookie here.
 
-## Donations (Optional)
+<!-- ## Donate
 
-- You could include a <a href="https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png" target="_blank">Gratipay</a> link as well.
-
-[![Support via Gratipay](https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.png)](https://gratipay.com/fvcproductions/) -->
-
-
----
+Maybe you're comfortable supporting the author:  
+[TODO:] -->
 
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
-- **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2020 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
+* **[MIT License](http://opensource.org/licenses/mit-license.php)**
+* Copyright 2020 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
