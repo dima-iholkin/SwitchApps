@@ -1,6 +1,6 @@
 # SwitchApps
 
-> Maybe a better way to switch apps (Alt+Tab) for Windows 10.
+Maybe a better way to switch apps (Alt+Tab) for Windows 10.
 
 This solution overrides the `Alt+Tab` and `Alt+Shift+Tab` shortcut behaviour.
 Based on the Windows 10's `Win+T` shortcut.
@@ -9,12 +9,12 @@ When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 w
 
 > The author was annoyed with the Windows 10 `Alt+Tab` behaviour of the shortcut and the other options,
 and wanted a behaviour similar to:  
-     * switching the tabs in a web browser, like in Chrome and Opera with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
+     * switching the tabs in a web browser, for example in Chrome and Opera with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
      * switching the desktops in Windows 10 with: `Ctrl+Win+LeftArrow` and `Ctrl+Win+RightArrow`.
 
 ## Demo
 
-It all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
+This all done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
 <img src="../assets/readme/demo.gif" width="600" title="a demonstation of the solution">
 
 ## Table of Contents
@@ -66,15 +66,13 @@ in settings: Grouping > **Don't group**.
 Taskbar settings > Show taskbar buttons on > Taskbar where window is open  
 <img src="../assets/readme/taskbar-settings.png" width="200" title="Taskbar settings">  
 
-* Recommendation to unpin the pinned apps from the taskbar, maybe move them to Start or Desktop.
+* Recommendation to unpin all the pinned apps from the taskbar, maybe move them to Start or Desktop.
 
 ## Known issues
 
 * The shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
 
-* Occasionally it may not trigger or send an `Enter` or some other weird bit to Windows.
-
-* It’s not perfect; it’s built on top of a few native things.
+* Sometimes it may not trigger or send an `Enter` or some other weird bit to Windows.
 
 ## Future plans
 
