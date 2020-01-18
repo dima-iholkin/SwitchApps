@@ -1,4 +1,6 @@
-﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+﻿; version 0.1.0-rc.3
+
+#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 ; #Warn  ; Enable warnings to assist with detecting common errors.
 SendMode Event  ; Recommended for new scripts due to its superior speed and reliability.
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
@@ -112,4 +114,5 @@ $!+Tab::
   HotKey, !Tab, On
   HotKey, !+Tab, On
   ; After the CheckKeyPress routine has exited, turn on the globar handler.
+
 return

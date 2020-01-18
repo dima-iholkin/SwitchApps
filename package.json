@@ -1,7 +1,7 @@
 {
   "name": "switch-apps",
-  "version": "0.1.0-rc2",
-  "description": "Switch apps with a keyboard shortcut on Windows.",
+  "version": "0.1.0-rc.3",
+  "description": "Maybe a better way to switch apps (Alt+Tab) for Windows 10.",
   "main": "SwitchApps.ahk",
   "scripts": {
     "try": "start SwitchApps.ahk"
