@@ -92,10 +92,10 @@ You can open an issue or contact me at:
 Probably you should contact me first.  
 Make PRs, open issues, do the usual stuff - I'm a rookie here.
 
-## Donate
+<!-- ## Donate
 
 Maybe you're comfortable supporting the author:  
-[TODO:]
+[TODO:] -->
 
 ## License
 
