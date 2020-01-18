@@ -28,7 +28,7 @@ and wanted a behaviour similar to:
 ## Installation
 
 * Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
-![AutoHotKey installer](../assets/readme/ahk-setup.png?size=200)  
+![AutoHotKey installer](../assets/readme/ahk-setup.png?size=100)  
 
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
