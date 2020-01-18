@@ -27,20 +27,20 @@ and wanted a behaviour similar to:
 ## Installation
 
 * Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
-[a picture of the installer menu]  
+[AutoHotKey installer](../assets/readme/ahk-setup.png)  
 
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
 * Download [the SwitchApps.ahk script](https://github.com/dima-iholkin/SwitchApps/releases/latest).
 
 * Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
-[a picture of the Windows 10 menu]
+[AutoHotKey script start](../assets/readme/ahk-start.png)  
 
 ## Additional setup (optional)
 
 * Separate each app icon on the taskbar (to not group the icons) with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
 Grouping > **Don't group**.  
-![7+ Taskbar Tweaker settings](../assets/readme/7-Taskbar-Tweaker.png)
+![7+ Taskbar Tweaker settings](../assets/readme/7tt.png)
 
 * Stop an Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
 disable the `Office key` from opening the Office stuff, by adding to the registry
@@ -63,7 +63,7 @@ REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundl
 
 * If you’re using a multi-monitor setup, show the apps only on the taskbar of the same display:  
 Taskbar settings > Show taskbar buttons on > Taskbar where window is open
-[Taskbar settings](../assets/readme/Taskbar-settings.png)
+[Taskbar settings](../assets/readme/taskbar-settings.png)
 
 ## Known issues
 
