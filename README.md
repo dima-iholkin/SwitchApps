@@ -14,6 +14,7 @@ and wanted a behaviour similar to:
 
 ## Demo
 
+It all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
 <img src="../assets/readme/demo.gif" width="600" title="a demonstation of the solution">
 
 ## Table of Contents
