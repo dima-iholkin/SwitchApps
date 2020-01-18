@@ -13,8 +13,9 @@ and wanted a behaviour similar to:
      * switching the desktops in Windows 10 with: `Ctrl+Win+LeftArrow` and `Ctrl+Win+RightArrow`.
 
 
-**how it works**  
-![a demonstation of the solution](../assets/readme/demo.gif)
+## Demo
+ 
+![a demonstation of the solution](../assets/readme/demo.gif | width=400)
 
 ## Table of Contents
 
@@ -27,20 +28,20 @@ and wanted a behaviour similar to:
 ## Installation
 
 * Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
-[AutoHotKey installer](../assets/readme/ahk-setup.png)  
+![AutoHotKey installer](../assets/readme/ahk-setup.png | width=200)  
 
 > Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
 * Download [the SwitchApps.ahk script](https://github.com/dima-iholkin/SwitchApps/releases/latest).
 
 * Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
-[AutoHotKey script start](../assets/readme/ahk-start.png)  
+![AutoHotKey script start](../assets/readme/ahk-start.png | width=200)  
 
 ## Additional setup (optional)
 
 * Separate each app icon on the taskbar (to not group the icons) with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
 Grouping > **Don't group**.  
-![7+ Taskbar Tweaker settings](../assets/readme/7tt.png)
+![7+ Taskbar Tweaker settings](../assets/readme/7tt.png | width=200)
 
 * Stop an Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
 disable the `Office key` from opening the Office stuff, by adding to the registry
@@ -63,7 +64,7 @@ REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundl
 
 * If you’re using a multi-monitor setup, show the apps only on the taskbar of the same display:  
 Taskbar settings > Show taskbar buttons on > Taskbar where window is open
-[Taskbar settings](../assets/readme/taskbar-settings.png)
+![Taskbar settings](../assets/readme/taskbar-settings.png  | width=200)
 
 ## Known issues
 
