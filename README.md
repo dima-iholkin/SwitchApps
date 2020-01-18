@@ -5,16 +5,16 @@ Maybe a better way to switch apps (Alt+Tab) for Windows 10.
 This solution overrides the `Alt+Tab` and `Alt+Shift+Tab` shortcut behaviour.
 Based on the Windows 10's `Win+T` shortcut.
 
-When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 will be resumed.
+When the AHK script is stopped, the standard `Alt+Tab` behaviour of Windows 10 resumes.
 
 > The author was annoyed with the Windows 10 `Alt+Tab` behaviour of the shortcut and the other options,
 and wanted a behaviour similar to:  
-     * switching the tabs in a web browser, for example in Chrome and Opera with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
+     * switching the tabs in Chrome with: `Ctrl+PageUp` and `Ctrl+PageDown`,  
      * switching the desktops in Windows 10 with: `Ctrl+Win+LeftArrow` and `Ctrl+Win+RightArrow`.
 
 ## Demo
 
-This all done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
+This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
 <img src="../assets/readme/demo.gif" width="600" title="a demonstation of the solution">
 
 ## Table of Contents
@@ -23,6 +23,9 @@ This all done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 * [Additional setup (optional)](#additional-setup-optional)
 * [Recomendations](#recomendations)
 * [Known issues](#known-issues)
+* [Support](#support)
+* [Contribute](#contribute)
+* [Donate](#donate)
 * [License](#license)
 
 ## Installation
@@ -62,7 +65,8 @@ in settings: Grouping > **Don't group**.
 
 ## Recomendations
 
-* If you’re using a multi-monitor setup, show the apps only on the taskbar of the same display:  
+* If you’re using a multi-monitor setup:  
+show the apps only on the taskbar of the same display:  
 Taskbar settings > Show taskbar buttons on > Taskbar where window is open  
 <img src="../assets/readme/taskbar-settings.png" width="200" title="Taskbar settings">  
 
