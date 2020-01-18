@@ -25,8 +25,8 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 * [Known issues](#known-issues)
 * [Support](#support)
 * [Contribute](#contribute)
-<!-- * [Donate](#donate) -->
 * [License](#license)
+<!-- * [Donate](#donate) -->
 
 ## Installation
 
