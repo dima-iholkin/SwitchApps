@@ -14,7 +14,7 @@ and wanted a behaviour similar to:
 
 
 **how it works**  
-![demonstation](../assets/readme/demo.gif)
+![a demonstation of the solution](../assets/readme/demo.gif)
 
 ## Table of Contents
 
