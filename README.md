@@ -19,7 +19,7 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 
 ## Table of Contents
 
-* [Installation](#installation)
+* [Install (start here)](#install-start-here)
 * [Additional setup (optional)](#additional-setup-optional)
 * [Recomendations](#recomendations)
 * [Known issues](#known-issues)
@@ -28,7 +28,7 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 * [License](#license)
 <!-- * [Donate](#donate) -->
 
-## Installation
+## Install (start here)
 
 1. Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
 <img src="../assets/readme/ahk-setup.png" width="200" title="AutoHotKey installer">  
@@ -40,7 +40,14 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 3. Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
 <img src="../assets/readme/ahk-start.png" width="200" title="AutoHotKey script start">  
 
+4. Try using `Alt+Tab`. If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the solution to this below).
+
+5. Enjoy.
+
 ## Additional setup (optional)
+
+:exclamation: The steps here can brick your OS.  
+Don't do it if you're not experienced. You are the person responsible if you do it.
 
 * Increase the thumbnail preview size with [this solution](https://winaero.com/blog/change-taskbar-thumbnail-size-windows-10/). 
 
@@ -49,7 +56,7 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 
 * Change the thumbnail preview delay to 0 with [this solution](https://www.tenforums.com/tutorials/21005-change-delay-time-show-taskbar-thumbnails-windows-10-a.html).
 
-* Stop an Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
+* Stop an MS Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
 disable the `Office key` from opening the Office stuff, by adding to the registry
 
 ```powershell
@@ -84,8 +91,7 @@ No plans to unlock any new functionality.
 
 ## Support
 
-You can open an issue or contact me at:  
-[TODO: email, some real-time messenger...]
+You can open an issue or email me at:  dimich1993@gmail.com
 
 ## Contribute
 
