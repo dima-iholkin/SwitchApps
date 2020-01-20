@@ -40,7 +40,8 @@ This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:
 3. Start the downloaded `SwitchApps.ahk` script **with UI-Access**.  
 <img src="../assets/readme/ahk-start.png" width="200" title="AutoHotKey script start">  
 
-4. Try using `Alt+Tab`. If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the solution to this below).
+4. Try using `Alt+Tab`.  
+If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the solution to this below).
 
 5. Enjoy.
 
