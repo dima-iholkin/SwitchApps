@@ -1,6 +1,6 @@
 # SwitchApps
 
-Maybe a better way to switch apps (Alt+Tab) for Windows 10.
+Maybe a better way to switch apps `[Alt+Tab]` for Windows 10.
 
 This solution overrides the `Alt+Tab` and `Alt+Shift+Tab` shortcut behaviour.
 Based on the Windows 10's `Win+T` shortcut.
@@ -14,8 +14,8 @@ and wanted a behaviour similar to:
 
 ## Demo
 
-It's done using just `Alt+Tab` and `Alt+Shift+Tab`:  
-<img src="../assets/readme/demo.gif" width="600" title="the solution's demonstation">
+The new behaviour of `Alt+Tab` and `Alt+Shift+Tab`:  
+<img src="../assets/readme/demo.gif" width="600" title="the new behaviour of Alt+Tab and Alt+Shift+Tab">
 
 ## Table of Contents
 
@@ -28,9 +28,10 @@ It's done using just `Alt+Tab` and `Alt+Shift+Tab`:
 ## Install (start here)
 
 1. Install [AutoHotKey](https://www.autohotkey.com) **with UI-Access** (version 1.1.32 or a newer v1).  
+> Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).  
+
 <img src="../assets/readme/ahk-setup.png" width="200" title="AutoHotKey installer">  
 
-> Without the UI-Access turned on, the shortcut won’t trigger in the more privileged apps (Task Manager, HWInfo and others).
 
 2. Download the `SwitchApps.ahk` [script](https://github.com/dima-iholkin/SwitchApps/releases/latest).
 
@@ -38,14 +39,14 @@ It's done using just `Alt+Tab` and `Alt+Shift+Tab`:
 <img src="../assets/readme/ahk-start.png" width="200" title="AutoHotKey script start">  
 
 4. Try using `Alt+Tab`.  
-If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the solution to this below).
+> If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the solution to this below).
 
 5. Enjoy.
 
 ## Additional setup (optional)
 
-:exclamation: The steps here can brick your OS.  
-Don't do it if you're not experienced. You are the person responsible if you do it.
+:exclamation: **The steps here can brick your OS.  
+Don't do it if you're not experienced. You are the person responsible if you do it.**
 
 ---
 
@@ -70,7 +71,7 @@ REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundl
 ---
 
 * Make each app icon on the taskbar separate with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
-in settings: Grouping > **Don't group**.  
+in the settings > Grouping: `Don't group`.  
 <img src="../assets/readme/7tt.png" width="200" title="7+ Taskbar Tweaker settings">  
 
 ---
@@ -115,11 +116,9 @@ Taskbar settings > Show taskbar buttons on: `Taskbar where window is open`
 ## Get Support and Contribute
 
 To get the support: You can open an issue or contact me.  
-To contribute: Please contact me first. Do the usual GitHub stuff.
+To contribute: Please contact me first. Then do the usual GitHub stuff.
 
 ## License
-
-[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 * **[MIT License](http://opensource.org/licenses/mit-license.php)**
 * Copyright 2020 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
