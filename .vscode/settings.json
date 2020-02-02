@@ -1,0 +1,10 @@
+{
+  "markdown.extension.toc.githubCompatibility": true,
+  "markdown.extension.toc.omittedFromToc": {
+    "README.md": [
+      "SwitchApps",
+      "Table of Contents",
+      "Demo"
+    ]
+  },
+}
