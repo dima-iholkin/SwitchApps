@@ -14,19 +14,16 @@ and wanted a behaviour similar to:
 
 ## Demo
 
-This all is done by using just `Alt+Tab` and `Alt+Shift+Tab`:  
-<img src="../assets/readme/demo.gif" width="600" title="a demonstation of the solution">
+It's done using just `Alt+Tab` and `Alt+Shift+Tab`:  
+<img src="../assets/readme/demo.gif" width="600" title="the solution's demonstation">
 
 ## Table of Contents
 
-* [Install (start here)](#install-start-here)
-* [Additional setup (optional)](#additional-setup-optional)
-* [Recomendations](#recomendations)
-* [Known issues](#known-issues)
-* [Support](#support)
-* [Contribute](#contribute)
-* [License](#license)
-<!-- * [Donate](#donate) -->
+  - [Install (start here)](#install-start-here)
+  - [Additional setup (optional)](#additional-setup-optional)
+  - [Known issues](#known-issues)
+  - [Get Support and Contribute](#get-support-and-contribute)
+  - [License](#license)
 
 ## Install (start here)
 
@@ -50,59 +47,75 @@ If you use `Alt+Shift+Tab` now, you'll probably get an MS Office pop up (see the
 :exclamation: The steps here can brick your OS.  
 Don't do it if you're not experienced. You are the person responsible if you do it.
 
+---
+
 * Increase the thumbnail preview size with [this solution](https://winaero.com/blog/change-taskbar-thumbnail-size-windows-10/). 
 
 > I used the value of 800 to maximize the thumbnail size.  
 > It certainly doesn’t scale to this size on my config - you may experiment with the value.
 
+---
+
 * Change the thumbnail preview delay to 0 with [this solution](https://www.tenforums.com/tutorials/21005-change-delay-time-show-taskbar-thumbnails-windows-10-a.html).
+
+---
 
 * Stop an MS Office ad pop up, when `Alt+Shift+Tab` is pressed, with [this solution](https://www.howtogeek.com/445318/how-to-remap-the-office-key-on-your-keyboard/):  
 disable the `Office key` from opening the Office stuff, by adding to the registry
 
 ```powershell
 REG ADD HKCU\Software\Classes\ms-officeapp\Shell\Open\Command /t REG_SZ /d rundll32
-``` 
+```
+
+---
 
 * Make each app icon on the taskbar separate with [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker):  
 in settings: Grouping > **Don't group**.  
 <img src="../assets/readme/7tt.png" width="200" title="7+ Taskbar Tweaker settings">  
 
-* Autostart the `SwitchApps.ahk` with UI-Access.  
-[TODO:]
+---
 
-## Recomendations
+* To autostart the `SwitchApps.ahk` with UI-Access:  
+1. Add to the Desktop a SwitchApps.bat file with contents:
+
+```bat
+start "C:\Program Files\AutoHotkey\AutoHotkeyU64_UIA.exe" "C:\[the location of the script file]\SwitchApps.ahk"
+```
+
+2. in **Task Scheduler** > **Create Task...** :  
+   General tab: 
+   * Name: > `[username] start SwitchApps`,
+   * check `Run only when user is logged on`.
+   Trigger tab: **New Trigger...** > Begin the task: `At log on`,  
+   Actions tab: Action: `Start a program` > Program/script: `C:\Users\[username]\Desktop\SwitchApps.bat` or the other location of the `SwitchApps.bat` file,  
+   Conditions tab: uncheck `Start the task only if the computer is on AC power`,  
+   Settings tab: 
+   * check `Allow task to be run on demand`, 
+   * uncheck `Stop the task if it runs longer than:`,
+   * uncheck `If the runnign task does not end when requested, force it to stop`,
+   * in the bottom dropdown choose `Do not start a new instance`.
+
+---
 
 * If you’re using a multi-monitor setup:  
-show the apps only on the taskbar of the same display:  
-Taskbar settings > Show taskbar buttons on > Taskbar where window is open  
+to show the apps on the taskbar of the same display only:  
+Taskbar settings > Show taskbar buttons on: `Taskbar where window is open`  
 <img src="../assets/readme/taskbar-settings.png" width="200" title="Taskbar settings">  
 
-* Recommendation to unpin all the pinned apps from the taskbar, maybe move them to Start or Desktop.
+---
+
+* Recommended to unpin all the pinned apps from the taskbar, maybe move them to Start or Desktop.
 
 ## Known issues
 
-* The shortcut will not trigger in the very privileged apps, like an antivirus app (so the standard `Alt+Tab` behaviour will trigger).
+* The script will not trigger in the very privileged apps, like an antivirus app (the standard Windows 10 `Alt+Tab` shortcut would be run).
 
-* Sometimes it may not trigger or send an `Enter` or some other weird bit to Windows.
+* Sometimes the script may not trigger, sometimes it may send an `Enter` keypress to Windows.
 
-## Future plans
+## Get Support and Contribute
 
-No plans to unlock any new functionality.
-
-## Support
-
-You can open an issue or email me at:  dimich1993@gmail.com
-
-## Contribute
-
-Probably you should contact me first.  
-Make PRs, open issues, do the usual stuff - I'm a rookie here.
-
-<!-- ## Donate
-
-Maybe you're comfortable supporting the author:  
-[TODO:] -->
+To get the support: You can open an issue or contact me.  
+To contribute: Please contact me first. Do the usual GitHub stuff.
 
 ## License
 
