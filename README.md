@@ -116,6 +116,7 @@ Taskbar settings > Show taskbar buttons on: `Taskbar where window is open`
 ## Get Support and Contribute
 
 To get the support: You can open an issue or contact me.  
+
 To contribute: Please contact me first. Then do the usual GitHub stuff.
 
 ## License
