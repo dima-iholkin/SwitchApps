@@ -111,7 +111,7 @@ Taskbar settings > Show taskbar buttons on: `Taskbar where window is open`
 
 * The script will not trigger in the very privileged apps, like an antivirus app (the standard Windows 10 `Alt+Tab` shortcut would be run).
 
-* Sometimes the script may not trigger, sometimes it may send an `Enter` keypress to Windows.
+* Sometimes the script may not trigger. Sometimes it may send an `Enter` keypress to Windows.
 
 ## Get Support and Contribute
 
