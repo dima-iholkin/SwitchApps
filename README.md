@@ -84,17 +84,25 @@ start "C:\Program Files\AutoHotkey\AutoHotkeyU64_UIA.exe" "C:\[the location of t
 ```
 
 2. in **Task Scheduler** > **Create Task...** :  
-   General tab: 
-   * Name: > `[username] start SwitchApps`,
-   * check `Run only when user is logged on`.
-   Trigger tab: **New Trigger...** > Begin the task: `At log on`,  
-   Actions tab: Action: `Start a program` > Program/script: `C:\Users\[username]\Desktop\SwitchApps.bat` or the other location of the `SwitchApps.bat` file,  
-   Conditions tab: uncheck `Start the task only if the computer is on AC power`,  
-   Settings tab: 
+   General tab:
+   * Name: > `[username] starts SwitchApps`,  
+   * check `Run only when user is logged on`,  
+   * check `Run with highest privileges`.  
+   
+   Trigger tab:
+   * **New Trigger...** > Begin the task: `At log on`.  
+   
+   Actions tab:
+   * Action: `Start a program` > Program/script: `C:\Users\[username]\Desktop\SwitchApps.bat` or the other location of the `SwitchApps.bat` file.  
+   
+   Conditions tab:
+   * uncheck `Start the task only if the computer is on AC power`.
+   
+   Settings tab:
    * check `Allow task to be run on demand`, 
-   * uncheck `Stop the task if it runs longer than:`,
-   * uncheck `If the runnign task does not end when requested, force it to stop`,
-   * in the bottom dropdown choose `Do not start a new instance`.
+   * uncheck `Stop the task if it runs longer than:`,  
+   * uncheck `If the runnign task does not end when requested, force it to stop`,  
+   * in the bottom dropdown choose `Do not start a new instance`.  
 
 ---
 
