@@ -81,6 +81,7 @@ in the settings > Grouping: `Don't group`.
 
 ```bat
 start "C:\Program Files\AutoHotkey\AutoHotkeyU64_UIA.exe" "C:\[the location of the script file]\SwitchApps.ahk"
+wmic process where name="autohotkey.exe" CALL setpriority "realtime"
 ```
 
 2. in **Task Scheduler** > **Create Task...** :  
