@@ -3,6 +3,7 @@
   <Product Id="*" Name="SwitchApps" Language="1033" Version="1.0.0.0" Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+    <UIRef Id="WixUI_Minimal" />
 
 
 
@@ -25,24 +26,26 @@
 
 
 
-
-
-
-
     <Directory Id="TARGETDIR" Name="SourceDir">
+      <!--<Directory Id="ProgramMenuFolder">
+        <Directory Id="StartMenuAppFolder" Name="SwitchApps">
+          
+        </Directory>
+      </Directory>-->
       <Directory Id="LocalAppDataFolder">
         <Directory Id="INSTALLFOLDER" Name="SwitchApps">
           <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222">
             <RegistryValue Root="HKCU" Key="Software\SwitchApps" Name="InstallFolder" Value="[INSTALLFOLDER]"
                            Type="string" KeyPath="yes" />
             <File Id="ApplicationFile1" Source="../assets/SwitchApps.exe" />
+
+            <File Id="SchedulerTaskInstall" Source="./install-scheduler-task.ps1" />
+
+            <File Id="SchedulerTaskStart" Source="./start.bat" />
+
             <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir" />
-            <!--<RegistryValue Root="HKCU"
-                           Key="Software\Classes\ms-officeapp\Shell\Open\Command"
-                           Name=""
-                           Type="string"
-                           Value="rundll32lol" />-->
+            <!--<RemoveFolder Directory="StartMenuAppFolder" On="both" Id="RemoveProgramDir2" />-->
           </Component>
 
           <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223" Permanent="yes">
@@ -71,6 +74,22 @@
               <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
             </RegistryKey>
           </Component>
+
+
+
+          <!--<Component Id="AppShortcut" Guid="12345678-1234-1234-1234-222222222226">
+            <Shortcut Id="StartShortcut"
+                      Name="SwitchApps"
+                      Description="start SwitchApps"
+                      Target="[start.bat]"
+                      WorkingDirectory="INSTALLFOLDER" />
+            <RegistryValue Root="HKCU"
+                           Key="Software\SwitchApps"
+                           Name="AppShortcut"
+                           Value="1"
+                           Type="integer"
+                           KeyPath="yes" />
+          </Component>-->
         </Directory>
       </Directory>
     </Directory>
@@ -92,6 +111,7 @@
       <ComponentRef Id="ThumbnailPreviewSize_Reg" />
       <ComponentRef Id="ThumbnailPreviewDelay_Reg" />
       <ComponentRef Id="ApplicationFiles" />
+      <!--<ComponentRef Id="AppShortcut" />-->
       <!--<ComponentRef Id="CreateSchedulerTask"/>-->
     </Feature>
 
@@ -109,8 +129,9 @@
                   Execute="deferred"
                   Directory="TARGETDIR"
                   Impersonate="no"
-                  Return="check" 
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'schtasks /CREATE /SC ONLOGON /TN &quot;SwitchApps_autostart111&quot; /TR &quot;SwitchApps.exe&quot; /IT'&quot;" />
+                  Return="check"
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot;' &quot;" />
+
 
 
 
