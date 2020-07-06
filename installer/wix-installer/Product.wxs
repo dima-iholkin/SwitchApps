@@ -35,7 +35,7 @@
           <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222">
             <RegistryValue Root="HKCU" Key="Software\SwitchApps" Name="InstallFolder" Value="[INSTALLFOLDER]"
                            Type="string" KeyPath="yes" />
-            <File Id="ApplicationFile1" Source="SwitchApps.exe" />
+            <File Id="ApplicationFile1" Source="../assets/SwitchApps.exe" />
             <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir" />
             <!--<RegistryValue Root="HKCU"
@@ -92,8 +92,25 @@
       <ComponentRef Id="ThumbnailPreviewSize_Reg" />
       <ComponentRef Id="ThumbnailPreviewDelay_Reg" />
       <ComponentRef Id="ApplicationFiles" />
+      <!--<ComponentRef Id="CreateSchedulerTask"/>-->
     </Feature>
 
+
+
+    <InstallExecuteSequence>
+      <Custom Action="CreateSchedulerTask" After="InstallFiles">
+        NOT Installed
+      </Custom>
+    </InstallExecuteSequence>
+
+
+
+    <CustomAction Id="CreateSchedulerTask"
+                  Execute="deferred"
+                  Directory="TARGETDIR"
+                  Impersonate="no"
+                  Return="check" 
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'schtasks /CREATE /SC ONLOGON /TN &quot;SwitchApps_autostart111&quot; /TR &quot;SwitchApps.exe&quot; /IT'&quot;" />
 
 
 
