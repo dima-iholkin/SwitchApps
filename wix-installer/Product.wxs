@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="SwitchApps" Language="1033" Version="1.0.0.0" Manufacturer="Dima Iholkin"
+           UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+
+
+
+    <!--<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />-->
+    <!--<MediaTemplate />-->
+
+
+
+    <Media Id="1" Cabinet="product.cab" EmbedCab="yes"/>
+
+
+
+    <!--<Property Id="MsOfficeAdPopup">
+      <RegistrySearch Id="MsOfficeAdPopup_Value"
+                      Root="HKCU"
+                      Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+                      Name=""
+                      Type="raw" />
+    </Property>-->
+
+
+
+
+
+
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <Directory Id="INSTALLFOLDER" Name="SwitchApps">
+          <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222">
+            <RegistryValue Root="HKCU" Key="Software\SwitchApps" Name="InstallFolder" Value="[INSTALLFOLDER]"
+                           Type="string" KeyPath="yes" />
+            <File Id="ApplicationFile1" Source="SwitchApps.exe" />
+            <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+            <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir" />
+            <!--<RegistryValue Root="HKCU"
+                           Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+                           Name=""
+                           Type="string"
+                           Value="rundll32lol" />-->
+          </Component>
+
+          <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223" Permanent="yes">
+            <RegistryKey Root="HKCU"
+                   Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+                   ForceCreateOnInstall="no"
+                   ForceDeleteOnUninstall="no" >
+              <RegistryValue Type="string" Value="rundll32" />
+            </RegistryKey>
+          </Component>
+
+          <Component Id="ThumbnailPreviewSize_Reg" Guid="12345678-1234-1234-1234-222222222224" Permanent="yes">
+            <RegistryKey Root="HKCU"
+                   Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
+                   ForceCreateOnInstall="no"
+                   ForceDeleteOnUninstall="no" >
+              <RegistryValue Name="MinThumbSizePx" Type="integer" Value="800" />
+            </RegistryKey>
+          </Component>
+
+          <Component Id="ThumbnailPreviewDelay_Reg" Guid="12345678-1234-1234-1234-222222222225" Permanent="yes">
+            <RegistryKey Root="HKCU"
+                   Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+                   ForceCreateOnInstall="no"
+                   ForceDeleteOnUninstall="no" >
+              <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
+            </RegistryKey>
+          </Component>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <!--<Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223">
+      <RegistryKey Root="HKCU"
+             Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+             ForceCreateOnInstall="no"
+             ForceDeleteOnUninstall="no"
+             Action="create" >
+        <RegistryValue Type="string" Value="rundll32" />
+      </RegistryKey>
+    </Component>-->
+
+
+
+    <Feature Id="DefaultFeature" Level="1">
+      <ComponentRef Id="MsOfficeAdPopup_Reg" />
+      <ComponentRef Id="ThumbnailPreviewSize_Reg" />
+      <ComponentRef Id="ThumbnailPreviewDelay_Reg" />
+      <ComponentRef Id="ApplicationFiles" />
+    </Feature>
+
+
+
+
+  </Product>
+
+  <!--<Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Installer" />
+      </Directory>
+    </Directory>
+  </Fragment>-->
+
+  <!--<Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent">
+        <File Source="$(var.SimpleSetup.WinForms.TargetPath)" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>-->
+</Wix>
