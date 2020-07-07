@@ -16,11 +16,76 @@
 
 
 
+    <Property Id="THUMBNAIL_PREVIEW_SIZE" Value="800" />
+
+
+
     <!--<Property Id="MsOfficeAdPopup">
       <RegistrySearch Id="MsOfficeAdPopup_Value"
                       Root="HKCU"
                       Key="Software\Classes\ms-officeapp\Shell\Open\Command"
                       Name=""
+                      Type="raw" />
+    </Property>-->
+
+
+
+    <Property Id="THUMBNAIL_PREVIEW_SIZE_PREINSTALL">
+      <RegistrySearch Id="ThumbnailPreviewSize_Preinstall_Search"
+                      Root="HKCU"
+                      Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
+                      Name="MinThumbSizePx"
+                      Type="raw" />
+    </Property>
+
+    <Property Id="THUMBNAIL_PREVIEW_DELAY_PREINSTALL">
+      <RegistrySearch Id="ThumbnailPreviewDelay_Preinstall_Search"
+                      Root="HKCU"
+                      Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+                      Name="ExtendedUIHoverTime"
+                      Type="raw" />
+    </Property>
+
+    <Property Id="MSOFFICE_AD_POPUP_PREINSTALL">
+      <RegistrySearch Id="MsOfficeAdPopup_Preinstall_Search"
+                      Root="HKCU"
+                      Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+                      Type="raw" />
+    </Property>
+
+
+
+    <Property Id="THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL">
+      <RegistrySearch Id="ThumbnailPreviewSize_Preuninstall_Search"
+                      Root="HKCU"
+                      Key="Software\SwitchApps\Backup"
+                      Name="ThumbnailPreviewSize_Backup"
+                      Type="raw" />
+    </Property>
+
+    <Property Id="THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL">
+      <RegistrySearch Id="ThumbnailPreviewDelay_Preuninstall_Search"
+                      Root="HKCU"
+                      Key="Software\SwitchApps\Backup"
+                      Name="ThumbnailPreviewDelay_Backup"
+                      Type="raw" />
+    </Property>
+
+    <Property Id="MSOFFICE_AD_POPUP_PREUNINSTALL">
+      <RegistrySearch Id="MsOfficeAdPopup_Preuninstall_Search"
+                      Root="HKCU"
+                      Key="Software\SwitchApps\Backup"
+                      Name="MsOfficeAdPopup_Backup"
+                      Type="raw" />
+    </Property>
+    
+    
+    
+    <!--<Property Id="THUMBNAIL_PREVIEW_SIZE_FROM_BACKUP">
+      <RegistrySearch Id="ThumbnailPreviewSize_FromBackup_Search"
+                      Root="HKCU"
+                      Key="Software\SwitchApps\Backup"
+                      Name="ThumbnailPreviewSize_Backup"
                       Type="raw" />
     </Property>-->
 
@@ -48,6 +113,82 @@
             <!--<RemoveFolder Directory="StartMenuAppFolder" On="both" Id="RemoveProgramDir2" />-->
           </Component>
 
+
+
+          <Component Id="RegistryBackup"
+                     Guid="12345678-1234-1234-1234-222222222221" >
+            <RegistryKey Root="HKCU"
+                         Key="Software\SwitchApps\Backup" >
+              <RegistryValue Type="integer"
+                             Name="ThumbnailPreviewSize_Backup"
+                             Value="[THUMBNAIL_PREVIEW_SIZE_PREINSTALL]" />
+            </RegistryKey>
+
+            <RegistryKey Root="HKCU"
+                         Key="Software\SwitchApps\Backup" >
+              <RegistryValue Type="integer"
+                             Name="ThumbnailPreviewDelay_Backup"
+                             Value="[THUMBNAIL_PREVIEW_DELAY_PREINSTALL]" />
+            </RegistryKey>
+            
+            <!--<RegistryKey Root="HKCU"
+                         Key="Software\SwitchApps\Backup" >
+              <RegistryValue Type="integer"
+                             Name="MsOfficeAdPopup_Backup"
+                             Value="[MSOFFICE_AD_POPUP_PREINSTALL]" />
+            </RegistryKey>-->
+          </Component>
+
+          <Component Id="RegistryBackup2"
+           Guid="12345678-1234-1234-1234-222222222219" >
+            <Condition>
+              MSOFFICE_AD_POPUP_PREINSTALL
+            </Condition>
+            <RegistryKey Root="HKCU"
+                         Key="Software\SwitchApps\Backup" >
+              <RegistryValue Type="string"
+                             Name="MsOfficeAdPopup_Backup"
+                             Value="[MSOFFICE_AD_POPUP_PREINSTALL]" />
+            </RegistryKey>
+          </Component>
+
+          <Component Id="RegistryBackup3"
+                     Guid="12345678-1234-1234-1234-222222222218" >
+            <Condition>
+              NOT MSOFFICE_AD_POPUP_PREINSTALL
+            </Condition>
+            <RegistryKey Root="HKCU"
+                         Key="Software\SwitchApps\Backup" >
+              <RegistryValue Type="string"
+                             Name="MsOfficeAdPopup_Backup"
+                             Value="false" />
+            </RegistryKey>
+          </Component>
+          
+          
+
+          <!--<Component Id="RevertRegistryChanges">
+            <Condition>
+              --><!--REMOVE="ALL" AND ( <![CDATA[THUMBNAIL_PREVIEW_SIZE <> 400]]> )--><!--
+              
+            </Condition>
+            --><!--<Condition>
+              --><!--<![CDATA[THUMBNAIL_PREVIEW_SIZE = THUMBNAIL_PREVIEW_SIZE_ORIGINAL_REG]]>--><!--
+              THUMBNAIL_PREVIEW_SIZE = THUMBNAIL_PREVIEW_SIZE_ORIGINAL_REG
+            </Condition>--><!--
+            <RegistryKey Root="HKCU"
+                         Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
+                         ForceCreateOnInstall="no"
+                         ForceDeleteOnUninstall="no" >
+              <RegistryValue 
+                Name="MinThumbSizePx" 
+                Type="integer" 
+                Value="400" />
+            </RegistryKey>
+          </Component>-->
+
+
+
           <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223" Permanent="yes">
             <RegistryKey Root="HKCU"
                    Key="Software\Classes\ms-officeapp\Shell\Open\Command"
@@ -73,8 +214,7 @@
                    ForceDeleteOnUninstall="no" >
               <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
             </RegistryKey>
-            <!--<Condition--> 
-            <RemoveRegistryKey/>
+            <!--<RemoveRegistryKey/>-->
           </Component>
 
 
@@ -109,10 +249,14 @@
 
 
     <Feature Id="DefaultFeature" Level="1">
+      <ComponentRef Id="RegistryBackup" />
+      <ComponentRef Id="RegistryBackup2" />
+      <ComponentRef Id="RegistryBackup3" />
       <ComponentRef Id="MsOfficeAdPopup_Reg" />
       <ComponentRef Id="ThumbnailPreviewSize_Reg" />
       <ComponentRef Id="ThumbnailPreviewDelay_Reg" />
       <ComponentRef Id="ApplicationFiles" />
+      <!--<ComponentRef Id="RevertRegistryChanges" />-->
       <!--<ComponentRef Id="AppShortcut" />-->
       <!--<ComponentRef Id="CreateSchedulerTask"/>-->
     </Feature>
@@ -130,12 +274,12 @@
         REMOVE="ALL"
       </Custom>
 
-      <Custom Action="RevertSystemRegistryChanges" After="InstallValidate">
+      <!--<Custom Action="RevertSystemRegistryChanges" After="InstallValidate">
         REMOVE="ALL"
-      </Custom>
+      </Custom>-->
     </InstallExecuteSequence>
-
-
+    
+    
 
     <CustomAction Id="CreateSchedulerTask"
                   Execute="deferred"
@@ -151,7 +295,7 @@
                   Directory="TARGETDIR"
                   Impersonate="yes"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall ; Start-Sleep -s 10 ' &quot;" />
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall -ThumbSize &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelay &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopup &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ; Start-Sleep -s 10 ' &quot;" />
 
     <CustomAction Id="Wait"
                   Execute="immediate"
@@ -159,8 +303,8 @@
                   Impersonate="yes"
                   Return="check"
                   ExeCommand="powershell -Command &quot;Write-Output &quot;Wait...&quot; Start-Sleep -s 15&quot;" />
-    
-    
+
+
 
   </Product>
 
