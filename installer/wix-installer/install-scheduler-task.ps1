@@ -5,8 +5,7 @@ function Install {
       [String]
       $InstallDir
   )
-  # Write-Output HelloWorld;
-  # Read-Host;
+  Write-Output "Install started";
 
 
 
@@ -48,4 +47,12 @@ function Install {
 
 
 
-Install;
+function Uninstall {
+  Write-Output "Uninstall started";
+
+  Unregister-ScheduledTask -TaskPath "\SwitchApps\" -TaskName "SwitchApps autostart" -Confirm:$false  
+}
+
+
+
+# Install;

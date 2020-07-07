@@ -3,7 +3,7 @@
   <Product Id="*" Name="SwitchApps" Language="1033" Version="1.0.0.0" Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
-    <UIRef Id="WixUI_Minimal" />
+    <!--<UIRef Id="WixUI_Minimal" />-->
 
 
 
@@ -73,6 +73,8 @@
                    ForceDeleteOnUninstall="no" >
               <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
             </RegistryKey>
+            <!--<Condition--> 
+            <RemoveRegistryKey/>
           </Component>
 
 
@@ -121,6 +123,16 @@
       <Custom Action="CreateSchedulerTask" After="InstallFiles">
         NOT Installed
       </Custom>
+      <Custom Action="RemoveSchedulerTask" After="InstallInitialize">
+        REMOVE="ALL"
+      </Custom>
+      <Custom Action="Wait" After="RemoveSchedulerTask">
+        REMOVE="ALL"
+      </Custom>
+
+      <Custom Action="RevertSystemRegistryChanges" After="InstallValidate">
+        REMOVE="ALL"
+      </Custom>
     </InstallExecuteSequence>
 
 
@@ -130,10 +142,25 @@
                   Directory="TARGETDIR"
                   Impersonate="no"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot;' &quot;" />
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot; ' &quot;" />
 
 
 
+    <CustomAction Id="RemoveSchedulerTask"
+                  Execute="immediate"
+                  Directory="TARGETDIR"
+                  Impersonate="yes"
+                  Return="check"
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall ; Start-Sleep -s 10 ' &quot;" />
+
+    <CustomAction Id="Wait"
+                  Execute="immediate"
+                  Directory="TARGETDIR"
+                  Impersonate="yes"
+                  Return="check"
+                  ExeCommand="powershell -Command &quot;Write-Output &quot;Wait...&quot; Start-Sleep -s 15&quot;" />
+    
+    
 
   </Product>
 
