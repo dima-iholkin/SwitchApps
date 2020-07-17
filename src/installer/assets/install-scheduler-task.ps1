@@ -2,15 +2,18 @@ function Install {
   [CmdletBinding()]
   param (
     [Parameter()]
-    [String]
-    $InstallDir
+    [string] $InstallDir,
+    [Parameter()]
+    [string] $Name,
+    [Parameter()]
+    [string] $ModifySystemRegistry
   )
   Write-Output "Install started";
 
 
 
   try {
-    Unregister-ScheduledTask -TaskPath "\SwitchApps\" -TaskName "SwitchApps autostart" -Confirm:$false -ErrorAction SilentlyContinue
+    Unregister-ScheduledTask -TaskPath "\$Name\" -TaskName "$Name autostart" -Confirm:$false -ErrorAction SilentlyContinue
   }
   catch {
     Write-Output "Unable to delete the task."
@@ -40,7 +43,7 @@ function Install {
 
   $D = New-ScheduledTask -Action $A -Principal $P -Trigger $T -Settings $S
 
-  Register-ScheduledTask -TaskPath "SwitchApps" -TaskName "SwitchApps autostart" -InputObject $D
+  Register-ScheduledTask -TaskPath "$Name" -TaskName "$Name autostart" -InputObject $D
   Write-Output "Scheduler task created."
 
 
@@ -71,7 +74,11 @@ function Uninstall {
     [Parameter()]
     [string] $ThumbDelay,
     [Parameter()]
-    [string] $MsOfficePopup
+    [string] $MsOfficePopup,
+    [Parameter()]
+    [string] $Name,
+    [Parameter()]
+    [string] $ModifySystemRegistry
   )
   Write-Output "Uninstall started...";
 
@@ -85,25 +92,47 @@ function Uninstall {
 
 
   
-  Unregister-ScheduledTask -TaskPath "\SwitchApps\" -TaskName "SwitchApps autostart" -Confirm:$false  
+  Unregister-ScheduledTask -TaskPath "\$Name\" -TaskName "$Name autostart" -Confirm:$false  
+  # Remove the task scheduler task.
+
+
+
+  $scheduleObject = New-Object -ComObject Schedule.Service
+  $scheduleObject.connect()
+
+  $rootFolder = $scheduleObject.GetFolder("\")
+
+  $appFolder = $rootFolder.GetFolder($Name)
+  
+  if ($appFolder.GetTasks(0).Count -eq 0) {
+    $rootFolder.DeleteFolder($Name, $null)
+  }
+  # Remove the task scheduler empty folder.
 
   Write-Output "Scheduler task uninstalled."
 
 
 
-  $thumbSizeInt = $ThumbSize.Remove(0, 3) -as [int]
-  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name MinThumbSizePx -Value $thumbSizeInt
-
-  $thumbDelayInt = $ThumbDelay.Remove(0, 3) -as [int]
-  Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ExtendedUIHoverTime -Value $thumbDelayInt
-
-  if ($MsOfficePopup -eq "false") {
-    Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
-  } else {
-    Set-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"  -Value $MsOfficePopup
+  if ($ModifySystemRegistry -eq "true") {
+    
+    $thumbSizeInt = $ThumbSize.Remove(0, 3) -as [int]
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name MinThumbSizePx -Value $thumbSizeInt
+    
+    $thumbDelayInt = $ThumbDelay.Remove(0, 3) -as [int]
+    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ExtendedUIHoverTime -Value $thumbDelayInt
+    
+    if ($MsOfficePopup -eq "false") {
+      Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+    }
+    else {
+      Set-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"  -Value $MsOfficePopup
+    }
+    
+    Write-Output "Registry changes reverted."
   }
-
-  Write-Output "Registry changes reverted."
+  else {
+    Write-Output "ModifySystemRegistry = false"
+  }
 }
 
 

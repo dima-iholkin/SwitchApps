@@ -34,7 +34,7 @@ function BuildInstaller {
 
   Write-Host "Candle:" -ForegroundColor Green
 
-  & $candle -out $outputFile Installer.wxs
+  & $candle -out $outputFile Installer.wxs -dName="SwitchApps_dev" -dModifySystemRegistry="false"
 
   Write-Host ""
   # Write-Host ""
@@ -56,6 +56,10 @@ function BuildInstaller {
 
 
   CleanUp;
+
+
+
+  cd ..\..\scripts\
 }
 
 BuildInstaller;
