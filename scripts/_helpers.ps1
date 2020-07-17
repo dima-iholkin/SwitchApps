@@ -1,3 +1,48 @@
+function RunInstaller {
+  Write-Output "RunInstaller..."
+
+  cd ..
+
+  cd .\build\
+
+  . .\SwitchApps_dev.msi
+
+  cd ..\scripts\
+}
+
+
+
+function BuildExe {
+  cd ..
+
+  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
+
+  $dir = (Get-Location).Path
+
+  $inputFile = $dir + "\src\SwitchApps.ahk"
+
+
+
+  if (Test-Path build) {
+    
+  }
+  else {
+    mkdir build | Out-Null
+  }
+
+  $outputFile = $dir + "\build\SwitchApps.exe"
+
+
+
+  & $exeFile /in $inputFile /out $outputFile
+
+
+
+  cd .\scripts\
+}
+
+
+
 function CleanUp {
   # cd ..\src\installer\
 
@@ -14,8 +59,10 @@ function CleanUp {
   }
 }
 
+
+
 function BuildInstaller {
-  . .\build-executable.ps1 BuildExe
+  BuildExe
 
 
 
@@ -42,7 +89,7 @@ function BuildInstaller {
 
 
 
-  $outputFile = $output + "SwitchApps.msi"
+  $outputFile = $output + "SwitchApps_dev.msi"
 
   Write-Host "Light:" -ForegroundColor Green
   Write-Host "Ignored warnings: ICE03, ICE91." -ForegroundColor Yellow
@@ -51,7 +98,7 @@ function BuildInstaller {
 
 
 
-  Copy-Item .\build\SwitchApps.msi -Destination ..\..\build\
+  Copy-Item .\build\SwitchApps_dev.msi -Destination ..\..\build\
 
 
 
@@ -61,5 +108,3 @@ function BuildInstaller {
 
   cd ..\..\scripts\
 }
-
-BuildInstaller;

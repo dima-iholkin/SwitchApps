@@ -6,8 +6,27 @@
            Version="1.0.0.0"
            Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
-    <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+    <!--<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />-->
+    <Package InstallerVersion="200" Compressed="yes" />
 
+    <Condition Message="Installation must be terminated.">
+      NOT ALLUSERS
+    </Condition>
+
+    <Condition Message="You must have Administrative rights on this machine to install $(var.Name).">
+      <![CDATA[Privileged]]>
+    </Condition>
+    
+    
+
+    <!--<Property Id="MSIUSEREALADMINDETECTION" Value="1" />
+
+    <Condition Message="Installation requires Administrator privileges">
+      <![CDATA[Privileged]]>
+    </Condition>-->
+    
+    
+    
     <!--<UIRef Id="WixUI_Minimal" />-->
 
 
@@ -105,7 +124,7 @@
       </Directory>-->
       <Directory Id="LocalAppDataFolder">
         <Directory Id="INSTALLFOLDER" Name="$(var.Name)">
-          <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222">
+          <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-122222222222">
             <RegistryValue Root="HKCU"
                            Key="Software\$(var.Name)"
                            Name="InstallFolder"
@@ -128,7 +147,7 @@
 
 
 
-          <Component Id="RegistryBackup" Guid="12345678-1234-1234-1234-222222222221" >
+          <Component Id="RegistryBackup" Guid="12345678-1234-1234-1234-122222222221" >
             <RegistryKey Root="HKCU" Key="Software\$(var.Name)\Backup" >
               <RegistryValue Type="integer"
                              Name="ThumbnailPreviewSize_Backup"
@@ -153,7 +172,7 @@
             </RegistryKey>-->
           </Component>
 
-          <Component Id="RegistryBackup2" Guid="12345678-1234-1234-1234-222222222219" >
+          <Component Id="RegistryBackup2" Guid="12345678-1234-1234-1234-122222222219" >
             <Condition>
               MSOFFICE_AD_POPUP_PREINSTALL
             </Condition>
@@ -169,7 +188,7 @@
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir2" />
           </Component>
 
-          <Component Id="RegistryBackup3" Guid="12345678-1234-1234-1234-222222222218" >
+          <Component Id="RegistryBackup3" Guid="12345678-1234-1234-1234-122222222218" >
             <Condition>
               NOT MSOFFICE_AD_POPUP_PREINSTALL
             </Condition>
@@ -215,7 +234,7 @@
 
 
 
-          <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223" Permanent="yes">
+          <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-122222222223" Permanent="yes">
             <Condition>
               $(var.ModifySystemRegistry) = "true" 
             </Condition>
@@ -228,7 +247,7 @@
             </RegistryKey>
           </Component>
 
-          <Component Id="ThumbnailPreviewSize_Reg" Guid="12345678-1234-1234-1234-222222222224" Permanent="yes">
+          <Component Id="ThumbnailPreviewSize_Reg" Guid="12345678-1234-1234-1234-122222222224" Permanent="yes">
             <Condition>
               $(var.ModifySystemRegistry) = "true"
             </Condition>
@@ -241,7 +260,7 @@
             </RegistryKey>
           </Component>
 
-          <Component Id="ThumbnailPreviewDelay_Reg" Guid="12345678-1234-1234-1234-222222222225" Permanent="yes">
+          <Component Id="ThumbnailPreviewDelay_Reg" Guid="12345678-1234-1234-1234-122222222225" Permanent="yes">
             <Condition>
               $(var.ModifySystemRegistry) = "true"
             </Condition>
@@ -311,9 +330,9 @@
         REMOVE="ALL"
       </Custom>
       
-      <Custom Action="Wait" After="RemoveSchedulerTask">
+      <!--<Custom Action="Wait" After="RemoveSchedulerTask">
         REMOVE="ALL"
-      </Custom>
+      </Custom>-->
 
       <!--<Custom Action="RevertSystemRegistryChanges" After="InstallValidate">
         REMOVE="ALL"
@@ -327,7 +346,7 @@
                   Directory="TARGETDIR"
                   Impersonate="no"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot; -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ' &quot;" />
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Wait -WindowStyle Hidden -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot; -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ' &quot;" />
 
 
 
@@ -336,7 +355,7 @@
                   Directory="TARGETDIR"
                   Impersonate="yes"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSize &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelay &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopup &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ; Start-Sleep -s 10 ' &quot;" />
+                  ExeCommand="powershell -Command &quot;Start-Process powershell -Wait -WindowStyle Hidden -Verb RunAs -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSize &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelay &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopup &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ' &quot;" />
 
     <CustomAction Id="Wait"
                   Execute="immediate"
