@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="SwitchApps" Language="1033" Version="1.0.0.0" Manufacturer="Dima Iholkin"
+  <Product Id="*"
+           Name="SwitchApps"
+           Language="1033"
+           Version="1.0.0.0"
+           Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />
+
     <!--<UIRef Id="WixUI_Minimal" />-->
 
 
 
     <!--<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />-->
+
     <!--<MediaTemplate />-->
 
 
@@ -78,9 +84,9 @@
                       Name="MsOfficeAdPopup_Backup"
                       Type="raw" />
     </Property>
-    
-    
-    
+
+
+
     <!--<Property Id="THUMBNAIL_PREVIEW_SIZE_FROM_BACKUP">
       <RegistrySearch Id="ThumbnailPreviewSize_FromBackup_Search"
                       Root="HKCU"
@@ -100,37 +106,41 @@
       <Directory Id="LocalAppDataFolder">
         <Directory Id="INSTALLFOLDER" Name="SwitchApps">
           <Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222">
-            <RegistryValue Root="HKCU" Key="Software\SwitchApps" Name="InstallFolder" Value="[INSTALLFOLDER]"
-                           Type="string" KeyPath="yes" />
-            <File Id="ApplicationFile1" Source="../assets/SwitchApps.exe" />
+            <RegistryValue Root="HKCU"
+                           Key="Software\SwitchApps"
+                           Name="InstallFolder"
+                           Value="[INSTALLFOLDER]"
+                           Type="string"
+                           KeyPath="yes" />
 
-            <File Id="SchedulerTaskInstall" Source="./install-scheduler-task.ps1" />
+            <File Id="ApplicationFile1" Source="../../build/SwitchApps.exe" />
 
-            <File Id="SchedulerTaskStart" Source="./start.bat" />
+            <File Id="SchedulerTaskInstall" Source="./assets/install-scheduler-task.ps1" />
+
+            <File Id="SchedulerTaskStart" Source="./assets/start.bat" />
 
             <RemoveFile Id="ALLFILES" Name="*.*" On="both" />
+
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir" />
+
             <!--<RemoveFolder Directory="StartMenuAppFolder" On="both" Id="RemoveProgramDir2" />-->
           </Component>
 
 
 
-          <Component Id="RegistryBackup"
-                     Guid="12345678-1234-1234-1234-222222222221" >
-            <RegistryKey Root="HKCU"
-                         Key="Software\SwitchApps\Backup" >
+          <Component Id="RegistryBackup" Guid="12345678-1234-1234-1234-222222222221" >
+            <RegistryKey Root="HKCU" Key="Software\SwitchApps\Backup" >
               <RegistryValue Type="integer"
                              Name="ThumbnailPreviewSize_Backup"
                              Value="[THUMBNAIL_PREVIEW_SIZE_PREINSTALL]" />
             </RegistryKey>
 
-            <RegistryKey Root="HKCU"
-                         Key="Software\SwitchApps\Backup" >
+            <RegistryKey Root="HKCU" Key="Software\SwitchApps\Backup" >
               <RegistryValue Type="integer"
                              Name="ThumbnailPreviewDelay_Backup"
                              Value="[THUMBNAIL_PREVIEW_DELAY_PREINSTALL]" />
             </RegistryKey>
-            
+
             <!--<RegistryKey Root="HKCU"
                          Key="Software\SwitchApps\Backup" >
               <RegistryValue Type="integer"
@@ -139,43 +149,47 @@
             </RegistryKey>-->
           </Component>
 
-          <Component Id="RegistryBackup2"
-           Guid="12345678-1234-1234-1234-222222222219" >
+          <Component Id="RegistryBackup2" Guid="12345678-1234-1234-1234-222222222219" >
             <Condition>
               MSOFFICE_AD_POPUP_PREINSTALL
             </Condition>
-            <RegistryKey Root="HKCU"
-                         Key="Software\SwitchApps\Backup" >
+
+            <RegistryKey Root="HKCU" Key="Software\SwitchApps\Backup" >
               <RegistryValue Type="string"
                              Name="MsOfficeAdPopup_Backup"
                              Value="[MSOFFICE_AD_POPUP_PREINSTALL]" />
             </RegistryKey>
           </Component>
 
-          <Component Id="RegistryBackup3"
-                     Guid="12345678-1234-1234-1234-222222222218" >
+          <Component Id="RegistryBackup3" Guid="12345678-1234-1234-1234-222222222218" >
             <Condition>
               NOT MSOFFICE_AD_POPUP_PREINSTALL
             </Condition>
-            <RegistryKey Root="HKCU"
-                         Key="Software\SwitchApps\Backup" >
+
+            <RegistryKey Root="HKCU" Key="Software\SwitchApps\Backup" >
               <RegistryValue Type="string"
                              Name="MsOfficeAdPopup_Backup"
                              Value="false" />
             </RegistryKey>
           </Component>
-          
-          
+
+
 
           <!--<Component Id="RevertRegistryChanges">
             <Condition>
-              --><!--REMOVE="ALL" AND ( <![CDATA[THUMBNAIL_PREVIEW_SIZE <> 400]]> )--><!--
+              -->
+          <!--REMOVE="ALL" AND ( <![CDATA[THUMBNAIL_PREVIEW_SIZE <> 400]]> )-->
+          <!--
               
             </Condition>
-            --><!--<Condition>
-              --><!--<![CDATA[THUMBNAIL_PREVIEW_SIZE = THUMBNAIL_PREVIEW_SIZE_ORIGINAL_REG]]>--><!--
+            -->
+          <!--<Condition>
+              -->
+          <!--<![CDATA[THUMBNAIL_PREVIEW_SIZE = THUMBNAIL_PREVIEW_SIZE_ORIGINAL_REG]]>-->
+          <!--
               THUMBNAIL_PREVIEW_SIZE = THUMBNAIL_PREVIEW_SIZE_ORIGINAL_REG
-            </Condition>--><!--
+            </Condition>-->
+          <!--
             <RegistryKey Root="HKCU"
                          Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
                          ForceCreateOnInstall="no"
@@ -191,29 +205,30 @@
 
           <Component Id="MsOfficeAdPopup_Reg" Guid="12345678-1234-1234-1234-222222222223" Permanent="yes">
             <RegistryKey Root="HKCU"
-                   Key="Software\Classes\ms-officeapp\Shell\Open\Command"
-                   ForceCreateOnInstall="no"
-                   ForceDeleteOnUninstall="no" >
+                         Key="Software\Classes\ms-officeapp\Shell\Open\Command"
+                         ForceCreateOnInstall="no"
+                         ForceDeleteOnUninstall="no" >
               <RegistryValue Type="string" Value="rundll32" />
             </RegistryKey>
           </Component>
 
           <Component Id="ThumbnailPreviewSize_Reg" Guid="12345678-1234-1234-1234-222222222224" Permanent="yes">
             <RegistryKey Root="HKCU"
-                   Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
-                   ForceCreateOnInstall="no"
-                   ForceDeleteOnUninstall="no" >
+                         Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
+                         ForceCreateOnInstall="no"
+                         ForceDeleteOnUninstall="no" >
               <RegistryValue Name="MinThumbSizePx" Type="integer" Value="800" />
             </RegistryKey>
           </Component>
 
           <Component Id="ThumbnailPreviewDelay_Reg" Guid="12345678-1234-1234-1234-222222222225" Permanent="yes">
             <RegistryKey Root="HKCU"
-                   Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-                   ForceCreateOnInstall="no"
-                   ForceDeleteOnUninstall="no" >
+                         Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+                         ForceCreateOnInstall="no"
+                         ForceDeleteOnUninstall="no" >
               <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
             </RegistryKey>
+            
             <!--<RemoveRegistryKey/>-->
           </Component>
 
@@ -267,9 +282,11 @@
       <Custom Action="CreateSchedulerTask" After="InstallFiles">
         NOT Installed
       </Custom>
+      
       <Custom Action="RemoveSchedulerTask" After="InstallInitialize">
         REMOVE="ALL"
       </Custom>
+      
       <Custom Action="Wait" After="RemoveSchedulerTask">
         REMOVE="ALL"
       </Custom>
@@ -278,8 +295,8 @@
         REMOVE="ALL"
       </Custom>-->
     </InstallExecuteSequence>
-    
-    
+
+
 
     <CustomAction Id="CreateSchedulerTask"
                   Execute="deferred"
