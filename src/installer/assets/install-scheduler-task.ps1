@@ -70,11 +70,11 @@ function Uninstall {
   [CmdletBinding()]
   param (
     [Parameter()]
-    [string] $ThumbSize,
+    [string] $ThumbSizePreInstall,
     [Parameter()]
-    [string] $ThumbDelay,
+    [string] $ThumbDelayPreInstall,
     [Parameter()]
-    [string] $MsOfficePopup,
+    [string] $MsOfficePopupPreInstall,
     [Parameter()]
     [string] $Name,
     [Parameter()]
@@ -82,13 +82,13 @@ function Uninstall {
   )
   Write-Output "Uninstall started...";
 
-  $str = "ThumbSize: " + $ThumbSize
-  $str1 = "ThumbDelay: " + $ThumbDelay
-  $str2 = "MsOfficePopup: " + $MsOfficePopup
+  $str = "ThumbSize: " + $ThumbSizePreInstall
+  $str1 = "ThumbDelay: " + $ThumbDelayPreInstall
+  $str2 = "MsOfficePopup: " + $MsOfficePopupPreInstall
   Write-Output $str
   Write-Output $str1
   Write-Output $str2
-  Start-Sleep -Seconds 5
+  # Start-Sleep -Seconds 5
 
 
   
@@ -114,18 +114,41 @@ function Uninstall {
 
 
   if ($ModifySystemRegistry -eq "true") {
-    
-    $thumbSizeInt = $ThumbSize.Remove(0, 3) -as [int]
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name MinThumbSizePx -Value $thumbSizeInt
-    
-    $thumbDelayInt = $ThumbDelay.Remove(0, 3) -as [int]
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ExtendedUIHoverTime -Value $thumbDelayInt
-    
-    if ($MsOfficePopup -eq "false") {
-      Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+    $ThumbSizePostInstall = 800;
+    $ThumbSizeCurrent = (Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name MinThumbSizePx).MinThumbSizePx
+    if ($ThumbSizeCurrent -eq $ThumbSizePostInstall) {
+      # if REG value now equals the PostInstall value, meaning nothing has changed it in between...
+
+      $thumbSizeInt = $ThumbSizePreInstall.Remove(0, 3) -as [int]
+      Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband" -Name MinThumbSizePx -Value $thumbSizeInt
+      # ...then revert the value to the PreInstall one.
     }
-    else {
-      Set-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"  -Value $MsOfficePopup
+    
+
+
+    $ThumbDelayPostInstall = 0;
+    $ThumbDelayCurrent = (Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ExtendedUIHoverTime).ExtendedUIHoverTime
+    if ($ThumbDelayCurrent -eq $ThumbDelayPostInstall) {
+      # if REG value now equals the PostInstall value, meaning nothing has changed it in between...
+
+      $thumbDelayInt = $ThumbDelayPreInstall.Remove(0, 3) -as [int]
+      Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name ExtendedUIHoverTime -Value $thumbDelayInt
+      # ...then revert the value to the PreInstall one.
+    }
+    
+    
+    $MsOfficePopupPostInstall = "rundll32";
+    $MsOfficePopupCurrent = (Get-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command").'(default)'
+    if ($MsOfficePopupCurrent -eq $MsOfficePopupPostInstall) {
+      # if REG value now equals the PostInstall value, meaning nothing has changed it in between...
+
+      if ($MsOfficePopupPreInstall -eq "false") {
+        Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+      }
+      else {
+        Set-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command" -Name '(default)' -Value $MsOfficePopupPreInstall
+      }
+      # ...then revert the value to the PreInstall one.
     }
     
     Write-Output "Registry changes reverted."
