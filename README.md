@@ -50,7 +50,7 @@ Don't do it if you're not experienced. You are the person responsible if you do 
 
 ---
 
-* Increase the thumbnail preview size with [this solution](https://winaero.com/blog/change-taskbar-thumbnail-size-windows-10/). 
+* Increase the thumbnail preview size with [this solution](https://winaero.com/blog/change-taskbar-thumbnail-size-windows-10/).
 
 > I used the value of 800 to maximize the thumbnail size.  
 > It certainly doesn’t scale to this size on my config - you may experiment with the value.

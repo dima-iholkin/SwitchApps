@@ -1,0 +1,1 @@
+schtasks /run /tn "SwitchApps/SwitchApps autostart"
