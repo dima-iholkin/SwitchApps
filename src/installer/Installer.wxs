@@ -337,7 +337,7 @@
                   Directory="TARGETDIR"
                   Impersonate="no"
                   Return="check"
-                  ExeCommand="powershell -executionpolicy bypass -NoExit -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir [INSTALLFOLDER] -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ; &quot;" />
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir [INSTALLFOLDER] -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ; &quot;" />
     <!--ExeCommand="powershell -NoExit -Command &quot;Host-Write &quot;This is window 2.&quot;; Start-Process powershell -Wait -WindowStyle Normal -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Start-Sleep -s 10; Read-Host -Prompt &quot;Press Enter to exit&quot; ; Install -InstallDir &quot;[INSTALLFOLDER]&quot; -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ' &quot;" />-->
     <!---->
 
@@ -346,7 +346,7 @@
                   Directory="TARGETDIR"
                   Impersonate="no"
                   Return="check"
-                  ExeCommand="powershell -executionpolicy bypass -NoExit -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part1 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part1 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
     <!--ExeCommand="powershell -NoExit -Command &quot; Write-Host &quot;This is window 1&quot; ; Start-Sleep -s 10; Start-Process powershell -Wait -WindowStyle Normal -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Start-Sleep -s 10; Read-Host -Prompt &quot;Press Enter to exit&quot; ; Uninstall -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ' &quot;" />-->
     <!---->
 
@@ -355,6 +355,6 @@
                   Directory="TARGETDIR"
                   Impersonate="yes"
                   Return="check"
-                  ExeCommand="powershell -executionpolicy bypass -NoExit -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part2 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part2 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
   </Product>
 </Wix>
