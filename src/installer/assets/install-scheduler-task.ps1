@@ -288,7 +288,10 @@ function Uninstall_Part2 {
       # if REG value now equals the PostInstall value, meaning nothing has changed it in between...
 
       if ($MsOfficePopupPreInstall -eq "false") {
-        Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+        $countRegValuesOnThisKey = (Get-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command").ValueCount;
+        if ($countRegValuesOnThisKey -eq 1) {
+          Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+        }
       }
       else {
         Set-ItemProperty -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command" -Name '(default)' -Value $MsOfficePopupPreInstall
