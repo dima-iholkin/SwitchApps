@@ -1,6 +1,6 @@
 {
   "name": "switch-apps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Maybe a better way to switch apps (Alt+Tab) for Windows 10.",
   "main": "SwitchApps.ahk",
   "scripts": {

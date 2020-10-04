@@ -3,9 +3,14 @@
   <Product Id="*"
            Name="$(var.Name)"
            Language="1033"
-           Version="1.0.0.0"
+           Version="1.0.1.0"
            Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
+
+
+
+
+
     <!--<Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" />-->
     <!--It's perUser install, but I need to request(and get) elevated permissions, so...-->
 
@@ -41,7 +46,7 @@
     <Media Id="1" Cabinet="product.cab" EmbedCab="yes" />
     <!--I don't know why it's here.-->
 
-    
+
 
 
 
@@ -49,7 +54,7 @@
     <!--It's not used right now.-->
 
 
-    
+
 
 
     <Property Id="THUMBNAIL_PREVIEW_SIZE_PREINSTALL">
@@ -74,6 +79,9 @@
                       Key="Software\Classes\ms-officeapp\Shell\Open\Command"
                       Type="raw" />
     </Property>
+    <!--Before the install. Save the 3 registry keys' values into the variables (Property Id). -->
+    <!--The values are used to revert registry changes on uninstall.-->
+    <!--These values will be backed up to /SwitchApps dir in registry.-->
 
 
 
@@ -102,6 +110,9 @@
                       Name="MsOfficeAdPopup_Backup"
                       Type="raw" />
     </Property>
+    <!--Before the uninstall. Retrieves the backed up registry values from /SwitchApps dir.-->
+    <!--These values will be passed to PS script to check against the present system values.-->
+    <!--If the present values not the same as before the install, the script should not revert the values.-->
 
 
 
@@ -135,6 +146,10 @@
 
 
           <Component Id="RegistryBackup" Guid="*" >
+            <Condition>
+              THUMBNAIL_PREVIEW_SIZE_PREINSTALL
+            </Condition>
+
             <RegistryKey Root="HKCU" Key="Software\$(var.Name)\Backup" >
               <RegistryValue Type="integer"
                              Name="ThumbnailPreviewSize_Backup"
@@ -146,7 +161,29 @@
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir0" />
           </Component>
 
+          <Component Id="RegistryBackup00" Guid="*" >
+            <Condition>
+              NOT THUMBNAIL_PREVIEW_SIZE_PREINSTALL
+            </Condition>
+
+            <RegistryKey Root="HKCU" Key="Software\$(var.Name)\Backup" >
+              <RegistryValue Type="string"
+                             Name="ThumbnailPreviewSize_Backup"
+                             Value="false" />
+            </RegistryKey>
+
+            <RemoveFile Id="RemoveReg00" Name="*.*" On="both" />
+
+            <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir00" />
+          </Component>
+
+
+
           <Component Id="RegistryBackup1" Guid="*" >
+            <Condition>
+              THUMBNAIL_PREVIEW_DELAY_PREINSTALL
+            </Condition>
+
             <RegistryKey Root="HKCU" Key="Software\$(var.Name)\Backup" >
               <RegistryValue Type="integer"
                              Name="ThumbnailPreviewDelay_Backup"
@@ -157,6 +194,24 @@
 
             <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir1" />
           </Component>
+
+          <Component Id="RegistryBackup11" Guid="*" >
+            <Condition>
+              NOT THUMBNAIL_PREVIEW_DELAY_PREINSTALL
+            </Condition>
+
+            <RegistryKey Root="HKCU" Key="Software\$(var.Name)\Backup" >
+              <RegistryValue Type="string"
+                             Name="ThumbnailPreviewDelay_Backup"
+                             Value="false" />
+            </RegistryKey>
+
+            <RemoveFile Id="RemoveReg11" Name="*.*" On="both" />
+
+            <RemoveFolder Directory="INSTALLFOLDER" On="both" Id="RemoveProgramDir11" />
+          </Component>
+
+
 
           <Component Id="RegistryBackup2" Guid="*" >
             <Condition>
@@ -196,39 +251,39 @@
 
 
           <Component Id="MsOfficeAdPopup_Reg" Guid="*" Permanent="yes">
-            <Condition>
+            <!--<Condition>
               $(var.ModifySystemRegistry) = "true"
-            </Condition>
+            </Condition>-->
 
             <RegistryKey Root="HKCU"
                          Key="Software\Classes\ms-officeapp\Shell\Open\Command"
-                         ForceCreateOnInstall="no"
+                         ForceCreateOnInstall="yes"
                          ForceDeleteOnUninstall="no" >
               <RegistryValue Type="string" Value="rundll32" />
             </RegistryKey>
           </Component>
 
           <Component Id="ThumbnailPreviewSize_Reg" Guid="*" Permanent="yes">
-            <Condition>
+            <!--<Condition>
               $(var.ModifySystemRegistry) = "true"
-            </Condition>
+            </Condition>-->
 
             <RegistryKey Root="HKCU"
                          Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
-                         ForceCreateOnInstall="no"
+                         ForceCreateOnInstall="yes"
                          ForceDeleteOnUninstall="no" >
               <RegistryValue Name="MinThumbSizePx" Type="integer" Value="800" />
             </RegistryKey>
           </Component>
 
           <Component Id="ThumbnailPreviewDelay_Reg" Guid="*" Permanent="yes">
-            <Condition>
+            <!--<Condition>
               $(var.ModifySystemRegistry) = "true"
-            </Condition>
+            </Condition>-->
 
             <RegistryKey Root="HKCU"
                          Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-                         ForceCreateOnInstall="no"
+                         ForceCreateOnInstall="yes"
                          ForceDeleteOnUninstall="no" >
               <RegistryValue Name="ExtendedUIHoverTime" Type="integer" Value="0" />
             </RegistryKey>
@@ -244,7 +299,9 @@
 
     <Feature Id="DefaultFeature" Level="1">
       <ComponentRef Id="RegistryBackup" />
+      <ComponentRef Id="RegistryBackup00" />
       <ComponentRef Id="RegistryBackup1" />
+      <ComponentRef Id="RegistryBackup11" />
       <ComponentRef Id="RegistryBackup2" />
       <ComponentRef Id="RegistryBackup3" />
       <ComponentRef Id="MsOfficeAdPopup_Reg" />
@@ -265,6 +322,10 @@
       <Custom Action="RemoveSchedulerTask" After="InstallInitialize">
         REMOVE="ALL"
       </Custom>
+
+      <Custom Action="RemoveSchedulerTask2" After="RemoveSchedulerTask">
+        REMOVE="ALL"
+      </Custom>
     </InstallExecuteSequence>
 
 
@@ -276,13 +337,24 @@
                   Directory="TARGETDIR"
                   Impersonate="no"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Wait -WindowStyle Hidden -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir &quot;[INSTALLFOLDER]&quot; -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ' &quot;" />
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Install -InstallDir [INSTALLFOLDER] -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ; &quot;" />
+    <!--ExeCommand="powershell -NoExit -Command &quot;Host-Write &quot;This is window 2.&quot;; Start-Process powershell -Wait -WindowStyle Normal -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Start-Sleep -s 10; Read-Host -Prompt &quot;Press Enter to exit&quot; ; Install -InstallDir &quot;[INSTALLFOLDER]&quot; -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; ' &quot;" />-->
+    <!---->
 
     <CustomAction Id="RemoveSchedulerTask"
+                  Execute="deferred"
+                  Directory="TARGETDIR"
+                  Impersonate="no"
+                  Return="check"
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part1 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
+    <!--ExeCommand="powershell -NoExit -Command &quot; Write-Host &quot;This is window 1&quot; ; Start-Sleep -s 10; Start-Process powershell -Wait -WindowStyle Normal -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Start-Sleep -s 10; Read-Host -Prompt &quot;Press Enter to exit&quot; ; Uninstall -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ' &quot;" />-->
+    <!---->
+
+    <CustomAction Id="RemoveSchedulerTask2"
                   Execute="immediate"
                   Directory="TARGETDIR"
                   Impersonate="yes"
                   Return="check"
-                  ExeCommand="powershell -Command &quot;Start-Process powershell -Wait -WindowStyle Hidden -ArgumentList 'cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;&quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot;&quot; ' &quot;" />
+                  ExeCommand="powershell -executionpolicy bypass -Command &quot; Write-Host &quot;This is window 1&quot; ; cd [INSTALLFOLDER]; . .\install-scheduler-task.ps1; Uninstall_Part2 -Name &quot;$(var.Name)&quot; -ModifySystemRegistry &quot;$(var.ModifySystemRegistry)&quot; -ThumbSizePreInstall &quot;/[THUMBNAIL_PREVIEW_SIZE_PREUNINSTALL]&quot; -ThumbDelayPreInstall &quot;/[THUMBNAIL_PREVIEW_DELAY_PREUNINSTALL]&quot; -MsOfficePopupPreInstall &quot;[MSOFFICE_AD_POPUP_PREUNINSTALL]&quot; ; &quot;" />
   </Product>
 </Wix>
