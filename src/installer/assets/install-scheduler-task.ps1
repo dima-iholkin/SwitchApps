@@ -291,6 +291,8 @@ function Uninstall_Part2 {
         $countRegValuesOnThisKey = (Get-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command").ValueCount;
         if ($countRegValuesOnThisKey -eq 1) {
           Remove-Item -Path "HKCU:\Software\Classes\ms-officeapp\Shell\Open\Command"
+        } else {
+          # there are other values on this key, so the key cannot be deleted.
         }
       }
       else {

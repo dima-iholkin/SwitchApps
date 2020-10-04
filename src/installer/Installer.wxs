@@ -3,7 +3,7 @@
   <Product Id="*"
            Name="$(var.Name)"
            Language="1033"
-           Version="1.0.0.0"
+           Version="1.0.1.0"
            Manufacturer="Dima Iholkin"
            UpgradeCode="0f5914bd-fee7-4d7a-9b84-425ee6acf183">
 
