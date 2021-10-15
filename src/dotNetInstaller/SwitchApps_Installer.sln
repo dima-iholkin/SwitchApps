@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31717.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SwitchApps_Installer", "SwitchApps_Installer\SwitchApps_Installer.vdproj", "{D48468A1-C923-4418-AF83-C5293127FB0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchApps_Library", "SwitchApps_Library\SwitchApps_Library.csproj", "{897ACB5A-470F-40C7-8C25-3DC1A38E831A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D48468A1-C923-4418-AF83-C5293127FB0E}.Debug|Any CPU.ActiveCfg = Debug
+		{D48468A1-C923-4418-AF83-C5293127FB0E}.Debug|Any CPU.Build.0 = Debug
+		{D48468A1-C923-4418-AF83-C5293127FB0E}.Release|Any CPU.ActiveCfg = Release
+		{D48468A1-C923-4418-AF83-C5293127FB0E}.Release|Any CPU.Build.0 = Release
+		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4C6198E-044F-4DE7-B4D8-9945F492EA6A}
+	EndGlobalSection
+EndGlobal
