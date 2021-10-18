@@ -37,11 +37,13 @@ namespace SwitchApps_Library
             ValueKind = RegistryValueKind.DWord,
             NewValue = 0
         };
-        
+
         private readonly RegistryItem _msOfficeAdPopup = new RegistryItem
         {
             Path = @"Classes\ms-officeapp\Shell\Open\Command",
-            Name = "MsOfficeAdPopup",
+            Name = null,
+            CustomName = "MsOfficeAdPopup",
+            IsDefault = true,
             ValueKind = RegistryValueKind.String,
             NewValue = "rundll32"
         };
@@ -61,8 +63,8 @@ namespace SwitchApps_Library
             _loginSID = s.ToString();
 
             _usersSoftwareSubkey = Registry.Users
-                .OpenSubKey(_loginSID)
-                .OpenSubKey("SOFTWARE");
+                .CreateSubKey(_loginSID)
+                .CreateSubKey("SOFTWARE");
 
             _backupsSubkey = _usersSoftwareSubkey
                 .CreateSubKey(@"SwitchApps\Backup");
@@ -74,7 +76,7 @@ namespace SwitchApps_Library
         {
             base.OnBeforeInstall(savedState);
 
-            this.LogSomeInfoIntoFile();
+            //this.LogSomeInfoIntoFile();
 
             this.BackupRegValues();
 
@@ -99,31 +101,57 @@ namespace SwitchApps_Library
 
 
 
+        protected override void OnBeforeUninstall(IDictionary savedState)
+        {
+            base.OnBeforeUninstall(savedState);
+
+            RestoreRegValues();
+
+            _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
+        }
+
+
+
         private void BackupRegValues()
         {
-            _BackupRegValue(_thumbnailPreviewSize);
+            this._BackupRegValue(_thumbnailPreviewSize);
 
-            _BackupRegValue(_thumbnailPreviewDelay);
+            this._BackupRegValue(_thumbnailPreviewDelay);
 
-            _BackupRegValue(_msOfficeAdPopup);
+            this._BackupRegValue(_msOfficeAdPopup);
         }
 
 
 
         private void _BackupRegValue(RegistryItem registryItem)
         {
-            var value = _usersSoftwareSubkey
-                .OpenSubKey(registryItem.Path)
-                .GetValue(registryItem.Name);
+            var key = _usersSoftwareSubkey
+                .OpenSubKey(registryItem.Path);
+
+            object value = key?.GetValue(registryItem.Name);
+
             if (value is null)
             {
-                _backupsSubkey.SetValue(registryItem.Present_Name, 0, RegistryValueKind.DWord);
-                _backupsSubkey.DeleteValue(registryItem.Name);
+                _backupsSubkey.SetValue(registryItem.IsPresent_Name, 0, RegistryValueKind.DWord);
+
+                if (_backupsSubkey.GetValue(registryItem.Name) != null)
+                {
+                    _backupsSubkey.DeleteValue(registryItem.Name);
+                }
+                // If the Name exists inside the backup Key, remove it.
             }
             else
             {
-                _backupsSubkey.SetValue(registryItem.Present_Name, 1, RegistryValueKind.DWord);
-                _backupsSubkey.SetValue(registryItem.Name, value, registryItem.ValueKind);
+                _backupsSubkey.SetValue(registryItem.IsPresent_Name, 1, RegistryValueKind.DWord);
+
+                if (registryItem.IsDefault)
+                {
+                    _backupsSubkey.SetValue(registryItem.CustomName, value, registryItem.ValueKind);
+                }
+                else
+                {
+                    _backupsSubkey.SetValue(registryItem.Name, value, registryItem.ValueKind);
+                }
             }
         }
 
@@ -131,7 +159,105 @@ namespace SwitchApps_Library
 
         private void ModifyRegValues()
         {
+            this._ModifyRegValue(_thumbnailPreviewSize);
 
+            this._ModifyRegValue(_thumbnailPreviewDelay);
+
+            this._ModifyRegValue(_msOfficeAdPopup);
+        }
+
+
+
+        private void _ModifyRegValue(RegistryItem registryItem)
+        {
+            this._usersSoftwareSubkey
+                .CreateSubKey(registryItem.Path)
+                .SetValue(
+                    registryItem.Name,
+                    registryItem.NewValue
+                );
+        }
+
+
+
+        private void RestoreRegValues()
+        {
+            _RestoreRegValue(_thumbnailPreviewSize);
+
+            _RestoreRegValue(_thumbnailPreviewDelay);
+
+            _RestoreRegValue(_msOfficeAdPopup);
+        }
+
+
+
+        private void _RestoreRegValue(RegistryItem registryItem)
+        {
+            int isPresent_int = (int)_backupsSubkey.GetValue(registryItem.IsPresent_Name);
+
+            bool isPresent;
+            switch (isPresent_int)
+            {
+                case 1:
+                    isPresent = true;
+                    break;
+                case 0:
+                    isPresent = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("Unexpected backup registry isPresent value.");
+            }
+
+            if (isPresent)
+            {
+                object backupValue;
+                if (registryItem.IsDefault)
+                {
+                    backupValue = _backupsSubkey.GetValue(registryItem.CustomName);
+                }
+                else
+                {
+                    backupValue = _backupsSubkey.GetValue(registryItem.Name);
+                }
+
+                object currentValue = _usersSoftwareSubkey
+                    .CreateSubKey(registryItem.Path)
+                    .GetValue(registryItem.Name);
+
+                bool valueIsEqual;
+                if (registryItem.ValueKind == RegistryValueKind.DWord)
+                {
+                    valueIsEqual = (int)currentValue == (int)backupValue;
+                }
+                else if (registryItem.ValueKind == RegistryValueKind.String)
+                {
+                    valueIsEqual = currentValue.ToString() == backupValue.ToString();
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
+                }
+
+                if (valueIsEqual)
+                {
+                    _usersSoftwareSubkey
+                        .CreateSubKey(registryItem.Path)
+                        .SetValue(registryItem.Name, backupValue, registryItem.ValueKind);
+                }
+            }
+            else
+            {
+                object currentValue = _usersSoftwareSubkey
+                    .CreateSubKey(registryItem.Path)
+                    .GetValue(registryItem.Name);
+
+                if (currentValue == null)
+                {
+                    _usersSoftwareSubkey
+                        .CreateSubKey(registryItem.Path)
+                        .DeleteValue(registryItem.Name);
+                }
+            }
         }
 
 

@@ -147,6 +147,20 @@
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_6EFF3FCCCAAD49B894CCB5F6589D2895"
+            {
+            "Name" = "8:Primary output from SwitchApps_Library (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_49A2E899DE9F49DC8682C84BD5DAAD87"
+            "FileType" = "3:1"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_3457A95C_16EB_49AF_883C_707BEF535F6F"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
@@ -300,7 +314,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SwitchApps.Installer"
         "ProductCode" = "8:{F3813B6F-3B4A-4C86-9EC2-5214641F338D}"
-        "PackageCode" = "8:{489A0D0E-A216-4144-A6FD-CB4CCDBD925A}"
+        "PackageCode" = "8:{34AC9305-8206-4325-B216-6A89DD8DF76E}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
