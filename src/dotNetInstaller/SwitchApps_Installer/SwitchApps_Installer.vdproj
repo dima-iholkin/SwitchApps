@@ -27,20 +27,38 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_ABC2BF1DB9944F038FA0D76BCABD138A"
+        "MsmKey" = "8:_AB8C042B6268451E9B5B4F1B61D0129C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BEE704213968689AF11AEE79A51854C0"
+        "OwnerKey" = "8:_49A2E899DE9F49DC8682C84BD5DAAD87"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_BEE704213968689AF11AEE79A51854C0"
+        "OwnerKey" = "8:_AB8C042B6268451E9B5B4F1B61D0129C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_49A2E899DE9F49DC8682C84BD5DAAD87"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ABC2BF1DB9944F038FA0D76BCABD138A"
+        "OwnerKey" = "8:_AB8C042B6268451E9B5B4F1B61D0129C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_49A2E899DE9F49DC8682C84BD5DAAD87"
+        "OwnerKey" = "8:_BEE704213968689AF11AEE79A51854C0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -172,14 +190,14 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_ABC2BF1DB9944F038FA0D76BCABD138A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BEE704213968689AF11AEE79A51854C0"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_ABC2BF1DB9944F038FA0D76BCABD138A"
+                    "_BEE704213968689AF11AEE79A51854C0"
                     {
                     "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
@@ -838,6 +856,34 @@
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{897ACB5A-470F-40C7-8C25-3DC1A38E831A}"
+            "ShowKeyOutput" = "11:TRUE"
+                "ExcludeFilters"
+                {
+                }
+            }
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_AB8C042B6268451E9B5B4F1B61D0129C"
+            {
+            "SourcePath" = "8:..\\Installer.EditRegistry\\obj\\Debug\\Installer.EditRegistry.exe"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            "ProjectOutputGroupRegister" = "3:1"
+            "OutputConfiguration" = "8:"
+            "OutputGroupCanonicalName" = "8:Built"
+            "OutputProjectGuid" = "8:{3693C0C1-2F18-4512-983A-2FE9BBF5689A}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {
