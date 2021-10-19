@@ -7,6 +7,8 @@ using System.Linq;
 using System.Management;
 using System.Security.Principal;
 using Microsoft.Win32;
+using Serilog;
+using Serilog.Core;
 
 
 
@@ -15,8 +17,15 @@ namespace SwitchApps_Library
 
 
     [RunInstaller(true)]
-    public partial class Installer1 : Installer
+    public partial class Installer1 : Installer, IDisposable
     {
+        private Logger _logger;
+
+        private string _installedDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "SwitchApps"
+        );
+
         private string _loginUsername;
         private string _loginSID;
         private RegistryKey _usersSoftwareSubkey;
@@ -50,6 +59,15 @@ namespace SwitchApps_Library
 
         public Installer1()
         {
+            string logFile = Path.Combine(_installedDir, "log.txt");
+
+            _logger = new LoggerConfiguration()
+                .MinimumLevel.Verbose()
+                .WriteTo.File(logFile)
+                .CreateLogger();
+
+            _logger.Verbose("Installer started.");
+
             InitializeComponent();
 
             // Get the login username, not the account under which this process runs:
@@ -70,44 +88,50 @@ namespace SwitchApps_Library
                 .CreateSubKey(@"SwitchApps\Backup");
         }
 
+        //protected new void Dispose(bool disposing)
+        //{
+        //    _logger.Dispose();
+
+        //    base.Dispose(disposing);
+        //} 
+
 
 
         protected override void OnBeforeInstall(IDictionary savedState)
         {
+            _logger.Verbose("{MethodName} method started.", nameof(OnBeforeInstall));
+
             base.OnBeforeInstall(savedState);
 
             //this.LogSomeInfoIntoFile();
 
+            _logger.Verbose("Registry values backup started.");
             this.BackupRegValues();
+            _logger.Verbose("Registry values backup finished.");
 
+            _logger.Verbose("Registry values modification started.");
             this.ModifyRegValues();
+            _logger.Verbose("Registry values modification finished.");
 
-
-
-            //savedState.
-
-            //MessageBox.Show("lol");
-
-            //const string userRoot = "HKEY_CURRENT_USER";
-            //const string subkey = "Software\\SwitchApps02";
-            //const string keyName = userRoot + "\\" + subkey;
-            //string value = Registry.GetValue(keyName, "TestValue", "no value").;
-            //MessageBox.Show(value);
-
-            //Installer1.SetRegistry();
-
-            //this.CreateProcess();
+            _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeInstall));
         }
 
 
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
+            _logger.Verbose("{MethodName} method started.", nameof(OnBeforeUninstall));
+
             base.OnBeforeUninstall(savedState);
 
+            _logger.Verbose("Registry values restore started.");
             RestoreRegValues();
+            _logger.Verbose("Registry values restore finished.");
 
             _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
+            _logger.Verbose("Deleted the main registry's subtree SwitchApps.");
+
+            _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeUninstall));
         }
 
 
@@ -125,33 +149,42 @@ namespace SwitchApps_Library
 
         private void _BackupRegValue(RegistryItem registryItem)
         {
-            var key = _usersSoftwareSubkey
-                .OpenSubKey(registryItem.Path);
+            var key = _usersSoftwareSubkey.OpenSubKey(registryItem.Path);
 
             object value = key?.GetValue(registryItem.Name);
 
             if (value is null)
             {
                 _backupsSubkey.SetValue(registryItem.IsPresent_Name, 0, RegistryValueKind.DWord);
+                _logger.Verbose(
+                    "{RegistryItem_Name} not present in the registry. 0 written into the backup registry.",
+                    registryItem.CustomName
+                );
 
-                if (_backupsSubkey.GetValue(registryItem.Name) != null)
-                {
-                    _backupsSubkey.DeleteValue(registryItem.Name);
-                }
-                // If the Name exists inside the backup Key, remove it.
+                _backupsSubkey.DeleteValue(
+                    registryItem.CustomName,
+                    throwOnMissingValue: false
+                );
+                _logger.Verbose(
+                    "{RegistryItem_Name} deleted from the backup registry.",
+                    registryItem.CustomName
+                );
+                // If the Name exists inside the backup registry, remove it.
             }
             else
             {
                 _backupsSubkey.SetValue(registryItem.IsPresent_Name, 1, RegistryValueKind.DWord);
+                _logger.Verbose(
+                    "{RegistryItem_Name} present in the registry. 1 written into the backup registry.",
+                    registryItem.CustomName
+                );
 
-                if (registryItem.IsDefault)
-                {
-                    _backupsSubkey.SetValue(registryItem.CustomName, value, registryItem.ValueKind);
-                }
-                else
-                {
-                    _backupsSubkey.SetValue(registryItem.Name, value, registryItem.ValueKind);
-                }
+                _backupsSubkey.SetValue(registryItem.CustomName, value, registryItem.ValueKind);
+                _logger.Verbose(
+                    "{RegistryItem_Name} value {RegistryItem_Value} written into the backup registry.",
+                    registryItem.CustomName,
+                    value
+                );
             }
         }
 
@@ -176,6 +209,11 @@ namespace SwitchApps_Library
                     registryItem.Name,
                     registryItem.NewValue
                 );
+            _logger.Verbose(
+                "{RegistryItem_Name} value {RegistryItem_Value} written into the main registry.",
+                registryItem.CustomName,
+                registryItem.NewValue
+            );
         }
 
 
@@ -193,121 +231,115 @@ namespace SwitchApps_Library
 
         private void _RestoreRegValue(RegistryItem registryItem)
         {
-            int isPresent_int = (int)_backupsSubkey.GetValue(registryItem.IsPresent_Name);
+            bool DesiredValueWasntChanged;
+            object currentValue = _usersSoftwareSubkey
+                .CreateSubKey(registryItem.Path)
+                .GetValue(registryItem.Name);
+            if (registryItem.ValueKind == RegistryValueKind.DWord)
+            {
+                DesiredValueWasntChanged = (int)currentValue == (int)registryItem.NewValue;
+            }
+            else if (registryItem.ValueKind == RegistryValueKind.String)
+            {
+                DesiredValueWasntChanged = currentValue.ToString() == registryItem.NewValue.ToString();
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
+            }
+            _logger.Verbose(
+                "{RegistryItem_Name} current value {CurrentValue} and desired value {DesiredValue}. " +
+                    "Desired value wasn't changed: {DesiredValueWasntChanged}.",
+                registryItem.CustomName,
+                currentValue,
+                registryItem.NewValue,
+                DesiredValueWasntChanged
+            );
 
-            bool isPresent;
-            switch (isPresent_int)
+            if (DesiredValueWasntChanged == false)
+            {
+                _logger.Verbose("{RegistryItem_Name} left as is.", registryItem.CustomName);
+
+                return;
+            }
+
+            bool wasPresent;
+            int wasPresent_int = (int)_backupsSubkey.GetValue(registryItem.IsPresent_Name);
+            switch (wasPresent_int)
             {
                 case 1:
-                    isPresent = true;
+                    wasPresent = true;
                     break;
                 case 0:
-                    isPresent = false;
+                    wasPresent = false;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("Unexpected backup registry isPresent value.");
             }
+            _logger.Verbose(
+                "{RegistryItem_Name} was present in the main registry before the install: {WasPresent}.",
+                registryItem.CustomName,
+                wasPresent
+            );
 
-            if (isPresent)
+            if (wasPresent)
             {
-                object backupValue;
-                if (registryItem.IsDefault)
-                {
-                    backupValue = _backupsSubkey.GetValue(registryItem.CustomName);
-                }
-                else
-                {
-                    backupValue = _backupsSubkey.GetValue(registryItem.Name);
-                }
+                object backupValue = _backupsSubkey.GetValue(registryItem.CustomName);
 
-                object currentValue = _usersSoftwareSubkey
+                //object currentValue = _usersSoftwareSubkey
+                //    .CreateSubKey(registryItem.Path)
+                //    .GetValue(registryItem.Name);
+
+                //bool valueIsEqual;
+                //if (registryItem.ValueKind == RegistryValueKind.DWord)
+                //{
+                //    valueIsEqual = (int)currentValue == (int)backupValue;
+                //}
+                //else if (registryItem.ValueKind == RegistryValueKind.String)
+                //{
+                //    valueIsEqual = currentValue.ToString() == backupValue.ToString();
+                //}
+                //else
+                //{
+                //    throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
+                //}
+
+                //if (valueIsEqual)
+                //{
+                _usersSoftwareSubkey
                     .CreateSubKey(registryItem.Path)
-                    .GetValue(registryItem.Name);
-
-                bool valueIsEqual;
-                if (registryItem.ValueKind == RegistryValueKind.DWord)
-                {
-                    valueIsEqual = (int)currentValue == (int)backupValue;
-                }
-                else if (registryItem.ValueKind == RegistryValueKind.String)
-                {
-                    valueIsEqual = currentValue.ToString() == backupValue.ToString();
-                }
-                else
-                {
-                    throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
-                }
-
-                if (valueIsEqual)
-                {
-                    _usersSoftwareSubkey
-                        .CreateSubKey(registryItem.Path)
-                        .SetValue(registryItem.Name, backupValue, registryItem.ValueKind);
-                }
+                    .SetValue(registryItem.Name, backupValue, registryItem.ValueKind);
+                _logger.Verbose(
+                    "{RegistryItem_Name} value changed to {BackupValue} in the main registry.",
+                    registryItem.CustomName,
+                    backupValue
+                );
+                //}
             }
             else
             {
-                object currentValue = _usersSoftwareSubkey
-                    .CreateSubKey(registryItem.Path)
-                    .GetValue(registryItem.Name);
+                //object currentValue = _usersSoftwareSubkey
+                //    .CreateSubKey(registryItem.Path)
+                //    .GetValue(registryItem.Name);
 
-                if (currentValue == null)
-                {
-                    _usersSoftwareSubkey
-                        .CreateSubKey(registryItem.Path)
-                        .DeleteValue(registryItem.Name);
-                }
+                //if (currentValue == null)
+                //{
+                _usersSoftwareSubkey
+                    .CreateSubKey(registryItem.Path)
+                    .DeleteValue(registryItem.Name);
+                _logger.Verbose(
+                    "{RegistryItem_Name} name was deleted in the main registry.",
+                    registryItem.CustomName
+                );
+                //}
             }
         }
 
 
 
-        /*
-        <Component Id = "MsOfficeAdPopup_Reg" Guid="*" Permanent="yes">
-            <!--<Condition>
-                $(var.ModifySystemRegistry) = "true"
-            </Condition>-->
-
-            <RegistryKey Root = "HKCU"
-                            Key="Software\Classes\ms-officeapp\Shell\Open\Command"
-                            ForceCreateOnInstall="yes"
-                            ForceDeleteOnUninstall="no" >
-                <RegistryValue Type = "string" Value="rundll32" />
-            </RegistryKey>
-        </Component>
-
-        <Component Id = "ThumbnailPreviewSize_Reg" Guid="*" Permanent="yes">
-        <!--<Condition>
-            $(var.ModifySystemRegistry) = "true"
-        </Condition>-->
-
-        <RegistryKey Root = "HKCU"
-                        Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband"
-                        ForceCreateOnInstall="yes"
-                        ForceDeleteOnUninstall="no" >
-            <RegistryValue Name = "MinThumbSizePx" Type="integer" Value="800" />
-        </RegistryKey>
-        </Component>
-
-        <Component Id = "ThumbnailPreviewDelay_Reg" Guid="*" Permanent="yes">
-        <!--<Condition>
-            $(var.ModifySystemRegistry) = "true"
-        </Condition>-->
-
-        <RegistryKey Root = "HKCU"
-                        Key="Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-                        ForceCreateOnInstall="yes"
-                        ForceDeleteOnUninstall="no" >
-            <RegistryValue Name = "ExtendedUIHoverTime" Type="integer" Value="0" />
-        </RegistryKey>
-        </Component>
-        <!--This code make changes to the System Registry values on Install.-->
-        */
-
-
         private void LogSomeInfoIntoFile()
         {
-            string path = @"C:\_temp\01\Log.txt";
+            string path = @"C:\_temp\01\Log_manual.txt";
             var streamWriter = File.AppendText(path);
 
             streamWriter.WriteLine(DateTime.Now);
@@ -327,10 +359,15 @@ namespace SwitchApps_Library
 
             streamWriter.WriteLine("Login SID: " + loginSID);
 
+            // Get the execution directory:
+            streamWriter.WriteLine("Current directory: " + Environment.CurrentDirectory);
+            streamWriter.WriteLine("Installed directory: " + _installedDir);
+
             var softwareSubkey = Registry.Users
                 .OpenSubKey(loginSID)
                 .OpenSubKey("SOFTWARE");
 
+            /*
             var testValue = softwareSubkey
                 .OpenSubKey("SwitchApps02")
                 .GetValue("TestValue");
@@ -340,6 +377,7 @@ namespace SwitchApps_Library
                 .OpenSubKey(@"Microsoft\Windows\CurrentVersion\Explorer\Taskband")
                 .GetValue("MinThumbSizePx");
             streamWriter.WriteLine("ThumbnailPreviewSize: " + thumbnailPreviewSize);
+            */
 
             streamWriter.WriteLine();
 

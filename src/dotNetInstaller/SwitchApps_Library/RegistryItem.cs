@@ -7,7 +7,6 @@ namespace SwitchApps_Library
 {
     internal class RegistryItem
     {
-
         public string Path { get; set; }
 
         private string _name;
@@ -23,14 +22,32 @@ namespace SwitchApps_Library
                 {
                     return _name;
                 }
-            } 
+            }
             set
             {
                 _name = value;
             }
         }
 
-        public string CustomName { get; set; }
+        private string _customName;
+        public string CustomName
+        {
+            get
+            {
+                if (IsDefault)
+                {
+                    return _customName;
+                }
+                else
+                {
+                    return Name;
+                }
+            }
+            set
+            {
+                _customName = value;
+            }
+        }
 
         public string IsPresent_Name
         {
