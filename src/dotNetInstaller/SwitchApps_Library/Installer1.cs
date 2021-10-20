@@ -9,6 +9,8 @@ using System.Security.Principal;
 using Microsoft.Win32;
 using Serilog;
 using Serilog.Core;
+using Microsoft.Win32.TaskScheduler;
+using System.Windows;
 
 
 
@@ -88,13 +90,6 @@ namespace SwitchApps_Library
                 .CreateSubKey(@"SwitchApps\Backup");
         }
 
-        //protected new void Dispose(bool disposing)
-        //{
-        //    _logger.Dispose();
-
-        //    base.Dispose(disposing);
-        //} 
-
 
 
         protected override void OnBeforeInstall(IDictionary savedState)
@@ -105,6 +100,7 @@ namespace SwitchApps_Library
 
             //this.LogSomeInfoIntoFile();
 
+            /*
             _logger.Verbose("Registry values backup started.");
             this.BackupRegValues();
             _logger.Verbose("Registry values backup finished.");
@@ -112,9 +108,32 @@ namespace SwitchApps_Library
             _logger.Verbose("Registry values modification started.");
             this.ModifyRegValues();
             _logger.Verbose("Registry values modification finished.");
+            */
 
             _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeInstall));
         }
+
+
+
+        protected override void OnAfterInstall(IDictionary savedState)
+        {
+            _logger.Verbose("{MethodName} method started.", nameof(OnAfterInstall));
+
+            base.OnAfterInstall(savedState);
+
+            this.CreateTaskSchedulerTaskAndRun();
+
+            _logger.Verbose("{MethodName} method finished.", nameof(OnAfterInstall));
+        }
+
+
+
+        //public override void Uninstall(IDictionary savedState)
+        //{
+        //    MessageBox.Show("Hello");
+
+        //    base.Uninstall(savedState);
+        //}
 
 
 
@@ -122,14 +141,18 @@ namespace SwitchApps_Library
         {
             _logger.Verbose("{MethodName} method started.", nameof(OnBeforeUninstall));
 
+            this.DeleteTaskSchedulerTask();
+
             base.OnBeforeUninstall(savedState);
 
+            /*
             _logger.Verbose("Registry values restore started.");
             RestoreRegValues();
             _logger.Verbose("Registry values restore finished.");
 
             _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
             _logger.Verbose("Deleted the main registry's subtree SwitchApps.");
+            */
 
             _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeUninstall));
         }
@@ -218,6 +241,51 @@ namespace SwitchApps_Library
 
 
 
+        private void CreateTaskSchedulerTaskAndRun()
+        {
+            TaskDefinition td = TaskService.Instance.NewTask();
+            //td.RegistrationInfo.Description = "SwitchApps autostart";
+            td.Principal.UserId = _loginUsername;
+            td.Principal.LogonType = TaskLogonType.InteractiveToken;
+            td.Principal.RunLevel = TaskRunLevel.Highest;
+
+            LogonTrigger logonTrigger = new LogonTrigger();
+            logonTrigger.UserId = _loginUsername;
+            td.Triggers.Add(logonTrigger);
+
+            var pathToExe = Path.Combine(_installedDir, "SwitchApps.exe");
+            td.Actions.Add(new ExecAction(pathToExe));
+            td.Settings.Priority = System.Diagnostics.ProcessPriorityClass.RealTime;
+            td.Settings.AllowDemandStart = true;
+            td.Settings.AllowHardTerminate = true;
+            td.Settings.DisallowStartIfOnBatteries = false;
+            td.Settings.ExecutionTimeLimit = TimeSpan.Zero;
+            td.Settings.MultipleInstances = TaskInstancesPolicy.IgnoreNew;
+
+            var task = TaskService.Instance.RootFolder
+                .CreateFolder("SwitchApps", exceptionOnExists: false)
+                .RegisterTaskDefinition("SwitchApps autostart", td);
+
+            task.Run();
+        }
+
+
+
+        public void DeleteTaskSchedulerTask()
+        {
+            TaskService.Instance.RootFolder
+                .SubFolders.Where(f => f.Name == "SwitchApps")
+                .FirstOrDefault().Tasks.ToList().ForEach(task =>
+                {
+                    task.Stop();
+                    task.Folder.DeleteTask(task.Name);
+                });
+
+            TaskService.Instance.RootFolder.DeleteFolder("SwitchApps");
+        }
+
+
+
         private void RestoreRegValues()
         {
             _RestoreRegValue(_thumbnailPreviewSize);
@@ -286,26 +354,6 @@ namespace SwitchApps_Library
             {
                 object backupValue = _backupsSubkey.GetValue(registryItem.CustomName);
 
-                //object currentValue = _usersSoftwareSubkey
-                //    .CreateSubKey(registryItem.Path)
-                //    .GetValue(registryItem.Name);
-
-                //bool valueIsEqual;
-                //if (registryItem.ValueKind == RegistryValueKind.DWord)
-                //{
-                //    valueIsEqual = (int)currentValue == (int)backupValue;
-                //}
-                //else if (registryItem.ValueKind == RegistryValueKind.String)
-                //{
-                //    valueIsEqual = currentValue.ToString() == backupValue.ToString();
-                //}
-                //else
-                //{
-                //    throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
-                //}
-
-                //if (valueIsEqual)
-                //{
                 _usersSoftwareSubkey
                     .CreateSubKey(registryItem.Path)
                     .SetValue(registryItem.Name, backupValue, registryItem.ValueKind);
@@ -314,16 +362,9 @@ namespace SwitchApps_Library
                     registryItem.CustomName,
                     backupValue
                 );
-                //}
             }
             else
             {
-                //object currentValue = _usersSoftwareSubkey
-                //    .CreateSubKey(registryItem.Path)
-                //    .GetValue(registryItem.Name);
-
-                //if (currentValue == null)
-                //{
                 _usersSoftwareSubkey
                     .CreateSubKey(registryItem.Path)
                     .DeleteValue(registryItem.Name);
@@ -331,7 +372,6 @@ namespace SwitchApps_Library
                     "{RegistryItem_Name} name was deleted in the main registry.",
                     registryItem.CustomName
                 );
-                //}
             }
         }
 
@@ -367,58 +407,9 @@ namespace SwitchApps_Library
                 .OpenSubKey(loginSID)
                 .OpenSubKey("SOFTWARE");
 
-            /*
-            var testValue = softwareSubkey
-                .OpenSubKey("SwitchApps02")
-                .GetValue("TestValue");
-            streamWriter.WriteLine("TestValue: " + testValue);
-
-            var thumbnailPreviewSize = softwareSubkey
-                .OpenSubKey(@"Microsoft\Windows\CurrentVersion\Explorer\Taskband")
-                .GetValue("MinThumbSizePx");
-            streamWriter.WriteLine("ThumbnailPreviewSize: " + thumbnailPreviewSize);
-            */
-
             streamWriter.WriteLine();
 
             streamWriter.Close();
         }
-
-
-
-
-
-
-
-        /*
-        private static void SetRegistry()
-        {
-            const string userRoot = "HKEY_CURRENT_USER";
-            const string subkey = "Software\\SwitchApps01\\Backup01";
-            const string keyName = userRoot + "\\" + subkey;
-
-            Registry.SetValue(keyName, "TestValue", 1000);
-        }
-        */
-
-
-        /*
-        private void CreateProcess()
-        {
-            //MessageBox.Show(WindowsIdentity.GetCurrent().User.ToString());
-
-            //ProcessStartInfo process = new ProcessStartInfo("cmd dir");
-            //process.UseShellExecute = true;
-            //process.WorkingDirectory
-            //Process.Start(process);
-
-            ProcessStartInfo process = new ProcessStartInfo("Installer.EditRegistry.exe");
-            //process.Verb = "runas";
-            process.UseShellExecute = true;
-            process.WorkingDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\SwitchApps";
-            //MessageBox.Show(process.WorkingDirectory);
-            Process.Start(process);
-        }
-        */
     }
 }
