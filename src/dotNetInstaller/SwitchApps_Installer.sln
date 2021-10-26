@@ -7,8 +7,6 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SwitchApps_Installer", "Swi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwitchApps_Library", "SwitchApps_Library\SwitchApps_Library.csproj", "{897ACB5A-470F-40C7-8C25-3DC1A38E831A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Installer.EditRegistry", "Installer.EditRegistry\Installer.EditRegistry.csproj", "{3693C0C1-2F18-4512-983A-2FE9BBF5689A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{897ACB5A-470F-40C7-8C25-3DC1A38E831A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3693C0C1-2F18-4512-983A-2FE9BBF5689A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3693C0C1-2F18-4512-983A-2FE9BBF5689A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3693C0C1-2F18-4512-983A-2FE9BBF5689A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3693C0C1-2F18-4512-983A-2FE9BBF5689A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
