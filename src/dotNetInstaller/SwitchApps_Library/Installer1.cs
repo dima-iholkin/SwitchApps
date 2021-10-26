@@ -61,8 +61,9 @@ namespace SwitchApps_Library
 
         public Installer1()
         {
-            string logFile = Path.Combine(_installedDir, "log.txt");
+            //MessageBox.Show("Hello here");
 
+            string logFile = Path.Combine(_installedDir, "log.txt");
             _logger = new LoggerConfiguration()
                 .MinimumLevel.Verbose()
                 .WriteTo.File(logFile)
@@ -100,7 +101,6 @@ namespace SwitchApps_Library
 
             //this.LogSomeInfoIntoFile();
 
-            /*
             _logger.Verbose("Registry values backup started.");
             this.BackupRegValues();
             _logger.Verbose("Registry values backup finished.");
@@ -108,7 +108,6 @@ namespace SwitchApps_Library
             _logger.Verbose("Registry values modification started.");
             this.ModifyRegValues();
             _logger.Verbose("Registry values modification finished.");
-            */
 
             _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeInstall));
         }
@@ -145,14 +144,12 @@ namespace SwitchApps_Library
 
             base.OnBeforeUninstall(savedState);
 
-            /*
             _logger.Verbose("Registry values restore started.");
             RestoreRegValues();
             _logger.Verbose("Registry values restore finished.");
 
             _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
             _logger.Verbose("Deleted the main registry's subtree SwitchApps.");
-            */
 
             _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeUninstall));
         }

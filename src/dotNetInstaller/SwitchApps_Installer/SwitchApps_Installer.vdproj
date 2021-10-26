@@ -112,7 +112,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_AB8C042B6268451E9B5B4F1B61D0129C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_F7ADC4781BC22C50C55F959DEA9A796A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_BEE704213968689AF11AEE79A51854C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -137,18 +149,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_8B929C1C3B1A83723ABAA7D2E37DBE8A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_AB8C042B6268451E9B5B4F1B61D0129C"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BEE704213968689AF11AEE79A51854C0"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -633,7 +633,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SwitchApps.Installer"
         "ProductCode" = "8:{F3813B6F-3B4A-4C86-9EC2-5214641F338D}"
-        "PackageCode" = "8:{AAE6BCBC-060B-493A-BE6B-932E3CE40986}"
+        "PackageCode" = "8:{6FBD9E79-C77D-4B11-BDB1-8124B532FD78}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -767,6 +767,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_74B3C11F4A39464F932C25358C62B170"
+            {
+            "Name" = "8:SwitchApps"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:159"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_01BEE57B358E437FB972540137E8816D"
+            "Folder" = "8:_D989E85331BF4018BAA527CFFD7CEC27"
+            "WorkingFolder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Icon" = "8:_01BEE57B358E437FB972540137E8816D"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -904,7 +918,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:1"
+                            "Value" = "3:0"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }
