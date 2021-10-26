@@ -1,13 +1,16 @@
-﻿using System;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 
 
 
 namespace SwitchApps_Library
 {
-    internal class RegistryItem
+
+
+    public class RegistryItem
     {
         public string Path { get; set; }
+
+
 
         private string _name;
         public string Name
@@ -29,6 +32,8 @@ namespace SwitchApps_Library
             }
         }
 
+
+
         private string _customName;
         public string CustomName
         {
@@ -49,6 +54,8 @@ namespace SwitchApps_Library
             }
         }
 
+
+
         public string IsPresent_Name
         {
             get
@@ -64,9 +71,11 @@ namespace SwitchApps_Library
             }
         }
 
+
+
         public RegistryValueKind ValueKind { get; set; }
 
-        public object NewValue { get; set; }
+        public object DesiredValue { get; set; }
 
         public bool IsDefault { get; set; }
     }
