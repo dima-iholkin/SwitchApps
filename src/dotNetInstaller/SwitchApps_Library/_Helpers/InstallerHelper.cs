@@ -7,7 +7,7 @@ using Serilog.Core;
 
 
 
-namespace SwitchApps_Library
+namespace SwitchApps.Library
 {
 
 

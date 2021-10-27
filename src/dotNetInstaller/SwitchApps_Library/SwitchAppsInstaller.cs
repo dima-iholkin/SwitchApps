@@ -9,12 +9,12 @@ using Serilog.Core;
 
 
 
-namespace SwitchApps_Library
+namespace SwitchApps.Library
 {
 
 
     [RunInstaller(true)]
-    public partial class MyInstaller : Installer, IDisposable
+    public partial class SwitchAppsInstaller : Installer, IDisposable
     {
         private string _installedDir = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
@@ -23,9 +23,9 @@ namespace SwitchApps_Library
 
         private List<RegistryItem> registryItemsToEdit = new List<RegistryItem>
         {
-            MyRegistryItems.ThumbnailPreviewSize,
-            MyRegistryItems.ThumbnailPreviewDelay,
-            MyRegistryItems.MsOfficeAdPopup
+            SwitchAppsRegistryItems.ThumbnailPreviewSize,
+            SwitchAppsRegistryItems.ThumbnailPreviewDelay,
+            SwitchAppsRegistryItems.MsOfficeAdPopup
         };
 
         private string _loginUsername;
@@ -42,7 +42,7 @@ namespace SwitchApps_Library
 
 
 
-        public MyInstaller()
+        public SwitchAppsInstaller()
         {
             _logger = InstallerHelper.InitializeLogger(_installedDir);
 
@@ -79,48 +79,48 @@ namespace SwitchApps_Library
 
         public override void Commit(IDictionary savedState)
         {
-            _logger.Verbose("{MethodName} method started.", nameof(Commit));
+            _logger.Verbose("{MethodName} started.", nameof(Commit));
 
             base.Commit(savedState);
 
-            _logger.Verbose("Registry values backup started.");
+            _logger.Verbose("Start registry backup.");
 
             _registryMaker.BackupRegistry();
 
-            _logger.Verbose("Registry values backup finished.");
+            _logger.Verbose("Finish registry backup.");
 
-            _logger.Verbose("Registry values modification started.");
+            _logger.Verbose("Start registry modification.");
 
             _registryMaker.ModifyRegistry();
 
-            _logger.Verbose("Registry values modification finished.");
+            _logger.Verbose("Finish registry modification.");
 
             _taskSchedulerMaker.CreateTaskSchedulerTaskAndRun();
 
-            _logger.Verbose("{MethodName} method finished.", nameof(Commit));
+            _logger.Verbose("{MethodName} finished.", nameof(Commit));
         }
 
 
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
-            _logger.Verbose("{MethodName} method started.", nameof(OnBeforeUninstall));
+            _logger.Verbose("{MethodName} started.", nameof(OnBeforeUninstall));
 
             _taskSchedulerMaker.DeleteTaskSchedulerTask();
 
             base.OnBeforeUninstall(savedState);
 
-            _logger.Verbose("Registry values restore started.");
+            _logger.Verbose("Start registry restore.");
 
             _registryMaker.RestoreRegistry();
 
-            _logger.Verbose("Registry values restore finished.");
+            _logger.Verbose("Finish registry restore.");
 
             _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
 
-            _logger.Verbose("Deleted the main registry's subtree SwitchApps.");
+            _logger.Verbose("Deleted the registry subtree SwitchApps.");
 
-            _logger.Verbose("{MethodName} method finished.", nameof(OnBeforeUninstall));
+            _logger.Verbose("{MethodName} finished.", nameof(OnBeforeUninstall));
         }
     }
 }

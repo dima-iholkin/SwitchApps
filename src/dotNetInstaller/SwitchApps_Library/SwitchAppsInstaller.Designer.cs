@@ -1,6 +1,6 @@
-﻿namespace SwitchApps_Library
+﻿namespace SwitchApps.Library
 {
-    partial class MyInstaller
+    partial class SwitchAppsInstaller
     {
         /// <summary>
         /// Required designer variable.

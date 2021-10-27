@@ -2,7 +2,7 @@
 
 
 
-namespace SwitchApps_Library
+namespace SwitchApps.Library
 {
 
 

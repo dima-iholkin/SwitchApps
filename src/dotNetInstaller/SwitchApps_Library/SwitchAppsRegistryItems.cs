@@ -2,11 +2,11 @@
 
 
 
-namespace SwitchApps_Library
+namespace SwitchApps.Library
 {
 
 
-    public static class MyRegistryItems
+    public static class SwitchAppsRegistryItems
     {
         public static readonly RegistryItem ThumbnailPreviewSize = new RegistryItem
         {

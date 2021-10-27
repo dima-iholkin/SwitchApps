@@ -61,21 +61,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InstallerHelper.cs" />
-    <Compile Include="MyInstaller.cs">
+    <Compile Include="Registry\Exceptions\BackupRegistryRecordCorruptedException.cs" />
+    <Compile Include="Registry\_Helpers\RegistryHelper.cs" />
+    <Compile Include="_Helpers\InstallerHelper.cs" />
+    <Compile Include="SwitchAppsInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MyInstaller.Designer.cs">
-      <DependentUpon>MyInstaller.cs</DependentUpon>
+    <Compile Include="SwitchAppsInstaller.Designer.cs">
+      <DependentUpon>SwitchAppsInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyRegistryItems.cs" />
+    <Compile Include="SwitchAppsRegistryItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegistryItem.cs" />
-    <Compile Include="RegistryMaker.cs" />
-    <Compile Include="TaskSchedulerMaker.cs" />
+    <Compile Include="Registry\RegistryItem.cs" />
+    <Compile Include="Registry\RegistryMaker.cs" />
+    <Compile Include="TaskScheduler\TaskSchedulerMaker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

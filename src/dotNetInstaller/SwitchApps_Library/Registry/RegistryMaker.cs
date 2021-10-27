@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Win32;
 using Serilog.Core;
+using SwitchApps.Library.Registry._Helpers;
+using SwitchApps.Library.Registry.Exceptions;
 
-namespace SwitchApps_Library
+
+
+namespace SwitchApps.Library
 {
 
 
@@ -37,8 +38,101 @@ namespace SwitchApps_Library
         {
             _registryItemsToEdit.ForEach(ri =>
             {
-                BackupRegistryItem(ri);
+                bool _backupRegistryRecordIsPresent;
+                try
+                {
+                    _backupRegistryRecordIsPresent = BackupRegistryRecordIsPresent(ri);
+                }
+                catch (BackupRegistryRecordCorruptedException)
+                {
+                    _logger.Verbose("{RegistryItem_Name} backup registry corruption detected.", ri.CustomName);
+
+                    object mainValue = _softwareKey
+                        .CreateSubKey(ri.Path)
+                        .GetValue(ri.Name);
+
+                    bool mainValueEqualsDesired = RegistryHelper.ValuesEqual(
+                        mainValue,
+                        ri.DesiredValue,
+                        ri.ValueKind
+                    );
+
+                    _logger.Verbose(
+                        "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
+                        ri.CustomName,
+                        mainValue,
+                        mainValueEqualsDesired
+                    );
+
+                    if (mainValueEqualsDesired)
+                    {
+                        RegistryHelper.RestoreDefaultValue(
+                            ri,
+                            _softwareKey
+                        );
+
+                        _logger.Verbose(
+                            "{RegistryItem_Name} defaults restored - name deleted.",
+                            ri.CustomName
+                        );
+                    }
+                    else
+                    {
+                        _logger.Verbose("{RegistryItem_Name} main value left untouched.", ri.CustomName);
+
+                        return;
+                    }
+
+                    _backupRegistryRecordIsPresent = false;
+                }
+
+                _logger.Verbose(
+                    "{RegistryItem_Name} needs initialization: {BackupRegistryRecordIsPresent}",
+                    ri.Name,
+                    _backupRegistryRecordIsPresent
+                );
+
+                if (_backupRegistryRecordIsPresent == false)
+                {
+                    BackupRegistryItem(ri);
+                }
             });
+        }
+
+
+
+        private bool BackupRegistryRecordIsPresent(RegistryItem registryItem)
+        {
+            var isPresent = _backupKey.GetValue(registryItem.IsPresent_Name);
+
+            if (isPresent == null)
+            {
+                return false;
+            }
+
+            if ((int)isPresent == 0)
+            {
+                return true;
+            }
+
+            if ((int)isPresent == 1)
+            {
+                var backupValue = _backupKey.GetValue(registryItem.Name);
+
+                if (backupValue == null)
+                {
+                    throw new BackupRegistryRecordCorruptedException();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+
+            throw new BackupRegistryRecordCorruptedException();
+            // Normally isPresent value can be only 0, 1 or null (when not fould).
+            // Meaning if the code got here, something probably had become incorrect
+            // and needs reinitializing.
         }
 
 
@@ -53,7 +147,7 @@ namespace SwitchApps_Library
             {
                 _backupKey.SetValue(registryItem.IsPresent_Name, 0, RegistryValueKind.DWord);
                 _logger.Verbose(
-                    "{RegistryItem_Name} not present in the registry. 0 written into the backup registry.",
+                    "{RegistryItem_Name} not present in the main registry. 0 written into the backup registry.",
                     registryItem.CustomName
                 );
 
@@ -126,36 +220,26 @@ namespace SwitchApps_Library
 
         private void RestoreRegistryItem(RegistryItem registryItem)
         {
-            bool DesiredValueWasUnchanged;
-            object currentValue = _softwareKey
+            object mainValue = _softwareKey
                 .CreateSubKey(registryItem.Path)
                 .GetValue(registryItem.Name);
 
-            if (registryItem.ValueKind == RegistryValueKind.DWord)
-            {
-                DesiredValueWasUnchanged = (int)currentValue == (int)registryItem.DesiredValue;
-            }
-            else if (registryItem.ValueKind == RegistryValueKind.String)
-            {
-                DesiredValueWasUnchanged = currentValue.ToString() == registryItem.DesiredValue.ToString();
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException($"Unexpected RegistryValueKind for {registryItem.Name}.");
-            }
-
-            _logger.Verbose(
-                "{RegistryItem_Name} current value {CurrentValue} and desired value {DesiredValue}. " +
-                    "Desired value wasn't changed: {DesiredValueWasntChanged}.",
-                registryItem.CustomName,
-                currentValue,
+            bool mainValueEqualsDesired = RegistryHelper.ValuesEqual(
+                mainValue,
                 registryItem.DesiredValue,
-                DesiredValueWasUnchanged
+                registryItem.ValueKind
             );
 
-            if (DesiredValueWasUnchanged == false)
+            _logger.Verbose(
+                "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
+                registryItem.CustomName,
+                mainValue,
+                mainValueEqualsDesired
+            );
+
+            if (mainValueEqualsDesired == false)
             {
-                _logger.Verbose("{RegistryItem_Name} left as is.", registryItem.CustomName);
+                _logger.Verbose("{RegistryItem_Name} main value left untouched.", registryItem.CustomName);
 
                 return;
             }
@@ -196,12 +280,13 @@ namespace SwitchApps_Library
             }
             else
             {
-                _softwareKey
-                    .CreateSubKey(registryItem.Path)
-                    .DeleteValue(registryItem.Name);
+                RegistryHelper.RestoreDefaultValue(
+                    registryItem,
+                    _softwareKey
+                );
 
                 _logger.Verbose(
-                    "{RegistryItem_Name} name was deleted in the main registry.",
+                    "{RegistryItem_Name} was deleted in the main registry.",
                     registryItem.CustomName
                 );
             }

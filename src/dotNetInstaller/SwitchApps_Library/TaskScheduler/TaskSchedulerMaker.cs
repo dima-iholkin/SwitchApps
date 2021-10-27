@@ -4,7 +4,9 @@ using System.Linq;
 using Microsoft.Win32.TaskScheduler;
 using Serilog.Core;
 
-namespace SwitchApps_Library
+
+
+namespace SwitchApps.Library
 {
 
 
