@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Registry\Exceptions\BackupRegistryRecordCorruptedException.cs" />
+    <Compile Include="Registry\Extensions\RegistryItemExtensions.cs" />
     <Compile Include="Registry\_Helpers\RegistryHelper.cs" />
     <Compile Include="_Helpers\InstallerHelper.cs" />
     <Compile Include="SwitchAppsInstaller.cs">

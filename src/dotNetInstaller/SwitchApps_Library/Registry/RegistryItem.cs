@@ -2,7 +2,7 @@
 
 
 
-namespace SwitchApps.Library
+namespace SwitchApps.Library.Registry
 {
 
 

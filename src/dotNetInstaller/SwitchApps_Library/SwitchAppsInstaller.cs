@@ -6,6 +6,7 @@ using System.Configuration.Install;
 using System.IO;
 using Microsoft.Win32;
 using Serilog.Core;
+using SwitchApps.Library.Registry;
 
 
 
@@ -54,7 +55,7 @@ namespace SwitchApps.Library
 
             _loginSID = InstallerHelper.GetLoginSID(_loginUsername);
 
-            _usersSoftwareSubkey = Registry.Users
+            _usersSoftwareSubkey = Microsoft.Win32.Registry.Users
                 .CreateSubKey(_loginSID)
                 .CreateSubKey("SOFTWARE");
 
