@@ -89,26 +89,19 @@ namespace SwitchApps.Library.Registry
         {
             _registryItemsToEdit.ForEach(ri =>
             {
-                ModifyRegistryItem(ri);
-            });
-        }
+                _softwareKey
+                    .CreateSubKey(ri.Path)
+                    .SetValue(
+                        ri.Name,
+                        ri.DesiredValue
+                    );
 
-
-
-        private void ModifyRegistryItem(RegistryItem registryItem)
-        {
-            _softwareKey
-                .CreateSubKey(registryItem.Path)
-                .SetValue(
-                    registryItem.Name,
-                    registryItem.DesiredValue
+                _logger.Verbose(
+                    "{RegistryItem_Name} value {RegistryItem_Value} written into the main registry.",
+                    ri.CustomName,
+                    ri.DesiredValue
                 );
-
-            _logger.Verbose(
-                "{RegistryItem_Name} value {RegistryItem_Value} written into the main registry.",
-                registryItem.CustomName,
-                registryItem.DesiredValue
-            );
+            });
         }
 
 
@@ -117,80 +110,73 @@ namespace SwitchApps.Library.Registry
         {
             _registryItemsToEdit.ForEach(ri =>
             {
-                RestoreRegistryItem(ri);
+                object mainValue = _softwareKey
+                    .CreateSubKey(ri.Path)
+                    .GetValue(ri.Name);
+
+                bool mainValueEqualsDesired = ri.MainValueEqualsDesiredValue(mainValue);
+
+                _logger.Verbose(
+                    "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
+                    ri.CustomName,
+                    mainValue,
+                    mainValueEqualsDesired
+                );
+
+                if (mainValueEqualsDesired == false)
+                {
+                    _logger.Verbose("{RegistryItem_Name} main value left untouched.", ri.CustomName);
+
+                    return;
+                }
+
+                bool wasPresent;
+                int wasPresent_int = (int)_backupKey.GetValue(ri.IsPresent_Name);
+                switch (wasPresent_int)
+                {
+                    case 1:
+                        wasPresent = true;
+                        break;
+                    case 0:
+                        wasPresent = false;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("Unexpected backup registry isPresent value.");
+                }
+
+                _logger.Verbose(
+                    "{RegistryItem_Name} was present in the main registry before the install: {WasPresent}.",
+                    ri.CustomName,
+                    wasPresent
+                );
+
+                if (wasPresent)
+                {
+                    object backupValue = _backupKey.GetValue(ri.CustomName);
+
+                    _softwareKey
+                        .CreateSubKey(ri.Path)
+                        .SetValue(ri.Name, backupValue, ri.ValueKind);
+
+                    _logger.Verbose(
+                        "{RegistryItem_Name} value changed to {BackupValue} in the main registry.",
+                        ri.CustomName,
+                        backupValue
+                    );
+                }
+                else
+                {
+                    ri.ResetMainEntryToSystemDefaultValue(
+                        _softwareKey,
+                        _logger
+                    );
+
+                    _logger.Verbose(
+                        "{RegistryItem_Name} was deleted in the main registry.",
+                        ri.CustomName
+                    );
+                }
             });
-        }
-
-
-
-        private void RestoreRegistryItem(RegistryItem registryItem)
-        {
-            object mainValue = _softwareKey
-                .CreateSubKey(registryItem.Path)
-                .GetValue(registryItem.Name);
-
-            bool mainValueEqualsDesired = registryItem.MainValueEqualsDesiredValue(mainValue);
-
-            _logger.Verbose(
-                "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
-                registryItem.CustomName,
-                mainValue,
-                mainValueEqualsDesired
-            );
-
-            if (mainValueEqualsDesired == false)
-            {
-                _logger.Verbose("{RegistryItem_Name} main value left untouched.", registryItem.CustomName);
-
-                return;
-            }
-
-            bool wasPresent;
-            int wasPresent_int = (int)_backupKey.GetValue(registryItem.IsPresent_Name);
-            switch (wasPresent_int)
-            {
-                case 1:
-                    wasPresent = true;
-                    break;
-                case 0:
-                    wasPresent = false;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("Unexpected backup registry isPresent value.");
-            }
-
-            _logger.Verbose(
-                "{RegistryItem_Name} was present in the main registry before the install: {WasPresent}.",
-                registryItem.CustomName,
-                wasPresent
-            );
-
-            if (wasPresent)
-            {
-                object backupValue = _backupKey.GetValue(registryItem.CustomName);
-
-                _softwareKey
-                    .CreateSubKey(registryItem.Path)
-                    .SetValue(registryItem.Name, backupValue, registryItem.ValueKind);
-
-                _logger.Verbose(
-                    "{RegistryItem_Name} value changed to {BackupValue} in the main registry.",
-                    registryItem.CustomName,
-                    backupValue
-                );
-            }
-            else
-            {
-                registryItem.ResetMainEntryToSystemDefaultValue(
-                    _softwareKey,
-                    _logger
-                );
-
-                _logger.Verbose(
-                    "{RegistryItem_Name} was deleted in the main registry.",
-                    registryItem.CustomName
-                );
-            }
         }
     }
 }
