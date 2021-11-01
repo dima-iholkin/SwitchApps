@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
-using System.IO;
-using Microsoft.Win32;
-using Serilog.Core;
+using Serilog;
+using SwitchApps.Library._Helpers;
 using SwitchApps.Library.Registry;
+using SwitchApps.Library.Registry.Model;
+using SwitchApps.Library.Registry.Singletons;
 
 
 
@@ -17,111 +18,56 @@ namespace SwitchApps.Library
     [RunInstaller(true)]
     public partial class SwitchAppsInstaller : Installer, IDisposable
     {
-        private string _installedDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SwitchApps"
-        );
-
-        private List<RegistryItem> registryItemsToEdit = new List<RegistryItem>
-        {
-            SwitchAppsRegistryItems.ThumbnailPreviewSize,
-            SwitchAppsRegistryItems.ThumbnailPreviewDelay,
-            SwitchAppsRegistryItems.MsOfficeAdPopup
-        };
-
-        private string _loginUsername;
-        private string _loginSID;
-
-        private RegistryKey _usersSoftwareSubkey;
-        private RegistryKey _backupsSubkey;
-
         private RegistryMaker _registryMaker;
-
         private TaskSchedulerMaker _taskSchedulerMaker;
-
-        private Logger _logger;
-
-
 
         public SwitchAppsInstaller()
         {
-            _logger = InstallerHelper.InitializeLogger(_installedDir);
-
-            _logger.Verbose("Installer started.");
+            InstallerHelper.InitializeStaticLogger(InstallerHelper.InstalledDir);
 
             InitializeComponent();
 
-            _loginUsername = InstallerHelper.GetLoginUsername();
+            List<RegistryItem> registryItems = new List<RegistryItem>
+            {
+                SwitchAppsRegistryItems.ThumbnailPreviewSize,
+                SwitchAppsRegistryItems.ThumbnailPreviewDelay,
+                SwitchAppsRegistryItems.MsOfficeAdPopup
+            };
+            _registryMaker = new RegistryMaker(registryItems);
 
-            _loginSID = InstallerHelper.GetLoginSID(_loginUsername);
-
-            _usersSoftwareSubkey = Microsoft.Win32.Registry.Users
-                .CreateSubKey(_loginSID)
-                .CreateSubKey("SOFTWARE");
-
-            _backupsSubkey = _usersSoftwareSubkey
-                .CreateSubKey(@"SwitchApps\Backup");
-
-            _registryMaker = new RegistryMaker(
-                _usersSoftwareSubkey,
-                _backupsSubkey,
-                registryItemsToEdit,
-                _logger
-            );
-
-            _taskSchedulerMaker = new TaskSchedulerMaker(
-                _installedDir,
-                _loginUsername,
-                _logger
-            );
+            _taskSchedulerMaker = new TaskSchedulerMaker();
         }
 
 
 
         public override void Commit(IDictionary savedState)
         {
-            _logger.Verbose("{MethodName} started.", nameof(Commit));
-
-            base.Commit(savedState);
-
-            _logger.Verbose("Start registry backup.");
-
             _registryMaker.BackupRegistry();
-
-            _logger.Verbose("Finish registry backup.");
-
-            _logger.Verbose("Start registry modification.");
+            Log.Logger.Verbose("Finished registry backup.");
 
             _registryMaker.ModifyRegistry();
+            Log.Logger.Verbose("Finished registry modification.");
 
-            _logger.Verbose("Finish registry modification.");
+            _taskSchedulerMaker.CreateTaskSchedulerTask().Run();
+            Log.Logger.Verbose("Created scheduled task.");
 
-            _taskSchedulerMaker.CreateTaskSchedulerTaskAndRun();
-
-            _logger.Verbose("{MethodName} finished.", nameof(Commit));
+            base.Commit(savedState);
         }
 
 
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
-            _logger.Verbose("{MethodName} started.", nameof(OnBeforeUninstall));
-
             _taskSchedulerMaker.DeleteTaskSchedulerTask();
-
-            base.OnBeforeUninstall(savedState);
-
-            _logger.Verbose("Start registry restore.");
+            Log.Logger.Verbose("Deleted scheduled task.");
 
             _registryMaker.RestoreRegistry();
+            Log.Logger.Verbose("Finished registry restore.");
 
-            _logger.Verbose("Finish registry restore.");
+            SoftwareSubkey.Instance.DeleteSubKeyTree("SwitchApps");
+            Log.Logger.Verbose("Deleted registry subtree SwitchApps.");
 
-            _usersSoftwareSubkey.DeleteSubKeyTree("SwitchApps");
-
-            _logger.Verbose("Deleted the registry subtree SwitchApps.");
-
-            _logger.Verbose("{MethodName} finished.", nameof(OnBeforeUninstall));
+            base.OnBeforeUninstall(savedState);
         }
     }
 }

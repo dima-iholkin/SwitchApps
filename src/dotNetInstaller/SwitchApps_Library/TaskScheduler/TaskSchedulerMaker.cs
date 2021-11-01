@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.Win32.TaskScheduler;
-using Serilog.Core;
+using SwitchApps.Library._Helpers;
 
 
 
@@ -12,37 +12,23 @@ namespace SwitchApps.Library
 
     public class TaskSchedulerMaker
     {
-        private readonly string _installedDir;
-        private readonly string _loginUsername;
-
-        private readonly Logger _logger;
-
-        public TaskSchedulerMaker(
-            string installedDir,
-            string loginUsername,
-            Logger logger
-        )
-        {
-            _installedDir = installedDir;
-            _loginUsername = loginUsername;
-            _logger = logger;
-        }
+        public TaskSchedulerMaker() { }
 
 
 
-        public void CreateTaskSchedulerTaskAndRun()
+        public Task CreateTaskSchedulerTask()
         {
             TaskDefinition td = TaskService.Instance.NewTask();
 
-            td.Principal.UserId = _loginUsername;
+            td.Principal.UserId = InstallerHelper.LoginUsername;
             td.Principal.LogonType = TaskLogonType.InteractiveToken;
             td.Principal.RunLevel = TaskRunLevel.Highest;
 
             LogonTrigger logonTrigger = new LogonTrigger();
-            logonTrigger.UserId = _loginUsername;
+            logonTrigger.UserId = InstallerHelper.LoginUsername;
             td.Triggers.Add(logonTrigger);
 
-            var pathToExe = Path.Combine(_installedDir, "SwitchApps.exe");
+            var pathToExe = Path.Combine(InstallerHelper.InstalledDir, "SwitchApps.exe");
             td.Actions.Add(new ExecAction(pathToExe));
             td.Settings.Priority = System.Diagnostics.ProcessPriorityClass.RealTime;
             td.Settings.AllowDemandStart = true;
@@ -55,7 +41,7 @@ namespace SwitchApps.Library
                 .CreateFolder("SwitchApps", exceptionOnExists: false)
                 .RegisterTaskDefinition("SwitchApps autostart", td);
 
-            task.Run();
+            return task;
         }
 
 
