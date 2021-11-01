@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Win32;
-using OneOf;
-using OneOf.Types;
 using Serilog;
 using Serilog.Core;
 using SwitchApps.Library.Registry.Exceptions;
 using SwitchApps.Library.Registry.Model;
 using SwitchApps.Library.Registry.Singletons;
+
+
 
 namespace SwitchApps.Library.Registry.Extensions
 {
@@ -14,203 +14,245 @@ namespace SwitchApps.Library.Registry.Extensions
 
     public static class RegistryItemExtensions
     {
-        //public static object GetMainValue(
-        //    this RegistryItem ri,
-        //    RegistryKey softwareSubkey
-        //)
-        //{
-        //    using (var itemSubkey = softwareSubkey.CreateSubKey(ri.MainEntryPath))
-        //    {
-        //        return itemSubkey.GetValue(ri.MainEntryName);
-        //    }
-        //}
+        private static readonly Logger _logger = (Logger)Log.Logger;
 
 
 
-        public static OneOf<int, string, NotFound> GetMainValue(
-            this RegistryItem ri,
-            RegistryKey softwareSubkey
-        )
+        public static RegistryItemValue GetMainValue(this RegistryItem ri)
         {
             object _mainValueObj;
-            using (var itemSubkey = softwareSubkey.CreateSubKey(ri.MainEntryPath))
+            using (RegistryKey itemSubkey = SoftwareSubkey.Instance.CreateSubKey(ri.MainEntryPath))
             {
                 _mainValueObj = itemSubkey.GetValue(ri.MainEntryName);
             };
+            // Using CreateSubKey() instead of OpenSubKey() just to avoid a possible null result.
 
-            switch (_mainValueObj)
+            try
             {
-                case String s:
-                    return s;
-                case Int32 i:
-                    return i;
-                case null:
-                    return new NotFound();
-                default:
-                    throw new Exception(
-                        $"Unexpected value {_mainValueObj} from the main registry entry {nameof(ri.BackupEntryName)}."
-                    );
-            };
-        }
-
-
-
-        public static bool MainValueEqualsDesired(
-            this RegistryItem ri,
-            RegistryKey softwareSubkey
-        )
-        {
-            object mainValue = ri.GetMainValue(softwareSubkey);
-
-            return mainValue.ValueEquals(
-                ri.DesiredValue,
-                ri.GetValueKind()
-            );
-        }
-
-
-
-        public static bool MainValueEqualsDesiredValue(
-            this RegistryItem ri,
-            object mainValue
-        )
-        {
-            return mainValue.ValueEquals(
-                ri.DesiredValue,
-                ri.GetValueKind()
-            );
-        }
-
-
-
-        public static bool MainValueEqualsDesiredOrNull(
-            this RegistryItem ri,
-            RegistryKey softwareSubkey
-        )
-        {
-            object mainValue = ri.GetMainValue(softwareSubkey);
-
-            if (mainValue == null)
-            {
-                return true;
+                return _mainValueObj.ConvertToRegistryItemValue();
             }
-
-            return mainValue.ValueEquals(
-                ri.DesiredValue,
-                ri.GetValueKind()
-            );
-        }
-
-
-
-        public static void RestoreDefaultValue(
-            this RegistryItem ri,
-            RegistryKey softwareSubkey
-        )
-        {
-            using (var itemSubkey = softwareSubkey.CreateSubKey(ri.MainEntryPath))
+            catch (InvalidCastException ex)
             {
-                itemSubkey.DeleteValue(
-                    ri.MainEntryName,
-                    throwOnMissingValue: false
+                throw new InvalidCastException(
+                    $"Unexpected value {_mainValueObj} from the {nameof(ri.BackupEntryName)} main entry.",
+                    ex
                 );
             }
         }
 
 
 
-        public static bool ValueEquals(
-            this object obj1,
-            object obj2,
-            RegistryValueKind registryValueKind
-        )
+        public static bool? GetBackupWasPresentValue(this RegistryItem ri)
         {
-            switch (registryValueKind)
+            object _valueObj = BackupSubkey.Instance.GetValue(ri.GetBackupEntry_WasPresentName);
+            if (_valueObj == null)
             {
-                case RegistryValueKind.String:
-                    return obj1.ToString() == obj2.ToString();
-                case RegistryValueKind.DWord:
-                    return (int)obj1 == (int)obj2;
-                default:
-                    throw new ArgumentException("Expected only String and DWord values.");
+                return null;
+                // If the backup entry is not fount.
+            }
+
+            try
+            {
+                int _valueInt = (int)_valueObj;
+                return _valueInt.ConvertToBool();
+            }
+            catch (InvalidCastException)
+            {
+                _logger.Warning(
+                    "{EntryName} WasPresent entry's expected value's type is Int32, not type {ValueObjType}.",
+                    ri.BackupEntryName,
+                    _valueObj.GetType()
+                );
+                throw new BackupRegistryRecordCorruptedException();
+                // If the valueObj cannot be converted to int.
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                _logger.Warning(
+                    "{EntryName} WasPresent entry's expected values are 0 or 1, not {ValueInt}." +
+                        "the actual value was .",
+                    ri.BackupEntryName,
+                    (int)_valueObj
+                );
+                throw new BackupRegistryRecordCorruptedException();
+                // if the valueInt cannot be converted to bool.
             }
         }
 
 
-        /*
-        public static bool BackupEntryExists(
-            this RegistryItem registryItem,
-            RegistryKey backupSubkey,
-            Logger logger
+
+        public static RegistryItemValue GetBackupValue(this RegistryItem ri)
+        {
+            try
+            {
+                return BackupSubkey.Instance
+                    .GetValue(ri.BackupEntryName)
+                    .ConvertToRegistryItemValue();
+            }
+            catch (Exception)
+            {
+                throw new BackupRegistryRecordCorruptedException();
+            }
+        }
+
+
+
+        public static void EditMainEntry(
+            this RegistryItem ri,
+            RegistryItemValue value
         )
         {
-            bool? mainEntryWasPresent = registryItem.GetWasPresentValue(
-                backupSubkey,
-                logger
+            using (var entrySubkey = SoftwareSubkey.Instance.CreateSubKey(ri.MainEntryPath))
+            {
+                if (value == null)
+                {
+                    entrySubkey.DeleteValue(ri.MainEntryName);
+                    return;
+                }
+
+                entrySubkey.SetValue(ri.MainEntryName, value.Value);
+            }
+        }
+
+
+
+        public static bool ValueEquals(
+            this RegistryItemValue obj1,
+            RegistryItemValue obj2
+        )
+        {
+            if (obj1.Value.GetType() != obj2.Value.GetType())
+            {
+                throw new Exception("Incompatible types compared.");
+            }
+
+            return obj1.Equals(obj2);
+        }
+
+
+
+        public static void RestoreFromBackupValue(this RegistryItem registryItem)
+        {
+            RegistryItemValue mainValue = registryItem.GetMainValue();
+            if (mainValue == null)
+            {
+                _logger.Verbose(
+                    "{EntryName} main value null left as is.",
+                    registryItem.BackupEntryName
+                );
+                return;
+                // If the current main value is not found,
+                // it must had been changed after the install by somebody,
+                // therefore leave it as is.
+            }
+
+            bool mainValueEqualsDesired = registryItem.DesiredValue.ValueEquals(mainValue);
+            _logger.Verbose(
+                "{EntryName} main value {MainValue} equals the desired value {DesiredValue} " +
+                    ": {MainValueEqualsDesired}.",
+                registryItem.BackupEntryName,
+                mainValue,
+                registryItem.DesiredValue,
+                mainValueEqualsDesired
             );
 
-            //object _mainEntryWasPresentObj = backupSubkey.GetValue(registryItem.GetBackupEntry_WasPresentName);
-            //if (_mainEntryWasPresentObj == null)
-            //{
-            //    return false;
-            //}
-            //// If the backup entry not fount.
-
-            //int _mainEntryWasPresentInt;
-            //try
-            //{
-            //    _mainEntryWasPresentInt = (int)_mainEntryWasPresentObj;
-            //}
-            //catch (InvalidCastException)
-            //{
-            //    logger.Warning(
-            //        "{RegistryEntryName} IsPresent backup entry wasn't an Integer with value {BackupEntryValue}.",
-            //        registryItem.MainEntryName,
-            //        _mainEntryWasPresentObj.ToString()
-            //    );
-
-            //    throw new BackupRegistryRecordCorruptedException();
-            //}
-
-            //bool mainEntryWasPresent;
-            //try
-            //{
-            //    mainEntryWasPresent = _mainEntryWasPresentInt.ConvertToBool();
-            //}
-            //catch (ArgumentOutOfRangeException)
-            //{
-            //    logger.Warning(
-            //            "{RegistryEntryName} IsPresent backup entry was not 0 or 1 with value {BackupEntryValue}.",
-            //            registryItem.MainEntryName,
-            //            _mainEntryWasPresentInt
-            //        );
-
-            //    throw new BackupRegistryRecordCorruptedException();
-            //}
-
-            if (mainEntryWasPresent == null)
+            if (mainValueEqualsDesired)
             {
-
+                registryItem.EditMainEntry(registryItem.GetBackupValue());
+                _logger.Verbose(
+                    "{EntryName} restored from backup value {BackupValue} restored.",
+                    registryItem.BackupEntryName,
+                    registryItem.GetBackupValue()
+                );
             }
-
-            if (mainEntryWasPresent.Value == true)
+            else
             {
-                object backupEntryValue = backupSubkey.GetValue(registryItem.MainEntryName);
+                _logger.Verbose("{EntryName} main value {MainValue} left as is.", registryItem.BackupEntryName);
+                return;
+            }
+        }
 
-                if (backupEntryValue == null)
+
+
+        private static void RestoreFromSystemDefaultValue(this RegistryItem ri)
+        {
+            using (var itemSubkey = SoftwareSubkey.Instance.CreateSubKey(ri.MainEntryPath))
+            {
+                if (ri.SystemDefaultValue == null)
                 {
-                    logger.Warning(
-                        "{RegistryEntryName} Value backup entry was not found.",
-                        registryItem.MainEntryName
+                    itemSubkey.DeleteValue(
+                        ri.MainEntryName,
+                        throwOnMissingValue: false
                     );
 
-                    throw new BackupRegistryRecordCorruptedException();
+                    return;
                 }
-            }
 
-            return true;
+                itemSubkey.SetValue(ri.MainEntryName, ri.SystemDefaultValue.Value);
+            }
         }
-        */
+
+
+
+        public static void CreateBackupEntry(this RegistryItem ri)
+        {
+            using (RegistryKey itemSubkey = SoftwareSubkey.Instance.OpenSubKey(ri.MainEntryPath))
+            {
+                object value = itemSubkey?.GetValue(ri.MainEntryName);
+                ri.CreateBackupEntry(value);
+            }
+        }
+
+
+
+        public static void CreateBackupEntry(
+            this RegistryItem ri,
+            object backupValue
+        )
+        {
+            if (backupValue == null)
+            {
+                BackupSubkey.Instance.SetValue(ri.GetBackupEntry_WasPresentName, 0, RegistryValueKind.DWord);
+                _logger.Verbose(
+                    "{RegistryItem_Name} not present in the main registry. 0 written into the backup registry.",
+                    ri.BackupEntryName
+                );
+
+                BackupSubkey.Instance.DeleteValue(
+                    ri.BackupEntryName,
+                    throwOnMissingValue: false
+                );
+                _logger.Verbose(
+                    "{RegistryItem_Name} deleted from the backup registry.",
+                    ri.BackupEntryName
+                );
+                // If the Name exists inside the backup registry, remove it.
+            }
+            else
+            {
+                BackupSubkey.Instance.SetValue(
+                    ri.GetBackupEntry_WasPresentName,
+                    1,
+                    RegistryValueKind.DWord
+                );
+                _logger.Verbose(
+                    "{RegistryItem_Name} present in the registry. 1 written into the backup registry.",
+                    ri.BackupEntryName
+                );
+
+                BackupSubkey.Instance.SetValue(
+                    ri.BackupEntryName,
+                    backupValue,
+                    ri.GetValueKind()
+                );
+                _logger.Verbose(
+                    "{RegistryItem_Name} value {RegistryItem_Value} written into the backup registry.",
+                    ri.BackupEntryName,
+                    backupValue
+                );
+            }
+        }
+
 
 
         private static bool ConvertToBool(this int _int)
@@ -230,146 +272,21 @@ namespace SwitchApps.Library.Registry.Extensions
 
 
 
-        public static void ResetMainEntryToSystemDefaultValue(this RegistryItem registryItem)
+        private static RegistryItemValue ConvertToRegistryItemValue(this object valueObj)
         {
-            Log.Logger.Verbose("{RegistryItem_Name} backup registry corruption detected.", registryItem.BackupEntryName);
-
-            object mainValue = registryItem.GetMainValue(SoftwareSubkey.Instance);
-
-            bool mainValueEqualsDesired = registryItem.MainValueEqualsDesired(SoftwareSubkey.Instance);
-
-            Log.Logger.Verbose(
-                "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
-                registryItem.BackupEntryName,
-                mainValue,
-                mainValueEqualsDesired
-            );
-
-            if (mainValueEqualsDesired)
+            switch (valueObj)
             {
-                registryItem.RestoreDefaultValue(SoftwareSubkey.Instance);
-
-                Log.Logger.Verbose(
-                    "{RegistryItem_Name} defaults restored - name deleted.",
-                    registryItem.BackupEntryName
-                );
-            }
-            else
-            {
-                Log.Logger.Verbose("{RegistryItem_Name} main value left untouched.", registryItem.BackupEntryName);
-
-                return;
-            }
-        }
-
-
-
-        public static void CreateBackupEntry(this RegistryItem ri)
-        {
-            using (RegistryKey itemSubkey = SoftwareSubkey.Instance.OpenSubKey(ri.MainEntryPath))
-            {
-                object value = itemSubkey?.GetValue(ri.MainEntryName);
-
-                ri.CreateBackupEntry(value);
-            }
-        }
-
-
-
-        public static void CreateBackupEntry(
-            this RegistryItem ri,
-            object backupValue
-        )
-        {
-            if (backupValue == null)
-            {
-                BackupSubkey.Instance.SetValue(ri.GetBackupEntry_WasPresentName, 0, RegistryValueKind.DWord);
-                Log.Logger.Verbose(
-                    "{RegistryItem_Name} not present in the main registry. 0 written into the backup registry.",
-                    ri.BackupEntryName
-                );
-
-                BackupSubkey.Instance.DeleteValue(
-                    ri.BackupEntryName,
-                    throwOnMissingValue: false
-                );
-                Log.Logger.Verbose(
-                    "{RegistryItem_Name} deleted from the backup registry.",
-                    ri.BackupEntryName
-                );
-                // If the Name exists inside the backup registry, remove it.
-            }
-            else
-            {
-                BackupSubkey.Instance.SetValue(
-                    ri.GetBackupEntry_WasPresentName,
-                    1,
-                    RegistryValueKind.DWord
-                );
-                Log.Logger.Verbose(
-                    "{RegistryItem_Name} present in the registry. 1 written into the backup registry.",
-                    ri.BackupEntryName
-                );
-
-                BackupSubkey.Instance.SetValue(
-                    ri.BackupEntryName,
-                    backupValue,
-                    ri.GetValueKind()
-                );
-                Log.Logger.Verbose(
-                    "{RegistryItem_Name} value {RegistryItem_Value} written into the backup registry.",
-                    ri.BackupEntryName,
-                    backupValue
-                );
-            }
-        }
-
-
-
-        public static bool? GetWasPresentValue(this RegistryItem ri)
-        {
-            object _wasPresentValueObj = BackupSubkey.Instance
-                .GetValue(ri.GetBackupEntry_WasPresentName);
-
-            if (_wasPresentValueObj == null)
-            {
-                return null;
-                // If the backup entry not fount.
-            }
-
-            int _wasPresentValueInt;
-            try
-            {
-                _wasPresentValueInt = (int)_wasPresentValueObj;
-            }
-            catch (InvalidCastException)
-            {
-                Log.Logger.Warning(
-                    "{RegistryEntryName} IsPresent backup entry was not an Integer with value {BackupEntryValue}.",
-                    ri.MainEntryName,
-                    _wasPresentValueObj.ToString()
-                );
-
-                throw new BackupRegistryRecordCorruptedException();
-            }
-
-            bool wasPresentValue;
-            try
-            {
-                wasPresentValue = _wasPresentValueInt.ConvertToBool();
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                Log.Logger.Warning(
-                    "{RegistryEntryName} IsPresent backup entry value was not 0 or 1 with value {wasPresentValue}.",
-                    ri.BackupEntryName,
-                    _wasPresentValueInt
-                );
-
-                throw new BackupRegistryRecordCorruptedException();
-            }
-
-            return wasPresentValue;
+                case String s:
+                    return s;
+                case Int32 i:
+                    return i;
+                case null:
+                    return null;
+                default:
+                    throw new InvalidCastException(
+                        $"Unexpected value {valueObj}. Expected int, string or null."
+                    );
+            };
         }
     }
 }

@@ -48,7 +48,8 @@ namespace SwitchApps.Library
             _registryMaker.ModifyRegistry();
             Log.Logger.Verbose("Finished registry modification.");
 
-            _taskSchedulerMaker.CreateTaskSchedulerTask().Run();
+            _taskSchedulerMaker.CreateTaskSchedulerTask()
+                .Run();
             Log.Logger.Verbose("Created scheduled task.");
 
             base.Commit(savedState);
@@ -58,16 +59,27 @@ namespace SwitchApps.Library
 
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
-            _taskSchedulerMaker.DeleteTaskSchedulerTask();
-            Log.Logger.Verbose("Deleted scheduled task.");
+            try
+            {
+                _taskSchedulerMaker.DeleteTaskSchedulerTask();
+                Log.Logger.Verbose("Deleted scheduled task.");
 
-            _registryMaker.RestoreRegistry();
-            Log.Logger.Verbose("Finished registry restore.");
+                _registryMaker.RestoreRegistry();
+                Log.Logger.Verbose("Finished registry restore.");
 
-            SoftwareSubkey.Instance.DeleteSubKeyTree("SwitchApps");
-            Log.Logger.Verbose("Deleted registry subtree SwitchApps.");
-
-            base.OnBeforeUninstall(savedState);
+                SoftwareSubkey.Instance.DeleteSubKeyTree("SwitchApps");
+                Log.Logger.Verbose("Deleted backup registry subtree SwitchApps.");
+            }
+            catch (Exception)
+            {
+                // No op.
+                // Meaning if there are errors in my code, it should still perform the uninstall successfully.
+                // As it's a complete disaster to not be able to uninstall the app.
+            }
+            finally
+            {
+                base.OnBeforeUninstall(savedState);
+            }
         }
     }
 }

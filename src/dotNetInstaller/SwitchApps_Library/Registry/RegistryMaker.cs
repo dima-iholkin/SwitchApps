@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Win32;
+using OneOf;
+using OneOf.Types;
 using Serilog;
+using Serilog.Core;
 using SwitchApps.Library.Registry.Exceptions;
 using SwitchApps.Library.Registry.Extensions;
 using SwitchApps.Library.Registry.Model;
@@ -16,9 +19,13 @@ namespace SwitchApps.Library.Registry
     {
         private readonly List<RegistryItem> _registryItemsToEdit;
 
+        private readonly Logger _logger;
+
         public RegistryMaker(List<RegistryItem> registryItemsToEdit)
         {
             _registryItemsToEdit = registryItemsToEdit;
+
+            _logger = (Logger)Log.Logger;
         }
 
 
@@ -30,7 +37,7 @@ namespace SwitchApps.Library.Registry
                 bool makeBackup;
                 try
                 {
-                    bool? wasPresent = ri.GetWasPresentValue();
+                    bool? wasPresent = ri.GetBackupWasPresentValue();
 
                     bool backupEntryExists = wasPresent.HasValue;
 
@@ -42,7 +49,7 @@ namespace SwitchApps.Library.Registry
                 {
                     if (ri.MainValueEqualsDesired(SoftwareSubkey.Instance))
                     {
-                        ri.ResetMainEntryToSystemDefaultValue();
+                        ri.RestoreFromBackupValue();
                     }
                     // Reset the main entry,
                     // if the current main entry value equals the desired value setup sets
@@ -51,8 +58,7 @@ namespace SwitchApps.Library.Registry
                     makeBackup = true;
                     // Make a backup, if the current backup entry is corrupted.
                 }
-
-                Log.Logger.Verbose(
+                _logger.Verbose(
                     "{RegistryItem_Name} backup required: {BackupRequired}",
                     ri.MainEntryName,
                     makeBackup
@@ -78,7 +84,6 @@ namespace SwitchApps.Library.Registry
                         ri.DesiredValue.Value
                     );
                 }
-
                 _logger.Verbose(
                     "{RegistryItem_Name} value {RegistryItem_Value} written into the main registry.",
                     ri.BackupEntryName,
@@ -93,12 +98,11 @@ namespace SwitchApps.Library.Registry
         {
             _registryItemsToEdit.ForEach(ri =>
             {
-                object mainValue = ri.GetMainValue(SoftwareSubkey.Instance);
-
-                bool mainValueEqualsDesired = ri.MainValueEqualsDesiredValue(mainValue);
-
+                RegistryItemValue mainValue = ri.GetMainValue();
+                bool mainValueEqualsDesired = ri.DesiredValue.ValueEquals(mainValue);
                 _logger.Verbose(
-                    "{RegistryItem_Name} main value {MainValue} equals the desired value: {MainValueEqualsDesired}.",
+                    "{EntryName} main registry value: {MainValue} " +
+                        "equals the desired value: {MainValueEqualsDesired}.",
                     ri.BackupEntryName,
                     mainValue,
                     mainValueEqualsDesired
@@ -106,28 +110,23 @@ namespace SwitchApps.Library.Registry
 
                 if (mainValueEqualsDesired == false)
                 {
-                    _logger.Verbose("{RegistryItem_Name} main value left untouched.", ri.BackupEntryName);
-
+                    _logger.Verbose("{RegistryItem_Name} main registry value left as is.", ri.BackupEntryName);
                     return;
                 }
 
-                bool? wasPresent = ri.GetWasPresentValue(
-                    BackupSubkey.Instance,
-                    _logger
-                );
-
+                bool? wasPresent = ri.GetBackupWasPresentValue();
                 if (wasPresent == null)
                 {
                     _logger.Verbose(
                         "{BackupEntryName} is not present in the backup registry.",
                         ri.BackupEntryName
                     );
+                    return;
                 }
 
                 if (wasPresent.Value == true)
                 {
                     object backupValue = BackupSubkey.Instance.GetValue(ri.BackupEntryName);
-
                     using (RegistryKey entrySubkey = SoftwareSubkey.Instance.CreateSubKey(ri.MainEntryPath))
                     {
                         entrySubkey.SetValue(
@@ -136,7 +135,6 @@ namespace SwitchApps.Library.Registry
                             ri.GetValueKind()
                         );
                     }
-
                     _logger.Verbose(
                         "{RegistryItem_Name} value changed to {BackupValue} in the main registry.",
                         ri.BackupEntryName,
@@ -145,11 +143,7 @@ namespace SwitchApps.Library.Registry
                 }
                 else
                 {
-                    ri.ResetMainEntryToSystemDefaultValue(
-                        SoftwareSubkey.Instance,
-                        _logger
-                    );
-
+                    ri.RestoreFromBackupValue();
                     _logger.Verbose(
                         "{RegistryItem_Name} was deleted in the main registry.",
                         ri.BackupEntryName
