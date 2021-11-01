@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.Win32;
+using OneOf;
+using OneOf.Types;
 using Serilog.Core;
 using SwitchApps.Library.Registry.Exceptions;
-
-
+using SwitchApps.Library.Registry.Model;
 
 namespace SwitchApps.Library.Registry.Extensions
 {
@@ -11,15 +12,43 @@ namespace SwitchApps.Library.Registry.Extensions
 
     public static class RegistryItemExtensions
     {
-        public static object GetMainValue(
+        //public static object GetMainValue(
+        //    this RegistryItem ri,
+        //    RegistryKey softwareSubkey
+        //)
+        //{
+        //    using (var itemSubkey = softwareSubkey.CreateSubKey(ri.MainEntryPath))
+        //    {
+        //        return itemSubkey.GetValue(ri.MainEntryName);
+        //    }
+        //}
+
+
+
+        public static OneOf<int, string, NotFound> GetMainValue(
             this RegistryItem ri,
             RegistryKey softwareSubkey
         )
         {
+            object _mainValueObj;
             using (var itemSubkey = softwareSubkey.CreateSubKey(ri.MainEntryPath))
             {
-                return itemSubkey.GetValue(ri.MainEntryName);
-            }
+                _mainValueObj = itemSubkey.GetValue(ri.MainEntryName);
+            };
+
+            switch (_mainValueObj)
+            {
+                case String s:
+                    return s;
+                case Int32 i:
+                    return i;
+                case null:
+                    return new NotFound();
+                default:
+                    throw new Exception(
+                        $"Unexpected value {_mainValueObj} from the main registry entry {nameof(ri.BackupEntryName)}."
+                    );
+            };
         }
 
 
@@ -33,7 +62,7 @@ namespace SwitchApps.Library.Registry.Extensions
 
             return mainValue.ValueEquals(
                 ri.DesiredValue,
-                ri.ValueKind
+                ri.GetValueKind()
             );
         }
 
@@ -46,7 +75,7 @@ namespace SwitchApps.Library.Registry.Extensions
         {
             return mainValue.ValueEquals(
                 ri.DesiredValue,
-                ri.ValueKind
+                ri.GetValueKind()
             );
         }
 
@@ -66,7 +95,7 @@ namespace SwitchApps.Library.Registry.Extensions
 
             return mainValue.ValueEquals(
                 ri.DesiredValue,
-                ri.ValueKind
+                ri.GetValueKind()
             );
         }
 
@@ -113,7 +142,7 @@ namespace SwitchApps.Library.Registry.Extensions
             Logger logger
         )
         {
-            bool mainEntryWasPresent = registryItem.GetWasPresentBackupEntryValue(
+            bool mainEntryWasPresent = registryItem.GetWasPresentValue(
                 backupSubkey,
                 logger
             );
@@ -289,7 +318,11 @@ namespace SwitchApps.Library.Registry.Extensions
                     ri.BackupEntryName
                 );
 
-                backupSubkey.SetValue(ri.BackupEntryName, backupValue, ri.ValueKind);
+                backupSubkey.SetValue(
+                    ri.BackupEntryName,
+                    backupValue,
+                    ri.GetValueKind()
+                );
 
                 logger.Verbose(
                     "{RegistryItem_Name} value {RegistryItem_Value} written into the backup registry.",
@@ -301,67 +334,53 @@ namespace SwitchApps.Library.Registry.Extensions
 
 
 
-        public static bool GetWasPresentBackupEntryValue(
+        public static bool? GetWasPresentValue(
             this RegistryItem ri,
             RegistryKey backupSubkey,
             Logger logger
         )
         {
+            object _wasPresentValueObj = backupSubkey.GetValue(ri.GetBackupEntry_WasPresentName);
 
+            if (_wasPresentValueObj == null)
+            {
+                return null;
+                // If the backup entry not fount.
+            }
 
-            int _mainEntryWasPresentInt;
+            int _wasPresentValueInt;
             try
             {
-                _mainEntryWasPresentInt = (int)_mainEntryWasPresentObj;
+                _wasPresentValueInt = (int)_wasPresentValueObj;
             }
             catch (InvalidCastException)
             {
                 logger.Warning(
-                    "{RegistryEntryName} IsPresent backup entry wasn't an Integer with value {BackupEntryValue}.",
+                    "{RegistryEntryName} IsPresent backup entry was not an Integer with value {BackupEntryValue}.",
                     ri.MainEntryName,
-                    _mainEntryWasPresentObj.ToString()
+                    _wasPresentValueObj.ToString()
                 );
 
                 throw new BackupRegistryRecordCorruptedException();
             }
 
-            bool mainEntryWasPresent;
+            bool wasPresentValue;
             try
             {
-                mainEntryWasPresent = _mainEntryWasPresentInt.ConvertToBool();
+                wasPresentValue = _wasPresentValueInt.ConvertToBool();
             }
             catch (ArgumentOutOfRangeException)
             {
                 logger.Warning(
-                    "{RegistryEntryName} IsPresent backup entry was not 0 or 1 with value {BackupEntryValue}.",
-                    ri.MainEntryName,
-                    _mainEntryWasPresentInt
+                    "{RegistryEntryName} IsPresent backup entry value was not 0 or 1 with value {wasPresentValue}.",
+                    ri.BackupEntryName,
+                    _wasPresentValueInt
                 );
 
                 throw new BackupRegistryRecordCorruptedException();
             }
 
-            return mainEntryWasPresent;
-        }
-
-
-
-        public static bool WasPresentBackupEntryExists(
-            this RegistryItem ri,
-            RegistryKey backupSubkey
-        )
-        {
-            object entryValue = backupSubkey.GetValue(ri.GetBackupEntry_WasPresentName);
-
-            if (entryValue != null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-                // If the backup entry not fount.
-            }
+            return wasPresentValue;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using SwitchApps.Library.Registry;
+﻿using SwitchApps.Library.Registry.Model;
 
 
 

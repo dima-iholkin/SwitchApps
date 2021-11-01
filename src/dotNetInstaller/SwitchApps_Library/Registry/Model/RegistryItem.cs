@@ -1,9 +1,9 @@
 ﻿using System;
-using OneOf;
+using Microsoft.Win32;
 
 
 
-namespace SwitchApps.Library.Registry
+namespace SwitchApps.Library.Registry.Model
 {
 
 
@@ -13,8 +13,8 @@ namespace SwitchApps.Library.Registry
             string mainEntryPath,
             string mainEntryName,
             string backupEntryName,
-            OneOf<int, string> desiredValue,
-            OneOf<int, string> systemDefaultValue
+            RegistryItemValue desiredValue,
+            RegistryItemValue systemDefaultValue
         )
         {
             MainEntryPath = mainEntryPath;
@@ -55,9 +55,9 @@ namespace SwitchApps.Library.Registry
 
         public string BackupEntryName { get; }
 
-        public OneOf<int, string> DesiredValue { get; }
+        public RegistryItemValue DesiredValue { get; }
 
-        public OneOf<int, string> SystemDefaultValue { get; }
+        public RegistryItemValue SystemDefaultValue { get; }
 
 
 
@@ -95,6 +95,16 @@ namespace SwitchApps.Library.Registry
                     return MainEntryName + "_WasPresent";
                 }
             }
+        }
+
+
+
+        public RegistryValueKind GetValueKind()
+        {
+            return DesiredValue.Match(
+                (int _) => RegistryValueKind.DWord,
+                (string _) => RegistryValueKind.String
+            );
         }
     }
 }

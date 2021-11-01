@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Win32;
 using Serilog.Core;
 using SwitchApps.Library.Registry.Exceptions;
 using SwitchApps.Library.Registry.Extensions;
+using SwitchApps.Library.Registry.Model;
 
 
 
@@ -129,35 +129,31 @@ namespace SwitchApps.Library.Registry
                     return;
                 }
 
-                ri.GetWasPresentValue()
-
-                bool wasPresent;
-                int wasPresent_int = (int)_backupSubkey.GetValue(ri.GetBackupEntry_WasPresentName);
-                switch (wasPresent_int)
-                {
-                    case 1:
-                        wasPresent = true;
-                        break;
-                    case 0:
-                        wasPresent = false;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("Unexpected backup registry isPresent value.");
-                }
-
-                _logger.Verbose(
-                    "{RegistryItem_Name} was present in the main registry before the install: {WasPresent}.",
-                    ri.BackupEntryName,
-                    wasPresent
+                bool? wasPresent = ri.GetWasPresentValue(
+                    _backupSubkey,
+                    _logger
                 );
 
-                if (wasPresent)
+                if (wasPresent == null)
+                {
+                    _logger.Verbose(
+                        "{BackupEntryName} is not present in the backup registry.",
+                        ri.BackupEntryName
+                    );
+                }
+
+                if (wasPresent.Value == true)
                 {
                     object backupValue = _backupSubkey.GetValue(ri.BackupEntryName);
 
-                    _softwareSubkey
-                        .CreateSubKey(ri.MainEntryPath)
-                        .SetValue(ri.MainEntryName, backupValue, ri.ValueKind);
+                    using (RegistryKey entrySubkey = _softwareSubkey.CreateSubKey(ri.MainEntryPath))
+                    {
+                        entrySubkey.SetValue(
+                            ri.MainEntryName,
+                            backupValue,
+                            ri.GetValueKind()
+                        );
+                    }
 
                     _logger.Verbose(
                         "{RegistryItem_Name} value changed to {BackupValue} in the main registry.",
