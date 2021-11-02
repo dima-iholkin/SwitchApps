@@ -174,7 +174,7 @@ namespace SwitchApps.Library.Registry.Extensions
 
 
 
-        private static void RestoreFromSystemDefaultValue(this RegistryItem ri)
+        public static void RestoreFromSystemDefaultValue(this RegistryItem ri)
         {
             using (var itemSubkey = SoftwareSubkey.Instance.CreateSubKey(ri.MainEntryPath))
             {
@@ -184,11 +184,21 @@ namespace SwitchApps.Library.Registry.Extensions
                         ri.MainEntryName,
                         throwOnMissingValue: false
                     );
+                    _logger.Verbose(
+                        "{EntryName} system default value {SystemDefaultValue} restored.",
+                        ri.BackupEntryName,
+                        "null"
+                    );
 
                     return;
                 }
 
                 itemSubkey.SetValue(ri.MainEntryName, ri.SystemDefaultValue.Value);
+                _logger.Verbose(
+                    "{EntryName} system default value {SystemDefaultValue} restored.",
+                    ri.BackupEntryName,
+                    ri.SystemDefaultValue
+                );
             }
         }
 

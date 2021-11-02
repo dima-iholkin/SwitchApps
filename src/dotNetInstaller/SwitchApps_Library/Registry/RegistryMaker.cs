@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Win32;
-using OneOf;
-using OneOf.Types;
 using Serilog;
 using Serilog.Core;
 using SwitchApps.Library.Registry.Exceptions;
@@ -18,13 +16,11 @@ namespace SwitchApps.Library.Registry
     public class RegistryMaker
     {
         private readonly List<RegistryItem> _registryItemsToEdit;
-
         private readonly Logger _logger;
 
         public RegistryMaker(List<RegistryItem> registryItemsToEdit)
         {
             _registryItemsToEdit = registryItemsToEdit;
-
             _logger = (Logger)Log.Logger;
         }
 
@@ -34,36 +30,38 @@ namespace SwitchApps.Library.Registry
         {
             _registryItemsToEdit.ForEach(ri =>
             {
-                bool makeBackup;
+                bool makeBackup = false;
                 try
                 {
-                    bool? wasPresent = ri.GetBackupWasPresentValue();
+                    bool? wasPresentValue = ri.GetBackupWasPresentValue();
 
-                    bool backupEntryExists = wasPresent.HasValue;
-
-                    makeBackup = !backupEntryExists;
-                    // Don't make a backup, if the backup entry exists and correct.
-                    // Make a backup, if the backup entry doesn't exist.
+                    bool backupExists = wasPresentValue.HasValue;
+                    if (backupExists == false)
+                    {
+                        makeBackup = true;
+                        // If the backup entry doesn't exist, make a backup.
+                    }
                 }
                 catch (BackupRegistryRecordCorruptedException)
                 {
-                    if (ri.MainValueEqualsDesired(SoftwareSubkey.Instance))
+                    bool mainValueEqualsDesired = ri.DesiredValue.ValueEquals(ri.GetMainValue());
+                    if (mainValueEqualsDesired)
                     {
-                        ri.RestoreFromBackupValue();
+                        ri.RestoreFromSystemDefaultValue();
                     }
                     // Reset the main entry,
-                    // if the current main entry value equals the desired value setup sets
+                    // if the current main value equals the desired value
                     // and the current backup entry is corrupted.
 
                     makeBackup = true;
                     // Make a backup, if the current backup entry is corrupted.
                 }
+
                 _logger.Verbose(
-                    "{RegistryItem_Name} backup required: {BackupRequired}",
+                    "{EntryName} entry required backup: {BackupRequired}.",
                     ri.MainEntryName,
                     makeBackup
                 );
-
                 if (makeBackup == true)
                 {
                     ri.CreateBackupEntry();
