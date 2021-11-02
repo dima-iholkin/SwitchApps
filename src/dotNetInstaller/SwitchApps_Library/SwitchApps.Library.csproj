@@ -65,6 +65,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Registry\Exceptions\BackupRegistryRecordCorruptedException.cs" />
+    <Compile Include="Registry\Model\RestoreSourceEnum.cs" />
+    <Compile Include="Registry\RegistryMakerHelpers.cs" />
     <Compile Include="Registry\Extensions\RegistryItemExtensions.cs" />
     <Compile Include="Registry\Model\RegistryItemValue.cs" />
     <Compile Include="Registry\Singletons\BackupSubkey.cs" />
