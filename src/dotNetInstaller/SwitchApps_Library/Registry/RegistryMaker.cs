@@ -13,12 +13,12 @@ namespace SwitchApps.Library.Registry
 
     public class RegistryMaker
     {
-        private readonly List<RegistryItem> _registryItemsToEdit;
+        private readonly List<RegistryItem> _managedRegistryItems;
         private readonly Logger _logger;
 
-        public RegistryMaker(List<RegistryItem> registryItemsToEdit)
+        public RegistryMaker(List<RegistryItem> managedRegistryItems)
         {
-            _registryItemsToEdit = registryItemsToEdit;
+            _managedRegistryItems = managedRegistryItems;
             _logger = (Logger)Log.Logger;
         }
 
@@ -26,11 +26,11 @@ namespace SwitchApps.Library.Registry
 
         public void BackupRegistry()
         {
-            _registryItemsToEdit.ForEach(ri =>
+            _managedRegistryItems.ForEach(ri =>
             {
                 bool makeBackup = ri.DecideToMakeBackupOrNot();
-                _logger.Verbose(
-                    "{EntryName} will backup: {MakeBackup}.",
+                _logger.Information(
+                    "{EntryName} will be backed up: {MakeBackup}.",
                     ri.BackupEntryName,
                     makeBackup
                 );
@@ -46,11 +46,11 @@ namespace SwitchApps.Library.Registry
 
         public void ModifyRegistry()
         {
-            _registryItemsToEdit.ForEach(ri =>
+            _managedRegistryItems.ForEach(ri =>
             {
                 ri.SetMainEntry(ri.DesiredValue);
-                _logger.Verbose(
-                    "{RegistryItem_Name} value {RegistryItem_Value} written into the main registry.",
+                _logger.Information(
+                    "{EntryName} value {DesiredValue} written into the main registry.",
                     ri.BackupEntryName,
                     ri.DesiredValue.Value
                 );
@@ -61,26 +61,29 @@ namespace SwitchApps.Library.Registry
 
         public void RestoreRegistry()
         {
-            _registryItemsToEdit.ForEach(ri =>
+            _managedRegistryItems.ForEach(ri =>
             {
                 bool makeRestore = ri.DecideToMakeRestoreOrNot();
                 if (makeRestore == false)
                 {
-                    _logger.Verbose("{RegistryItem_Name} main registry value left as is.", ri.BackupEntryName);
+                    _logger.Information(
+                        "{EntryName} main registry value left as is.", 
+                        ri.BackupEntryName
+                    );
                     return;
                 }
 
-                RestoreSource restoreSource = ri.DecideToRestoreFromSystemDefaultOrFromBackup();
+                RestoreSource restoreSource = ri.DecideToMakeRestoreFromSystemDefaultOrFromBackup();
                 switch (restoreSource)
                 {
                     case RestoreSource.SystemDefault:
-                        ri.RestoreFromSystemDefaultValue();
+                        ri.RestoreFromSystemDefault();
                         break;
                     case RestoreSource.Backup:
-                        ri.RestoreFromBackupValue();
+                        ri.RestoreFromBackup();
                         break;
                     default:
-                        throw new Exception($"Unexpected value of {nameof(restoreSource)}.");
+                        throw new Exception($"Unexpected value {restoreSource} of {nameof(restoreSource)}.");
                 }
             });
         }

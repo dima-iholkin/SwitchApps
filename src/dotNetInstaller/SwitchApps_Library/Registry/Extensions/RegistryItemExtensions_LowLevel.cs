@@ -12,7 +12,7 @@ namespace SwitchApps.Library.Registry.Extensions
 {
 
 
-    public static class RegistryItemExtensions
+    public static class RegistryItemExtensions_LowLevel
     {
         private static readonly Logger _logger = (Logger)Log.Logger;
 
@@ -29,14 +29,17 @@ namespace SwitchApps.Library.Registry.Extensions
 
             try
             {
-                return _mainValueObj.ConvertToRegistryItemValue();
+                return _mainValueObj.ParseRegistryObjectToRegistryItemValue();
             }
             catch (InvalidCastException ex)
             {
-                throw new InvalidCastException(
-                    $"Unexpected value {_mainValueObj} from the {nameof(ri.BackupEntryName)} main entry.",
-                    ex
+                _logger.Error(
+                    ex,
+                    "{EntryName} unexpected value {MainValue} from the main entry.",
+                    ri.BackupEntryName,
+                    _mainValueObj
                 );
+                throw;
             }
         }
 
@@ -48,13 +51,14 @@ namespace SwitchApps.Library.Registry.Extensions
             if (_valueObj == null)
             {
                 return null;
-                // If the backup entry is not found.
+                // Null means the entry was not found.
             }
 
             try
             {
                 int _valueInt = (int)_valueObj;
-                return _valueInt.ConvertToBool();
+                return _valueInt.ParseBackupWasPresentIntToBool();
+                // True, false means the value of the entry.
             }
             catch (InvalidCastException)
             {
@@ -64,7 +68,7 @@ namespace SwitchApps.Library.Registry.Extensions
                     _valueObj.GetType()
                 );
                 throw new BackupRegistryRecordCorruptedException();
-                // If the valueObj cannot be converted to int.
+                // If the _valueObj cannot be converted to int.
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -75,9 +79,12 @@ namespace SwitchApps.Library.Registry.Extensions
                     (int)_valueObj
                 );
                 throw new BackupRegistryRecordCorruptedException();
-                // if the valueInt cannot be converted to bool.
+                // If the _valueInt cannot be converted to bool.
             }
         }
+        // Null means the entry was not found.
+        // True, false means the value of the entry.
+        // BackupRegistryRecordCorruptedException can be thrown.
 
 
 
@@ -87,7 +94,7 @@ namespace SwitchApps.Library.Registry.Extensions
             {
                 return BackupSubkey.Instance
                     .GetValue(ri.BackupEntryName)
-                    .ConvertToRegistryItemValue();
+                    .ParseRegistryObjectToRegistryItemValue();
             }
             catch (Exception)
             {
@@ -151,8 +158,14 @@ namespace SwitchApps.Library.Registry.Extensions
 
         public static void DeleteBackupEntries(this RegistryItem ri)
         {
-            BackupSubkey.Instance.DeleteValue(ri.BackupEntryName);
-            BackupSubkey.Instance.DeleteValue(ri.BackupEntryWasPresentName);
+            BackupSubkey.Instance.DeleteValue(
+                ri.BackupEntryName,
+                throwOnMissingValue: false
+            );
+            BackupSubkey.Instance.DeleteValue(
+                ri.BackupEntryWasPresentName,
+                throwOnMissingValue: false
+            );
         }
 
 
@@ -172,7 +185,7 @@ namespace SwitchApps.Library.Registry.Extensions
 
 
 
-        public static bool ConvertToBool(this int _int)
+        public static bool ParseBackupWasPresentIntToBool(this int _int)
         {
             switch (_int)
             {
@@ -189,7 +202,7 @@ namespace SwitchApps.Library.Registry.Extensions
 
 
 
-        public static RegistryItemValue ConvertToRegistryItemValue(this object valueObj)
+        public static RegistryItemValue ParseRegistryObjectToRegistryItemValue(this object valueObj)
         {
             switch (valueObj)
             {
