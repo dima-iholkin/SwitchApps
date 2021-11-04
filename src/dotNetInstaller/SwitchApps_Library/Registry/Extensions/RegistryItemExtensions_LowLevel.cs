@@ -169,7 +169,7 @@ namespace SwitchApps.Library.Registry.Extensions
                 value.Value,
                 ri.ValueKind
             );
-            _logger.Verbose(
+            _logger.Information(
                 "{EntryName} value {MainValue} written into the backup registry.",
                 ri.BackupEntryName,
                 value

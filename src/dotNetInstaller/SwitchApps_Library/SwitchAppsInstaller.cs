@@ -43,7 +43,7 @@ namespace SwitchApps.Library
 
 
 
-        public override void Commit(IDictionary savedState)
+        protected override void OnAfterInstall(IDictionary savedState)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace SwitchApps.Library
                 throw;
             }
 
-            base.Commit(savedState);
+            base.OnAfterInstall(savedState);
         }
 
 

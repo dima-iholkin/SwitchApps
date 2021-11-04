@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SwitchApps.Library._Helpers;
 
 
 
@@ -16,8 +17,7 @@ namespace SwitchApps.Library.Registry.Singletons
             {
                 if (_instance == null)
                 {
-                    string loginUsername = InstallerHelper.GetLoginUsername();
-                    string loginSID = InstallerHelper.GetLoginSID(loginUsername);
+                    string loginSID = InstallerHelper.LoginSID;
 
                     _instance = Microsoft.Win32.Registry.Users
                         .CreateSubKey(loginSID)

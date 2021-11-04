@@ -72,10 +72,11 @@ namespace SwitchApps.Library.Registry.Extensions
                 RegistryItemValue mainValue = ri.GetMainValue();
                 bool mainValueEqualsDesired = ri.DesiredValue.ValueEquals(mainValue);
                 _logger.Information(
-                    "{EntryName} main registry value: {MainValue} " +
-                        "equals the desired value: {MainValueEqualsDesired}.",
+                    "{EntryName} main registry value {MainValue} "
+                        + "equals the desired value {DesiredValue}: {MainValueEqualsDesired}.",
                     ri.BackupEntryName,
-                    mainValue,
+                    mainValue.Value,
+                    ri.DesiredValue.Value,
                     mainValueEqualsDesired
                 );
 
