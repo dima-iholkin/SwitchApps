@@ -92,8 +92,7 @@ namespace SwitchApps.Library.Registry.Extensions
         {
             try
             {
-                return BackupSubkey.Instance
-                    .GetValue(ri.BackupEntryName)
+                return BackupSubkey.Instance.GetValue(ri.BackupEntryName)
                     .ParseRegistryObjectToRegistryItemValue();
             }
             catch (Exception)
@@ -135,22 +134,45 @@ namespace SwitchApps.Library.Registry.Extensions
                     0,
                     RegistryValueKind.DWord
                 );
+                _logger.Information(
+                    "{EntryName} not present in the main registry. "
+                        + "WasPresent value 0 written into the backup registry.",
+                    ri.BackupEntryName
+                );
 
-                BackupSubkey.Instance.DeleteValue(ri.BackupEntryName);
-                // If WasPresent is false(0), then the value entry must not exist.
+                BackupSubkey.Instance.DeleteValue(
+                    ri.BackupEntryName,
+                    throwOnMissingValue: false
+                );
+                // If the WasPresent value is false (0), then the Value entry must be absent.
+                _logger.Information(
+                    "{EntryName} Value entry deleted from the backup registry.",
+                    ri.BackupEntryName
+                );
 
                 return;
             }
 
             BackupSubkey.Instance.SetValue(
                 ri.BackupEntryWasPresentName,
-                value.Value,
+                1,
                 RegistryValueKind.DWord
             );
+            _logger.Information(
+                "{EntryName} present in the main registry. "
+                    + "WasPresent value 1 written into the backup registry.",
+                ri.BackupEntryName
+            );
+
             BackupSubkey.Instance.SetValue(
                 ri.BackupEntryName,
                 value.Value,
                 ri.ValueKind
+            );
+            _logger.Verbose(
+                "{EntryName} value {MainValue} written into the backup registry.",
+                ri.BackupEntryName,
+                value
             );
         }
 
@@ -166,6 +188,10 @@ namespace SwitchApps.Library.Registry.Extensions
                 ri.BackupEntryWasPresentName,
                 throwOnMissingValue: false
             );
+            _logger.Information(
+                "{EntryName} WasPresent and Value entries deleted from the backup registry.",
+                ri.BackupEntryName
+            );
         }
 
 
@@ -177,10 +203,10 @@ namespace SwitchApps.Library.Registry.Extensions
         {
             if (obj1.Value.GetType() != obj2.Value.GetType())
             {
-                throw new Exception("Incompatible types compared.");
+                throw new Exception("Incompatible type comparison.");
             }
 
-            return obj1.Equals(obj2);
+            return obj1.Value.Equals(obj2.Value);
         }
 
 
@@ -194,7 +220,7 @@ namespace SwitchApps.Library.Registry.Extensions
                 case 1:
                     return true;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException("Expected integer 0 or 1.");
                     // Normally isPresent value can be only 0, 1 or null (when not fould).
                     // Meaning if the code got here, something probably had become incorrect.
             }
@@ -214,7 +240,7 @@ namespace SwitchApps.Library.Registry.Extensions
                     return null;
                 default:
                     throw new InvalidCastException(
-                        $"Unexpected value {valueObj}. Expected int, string or null."
+                        $"Expected integer, string or null. Encountered value {valueObj} of type {valueObj.GetType()}. "
                     );
             };
         }
