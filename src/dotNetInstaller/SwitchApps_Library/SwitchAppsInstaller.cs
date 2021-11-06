@@ -9,6 +9,8 @@ using SwitchApps.Library._Helpers;
 using SwitchApps.Library.Registry;
 using SwitchApps.Library.Registry.Model;
 using SwitchApps.Library.Registry.Singletons;
+using SwitchApps.Library.StartMenu;
+using SwitchApps.Library.TaskScheduler;
 
 
 
@@ -21,6 +23,7 @@ namespace SwitchApps.Library
     {
         private RegistryMaker _registryMaker;
         private TaskSchedulerMaker _taskSchedulerMaker;
+        private StartMenuMaker _startMenuMaker;
         private readonly Logger _logger;
 
         public SwitchAppsInstaller()
@@ -36,9 +39,10 @@ namespace SwitchApps.Library
                 SwitchAppsRegistryItems.ThumbnailPreviewDelay,
                 SwitchAppsRegistryItems.MsOfficeAdPopup
             };
+            
             _registryMaker = new RegistryMaker(managedRegistryItems);
-
             _taskSchedulerMaker = new TaskSchedulerMaker();
+            _startMenuMaker = new StartMenuMaker();
         }
 
 
@@ -53,9 +57,11 @@ namespace SwitchApps.Library
                 _registryMaker.ModifyRegistry();
                 _logger.Information("Finished the registry modification.");
 
-                _taskSchedulerMaker.CreateTaskSchedulerTask()
+                _taskSchedulerMaker.CreateTask()
                     .Run();
                 _logger.Information("Created the scheduled task.");
+
+                _startMenuMaker.CreateShortcuts();
             }
             catch (Exception ex)
             {
@@ -72,7 +78,7 @@ namespace SwitchApps.Library
         {
             try
             {
-                _taskSchedulerMaker.DeleteTaskSchedulerTask();
+                _taskSchedulerMaker.DeleteTask();
                 _logger.Information("Deleted the scheduled task subtree SwitchApps.");
 
                 _registryMaker.RestoreRegistry();
@@ -80,6 +86,8 @@ namespace SwitchApps.Library
 
                 SoftwareSubkey.Instance.DeleteSubKeyTree("SwitchApps");
                 _logger.Information("Deleted the backup registry subtree SwitchApps.");
+
+                _startMenuMaker.DeleteShortcuts();
             }
             catch (Exception ex)
             {

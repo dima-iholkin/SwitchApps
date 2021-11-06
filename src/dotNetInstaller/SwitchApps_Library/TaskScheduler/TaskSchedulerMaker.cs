@@ -6,7 +6,7 @@ using SwitchApps.Library._Helpers;
 
 
 
-namespace SwitchApps.Library
+namespace SwitchApps.Library.TaskScheduler
 {
 
 
@@ -16,7 +16,7 @@ namespace SwitchApps.Library
 
 
 
-        public Task CreateTaskSchedulerTask()
+        public Task CreateTask()
         {
             TaskDefinition td = TaskService.Instance.NewTask();
 
@@ -46,7 +46,7 @@ namespace SwitchApps.Library
 
 
 
-        public void DeleteTaskSchedulerTask()
+        public void DeleteTask()
         {
             TaskService.Instance.RootFolder
                 .SubFolders.Where(f => f.Name == "SwitchApps")

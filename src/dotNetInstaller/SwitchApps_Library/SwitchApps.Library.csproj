@@ -71,6 +71,9 @@
     <Compile Include="Registry\Model\RegistryItemValue.cs" />
     <Compile Include="Registry\Singletons\BackupSubkey.cs" />
     <Compile Include="Registry\Singletons\SoftwareSubkey.cs" />
+    <Compile Include="StartMenu\StartMenuMaker.cs" />
+    <Compile Include="StartMenu\_Helpers\IShellLink.cs" />
+    <Compile Include="StartMenu\_Helpers\ShellLink.cs" />
     <Compile Include="_Helpers\InstallerHelper.cs" />
     <Compile Include="SwitchAppsInstaller.cs">
       <SubType>Component</SubType>
