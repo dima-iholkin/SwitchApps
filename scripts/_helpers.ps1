@@ -43,6 +43,31 @@ function BuildExe {
 
 
 
+function BuildExe_Win11 {
+  cd ..
+
+  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
+
+  $dir = (Get-Location).Path
+
+  $inputFile = $dir + "\src\SwitchApps_Win11.ahk"
+
+  if (Test-Path build) {
+    # no op.
+  }
+  else {
+    mkdir build | Out-Null
+  }
+
+  $outputFile = $dir + "\build\SwitchApps_Win11.exe"
+
+  & $exeFile /in $inputFile /out $outputFile
+
+  cd .\scripts\
+}
+
+
+
 function CleanUp {
   # cd ..\src\installer\
 
