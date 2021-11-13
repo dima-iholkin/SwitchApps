@@ -33,6 +33,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_238F8882A71D8B7DAE5878B423F2D069"
+        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_357C4547FBA63F4B56575C0920E719E6"
         "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
         "MsmSig" = "8:_UNDEFINED"
@@ -47,6 +53,12 @@
         {
         "MsmKey" = "8:_46F992CB0580210AD5876542FA728BA8"
         "OwnerKey" = "8:_796E8904088FAEF26BAE9C3051456960"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_49E71D603FF14A3DB26C5F198BACC24E"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -137,6 +149,12 @@
         {
         "MsmKey" = "8:_8B929C1C3B1A83723ABAA7D2E37DBE8A"
         "OwnerKey" = "8:_C15D19B096EF71EB8E2297C9BB95D064"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8D241F97DE1248BCA8AD15A58EB4EE67"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -262,73 +280,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0381244D9586EC87685E21B25DC819C4"
+        "OwnerKey" = "8:_238F8882A71D8B7DAE5878B423F2D069"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_0E6EFECB7F905BA57D614B25C9979C2E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4A8CA0518499241670D99154B983A8A5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4AAD9D13F1A73429FC224C4208E8C76E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_64AB17171BEBC419EB8B9E6B0089B672"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6A012290FC49C1C22739B351B133D6F8"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6CD4E77FAA946C0DE4EDEBFDED5D3768"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7BFB72C7F47D37DE00ACAFFBBAFEC8B2"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7F2723CF2D485ACB710FC85750BB8712"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_81FD5B13F44D70EC9206647D60FB5ED9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_9829E333D3A276F58B9A8468885DE1C3"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B2D878CBBF56711AC5B78500D8B97E78"
+        "OwnerKey" = "8:_C9349FB683ABB0947429F80FC356B6BE"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -340,7 +298,73 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_C9349FB683ABB0947429F80FC356B6BE"
+        "OwnerKey" = "8:_B2D878CBBF56711AC5B78500D8B97E78"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_9829E333D3A276F58B9A8468885DE1C3"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_81FD5B13F44D70EC9206647D60FB5ED9"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7F2723CF2D485ACB710FC85750BB8712"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_7BFB72C7F47D37DE00ACAFFBBAFEC8B2"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6CD4E77FAA946C0DE4EDEBFDED5D3768"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_6A012290FC49C1C22739B351B133D6F8"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_64AB17171BEBC419EB8B9E6B0089B672"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4AAD9D13F1A73429FC224C4208E8C76E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_4A8CA0518499241670D99154B983A8A5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0E6EFECB7F905BA57D614B25C9979C2E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0381244D9586EC87685E21B25DC819C4"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -514,6 +538,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_238F8882A71D8B7DAE5878B423F2D069"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:OneOf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_238F8882A71D8B7DAE5878B423F2D069"
+                    {
+                    "Name" = "8:OneOf.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:OneOf.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_357C4547FBA63F4B56575C0920E719E6"
             {
             "AssemblyRegister" = "3:1"
@@ -574,6 +629,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49E71D603FF14A3DB26C5F198BACC24E"
+            {
+            "SourcePath" = "8:..\\..\\..\\build\\Icon_Uninstall.ico"
+            "TargetName" = "8:Icon_Uninstall.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_73E16603D8BC45DC9B8F3A59811A4F2C"
@@ -687,6 +762,26 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D241F97DE1248BCA8AD15A58EB4EE67"
+            {
+            "SourcePath" = "8:..\\..\\..\\build\\Uninstall.bat"
+            "TargetName" = "8:Uninstall.bat"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:TRUE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_BEE704213968689AF11AEE79A51854C0"
@@ -822,6 +917,28 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_D76E7139816F435EA8F8BEEB09A9F414"
+            {
+            "Name" = "8:#1921"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:StartMenuFolder"
+                "Folders"
+                {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_7822713D10EE4FA3848EEB192C899EAB"
+                    {
+                    "Name" = "8:SwitchApps"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_334EA8A03FCE4196BEF2D3BB6B73C3F5"
+                        "Folders"
+                        {
+                        }
+                    }
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -838,26 +955,26 @@
         {
         "Name" = "8:SwitchApps utility"
         "ProductName" = "8:SwitchApps utility"
-        "ProductCode" = "8:{F3813B6F-3B4A-4C86-9EC2-5214641F338D}"
-        "PackageCode" = "8:{F4B4FEE8-8032-4B69-9A31-150C80DFA5E5}"
+        "ProductCode" = "8:{56AA2C70-46C4-405C-94BD-DDA138954671}"
+        "PackageCode" = "8:{6983DC7D-EB56-4440-B013-38EBF48D7459}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Dima Iholkin"
         "ARPHELPTELEPHONE" = "8:"
-        "ARPHELPLINK" = "8:"
+        "ARPHELPLINK" = "8:https://github.com/dima-iholkin/SwitchApps"
         "Title" = "8:SwitchApps"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Dima Iholkin"
-        "Keywords" = "8:"
+        "Keywords" = "8:Alt, Tab, keyboard, shortcut"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
-        "ARPPRODUCTICON" = "8:"
-        "ARPIconIndex" = "3:0"
+        "ARPURLINFOABOUT" = "8:https://github.com/dima-iholkin"
+        "ARPPRODUCTICON" = "8:_01BEE57B358E437FB972540137E8816D"
+        "ARPIconIndex" = "3:206"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
         "TargetPlatform" = "3:0"
@@ -973,6 +1090,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_65AD3B4285E44DB9A60901BE7AFCCEB7"
+            {
+            "Name" = "8:Uninstall"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_8D241F97DE1248BCA8AD15A58EB4EE67"
+            "Folder" = "8:_7822713D10EE4FA3848EEB192C899EAB"
+            "WorkingFolder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Icon" = "8:_49E71D603FF14A3DB26C5F198BACC24E"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
