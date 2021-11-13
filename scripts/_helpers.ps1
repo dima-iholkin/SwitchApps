@@ -14,29 +14,22 @@ function RunInstaller {
 
 function BuildExe {
   cd ..
-
-  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
-
-  $dir = (Get-Location).Path
-
-  $inputFile = $dir + "\src\SwitchApps.ahk"
-
-
-
+  
   if (Test-Path build) {
     
   }
   else {
     mkdir build | Out-Null
   }
+  
+  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
 
+  $dir = (Get-Location).Path
+  $inputFile = $dir + "\src\SwitchApps.ahk"
   $outputFile = $dir + "\build\SwitchApps.exe"
+  $iconFile = $dir + "\build\Icon_SwitchApps.ico"
 
-
-
-  & $exeFile /in $inputFile /out $outputFile
-
-
+  & $exeFile /in $inputFile /out $outputFile /icon $iconFile
 
   cd .\scripts\
 }
@@ -46,12 +39,6 @@ function BuildExe {
 function BuildExe_Win11 {
   cd ..
 
-  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
-
-  $dir = (Get-Location).Path
-
-  $inputFile = $dir + "\src\SwitchApps_Win11.ahk"
-
   if (Test-Path build) {
     # no op.
   }
@@ -59,9 +46,14 @@ function BuildExe_Win11 {
     mkdir build | Out-Null
   }
 
+  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
+  
+  $dir = (Get-Location).Path
+  $inputFile = $dir + "\src\SwitchApps_Win11.ahk"
   $outputFile = $dir + "\build\SwitchApps_Win11.exe"
+  $iconFile = $dir + "\build\Icon_SwitchApps.ico"
 
-  & $exeFile /in $inputFile /out $outputFile
+  & $exeFile /in $inputFile /out $outputFile /icon $iconFile
 
   cd .\scripts\
 }
