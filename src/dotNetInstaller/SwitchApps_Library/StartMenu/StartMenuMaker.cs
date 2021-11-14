@@ -31,31 +31,32 @@ namespace SwitchApps.Library.StartMenu
 
             IShellLink link = (IShellLink)new ShellLink();
             // Shortcut information:
-            link.SetDescription("Start SwitchApps utility");
+            link.SetDescription("Start SwitchApps");
             link.SetPath(@"C:\Windows\System32\schtasks.exe");
             link.SetArguments(@"/Run /TN ""\SwitchApps\SwitchApps autostart"""
             );
             link.SetIconLocation(exePath, 0);
             // Save shortcut:
             IPersistFile file = (IPersistFile)link;
-            file.Save(Path.Combine(appStartMenuDir, "Start SwitchApps utility.lnk"), false);
+            file.Save(Path.Combine(appStartMenuDir, "Start SwitchApps.lnk"), false);
 
             IShellLink link2 = (IShellLink)new ShellLink();
             // Shortcut information:
-            link2.SetDescription("Stop SwitchApps utility");
+            link2.SetDescription("Stop SwitchApps");
             link2.SetPath(@"C:\Windows\System32\schtasks.exe");
             link2.SetArguments(@"/End /TN ""\SwitchApps\SwitchApps autostart""");
             link2.SetIconLocation(exePath, 0);
             // Save shortcut:
             IPersistFile file2 = (IPersistFile)link2;
-            file2.Save(Path.Combine(appStartMenuDir, "Stop SwitchApps utility.lnk"), false);
+            file2.Save(Path.Combine(appStartMenuDir, "Stop SwitchApps.lnk"), false);
 
             IShellLink link3 = (IShellLink)new ShellLink();
             // Shortcut information:
-            link3.SetDescription("Enable SwitchApps autostart");
-            link3.SetPath(@"C:\Windows\System32\schtasks.exe");
-            link3.SetArguments(@"/Change /TN ""\SwitchApps\SwitchApps autostart"" /Enable");
-            link3.SetIconLocation(exePath, 0);
+            link3.SetDescription("Enable autostart SwitchApps");
+            link3.SetPath(Path.Combine(
+                InstallerHelper.InstalledDir,
+                "Enable autostart.bat"
+            ));
             // Save shortcut:
             IPersistFile file3 = (IPersistFile)link3;
             file3.Save(Path.Combine(appStartMenuDir, "Enable autostart.lnk"), false);
@@ -71,10 +72,11 @@ namespace SwitchApps.Library.StartMenu
 
             IShellLink link4 = (IShellLink)new ShellLink();
             // Shortcut information:
-            link4.SetDescription("Disable SwitchApps autostart");
-            link4.SetPath(@"C:\Windows\System32\schtasks.exe");
-            link4.SetArguments(@"/Change /TN ""\SwitchApps\SwitchApps autostart"" /Disable");
-            link4.SetIconLocation(exePath, 0);
+            link4.SetDescription("Disable autostart SwitchApps");
+            link4.SetPath(Path.Combine(
+                InstallerHelper.InstalledDir,
+                "Disable autostart.bat"
+            ));
             // Save shortcut:
             IPersistFile file4 = (IPersistFile)link4;
             file4.Save(Path.Combine(appStartMenuDir, "Disable autostart.lnk"), false);
