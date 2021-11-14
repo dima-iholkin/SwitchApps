@@ -8,6 +8,8 @@
 
 3. Please restart your computer for the important UX changes to apply.
 
+4. After the restart, try pressing `Alt + Tab` and `Alt + Shift + Tab`.
+
 ## Warning:
 A. With some very rapid key presses, there is a possibility that the utility will pass an `Enter` keypress to the focused app, which may lead to some undesirable result.
 
