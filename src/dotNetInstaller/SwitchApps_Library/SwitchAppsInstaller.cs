@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
+using System.Diagnostics;
 using Serilog;
 using Serilog.Core;
 using SwitchApps.Library._Helpers;
@@ -70,6 +71,8 @@ namespace SwitchApps.Library
             }
 
             base.OnAfterInstall(savedState);
+
+            Process.Start("https://github.com/dima-iholkin/SwitchApps/blob/master/docs/Post-Install.md");
         }
 
 

@@ -6,7 +6,7 @@
 2. [Install the **7+ Taskbar Tweaker**](https://rammichael.com/7-taskbar-tweaker) and turn on the "Don't group apps" option. It seems not easily available for Windows 11 users.
 ![7+ Taskbar Tweaker settings](/../assets/readme/7tt.png?raw=true "7+ Taskbar Tweaker settings")
 
-3. Please restart your computer for the important UX changes to apply.
+3. Please restart your computer for the important UX changes to apply. Don't worry, these changes will be reverted after an uninstall and reboot.
 
 4. After the restart, try pressing `Alt + Tab` and `Alt + Shift + Tab`.
 
