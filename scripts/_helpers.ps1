@@ -36,6 +36,32 @@ function BuildExe {
 
 
 
+function BuildExe_x86 {
+  cd ..
+  
+  if (Test-Path build) {
+    
+  }
+  else {
+    mkdir build | Out-Null
+  }
+  
+  $exeFile = "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe" 
+
+  $dir = (Get-Location).Path
+  $inputFile = $dir + "\src\SwitchApps.ahk"
+  $outputFile = $dir + "\build\SwitchApps.exe"
+  $iconFile = $dir + "\build\Icon_SwitchApps.ico"
+  $baseFile = "C:\Program Files\AutoHotKey\Compiler\Unicode 32-bit.bin"
+  # $baseFile = "Unicode 32-bit.bin"
+
+  & $exeFile /in $inputFile /out $outputFile /icon $iconFile /bin $baseFile
+
+  cd .\scripts\
+}
+
+
+
 function BuildExe_Win11 {
   cd ..
 
