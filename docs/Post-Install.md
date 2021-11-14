@@ -1,7 +1,7 @@
 # Post-install instructions:
 
 1. Unpin every app from the Taskbar. Make a screenshot of the taskbar in case you want to restore it later.
-![Unpin from taskbar](/_assets/01_Taskbar.png?raw=true "Taskbar")
+![Unpin from taskbar](/docs/_assets/01_Taskbar.png?raw=true "Taskbar")
 
 2. Install **7 Taskbar Tweaker+** and turn on the "Ungroup apps" option, it may not work for Windows 11 users.
 (picture)
