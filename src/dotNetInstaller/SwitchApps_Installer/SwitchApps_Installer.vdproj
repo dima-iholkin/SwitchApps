@@ -1008,7 +1008,7 @@
         "Name" = "8:SwitchApps utility"
         "ProductName" = "8:SwitchApps"
         "ProductCode" = "8:{56AA2C70-46C4-405C-94BD-DDA138954671}"
-        "PackageCode" = "8:{911E9C54-460F-43D1-B740-882599541A12}"
+        "PackageCode" = "8:{FA52B6D8-88D9-4061-873A-D952CC240FF9}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
