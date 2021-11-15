@@ -532,7 +532,7 @@
         {
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_01BEE57B358E437FB972540137E8816D"
             {
-            "SourcePath" = "8:..\\..\\..\\build\\SwitchApps.exe"
+            "SourcePath" = "8:..\\_build\\SwitchApps.exe"
             "TargetName" = "8:SwitchApps.exe"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -645,7 +645,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49E71D603FF14A3DB26C5F198BACC24E"
             {
-            "SourcePath" = "8:..\\..\\..\\build\\Icon_Uninstall.ico"
+            "SourcePath" = "8:..\\_assets\\Icon_Uninstall.ico"
             "TargetName" = "8:Icon_Uninstall.ico"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -778,7 +778,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D241F97DE1248BCA8AD15A58EB4EE67"
             {
-            "SourcePath" = "8:..\\..\\..\\build\\Uninstall.bat"
+            "SourcePath" = "8:..\\_assets\\Uninstall.bat"
             "TargetName" = "8:Uninstall.bat"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -798,7 +798,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B150A91DF9C84A699CA14DB8D24E1556"
             {
-            "SourcePath" = "8:..\\..\\..\\build\\Disable autostart.bat"
+            "SourcePath" = "8:..\\_assets\\Disable autostart.bat"
             "TargetName" = "8:Disable autostart.bat"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -880,7 +880,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7C47D27A1AB4293BB63F6D5C0831062"
             {
-            "SourcePath" = "8:..\\..\\..\\build\\Enable autostart.bat"
+            "SourcePath" = "8:..\\_assets\\Enable autostart.bat"
             "TargetName" = "8:Enable autostart.bat"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -1623,6 +1623,54 @@
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

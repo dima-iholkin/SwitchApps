@@ -24,10 +24,10 @@ enum Mod {
 
 
 function BuildAllInstallers {
-  BuildExeAndInstaller -Platform x64 -Mod Normal
   BuildExeAndInstaller -Platform x86 -Mod Normal
-  BuildExeAndInstaller -Platform x64 -Mod NoUngroupMod
   BuildExeAndInstaller -Platform x86 -Mod NoUngroupMod
+  BuildExeAndInstaller -Platform x64 -Mod NoUngroupMod
+  BuildExeAndInstaller -Platform x64 -Mod Normal
 }
 
 
@@ -76,7 +76,7 @@ function BuildExe {
   switch ($Mod) {
     Normal { }
     NoUngroupMod { 
-      (Get-Content -path $copiedAhkFile -Raw) -replace 'Send {Enter}', 'Send {Up} Send {Enter}' | Set-Content -Path $copiedAhkFile
+      (Get-Content -path $copiedAhkFile -Raw) -replace "Send {Enter}", "Send {Up} `n Send {Enter}" | Set-Content -Path $copiedAhkFile
     }
     Default { throw "Unexpected mod argument." }
   }

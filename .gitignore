@@ -5,15 +5,3 @@ obj/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
-src/dotNetInstaller/_build/SwitchApps_x64_NoUngroupMod.msi
-src/dotNetInstaller/_build/SwitchApps_x64.msi
-src/dotNetInstaller/_build/SwitchApps_x86_NoUngroupMod.msi
-src/dotNetInstaller/_build/SwitchApps_x86.msi
-src/dotNetInstaller/_build/SwitchApps.ahk
-src/dotNetInstaller/_build/SwitchApps.exe
-src/dotNetInstaller/_build/SwitchApps_x64_NoUngroupMod.msi
-src/dotNetInstaller/_build/SwitchApps_x64.msi
-src/dotNetInstaller/_build/SwitchApps_x86_NoUngroupMod.msi
-src/dotNetInstaller/_build/SwitchApps_x86.msi
-src/dotNetInstaller/_build/SwitchApps.ahk
-src/dotNetInstaller/_build/SwitchApps.exe
