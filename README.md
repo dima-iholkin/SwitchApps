@@ -14,8 +14,8 @@ and wanted a behaviour similar to:
 
 ## Demo
 
-The new behaviour of `Alt+Tab` and `Alt+Shift+Tab`:  
-<img src="../assets/readme/demo.gif" width="600" title="the new behaviour of Alt+Tab and Alt+Shift+Tab">
+The new behaviour of `Alt+Tab` and `Alt+Shift+Tab`:
+![SwitchApps demo GIF](/../assets/readme/demo.gif?raw=true "SwitchApps demo GIF")  
 
 ## Table of Contents
 
