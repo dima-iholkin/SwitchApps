@@ -23,7 +23,21 @@ enum Mod {
 
 
 
+function DisableOutOfProcBuild() {
+  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+  $disableOutOfProcBuildFile = $vsInstallPath + "\Common7\IDE\CommonExtensions\Microsoft\VSI\DisableOutOfProcBuild\DisableOutOfProcBuild.exe"
+  
+  Push-Location $vsInstallPath
+  & $disableOutOfProcBuildFile
+  Pop-Location
+}
+
+
+
+
 function BuildAllInstallers {
+  DisableOutOfProcBuild
+  
   BuildExeAndInstaller -Platform x86 -Mod Normal
   BuildExeAndInstaller -Platform x86 -Mod NoUngroupMod
   BuildExeAndInstaller -Platform x64 -Mod NoUngroupMod
