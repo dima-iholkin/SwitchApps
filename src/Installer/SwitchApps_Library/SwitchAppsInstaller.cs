@@ -71,8 +71,15 @@ namespace SwitchApps.Library
             }
 
             base.OnAfterInstall(savedState);
+        }
 
-            Process.Start("https://github.com/dima-iholkin/SwitchApps/blob/master/docs/Post-Install.md");
+
+
+        protected override void OnCommitted(IDictionary savedState)
+        {
+            Process.Start("https://github.com/dima-iholkin/SwitchApps/blob/master/_docs/Post-Install.md");
+
+            base.OnCommitted(savedState);
         }
 
 

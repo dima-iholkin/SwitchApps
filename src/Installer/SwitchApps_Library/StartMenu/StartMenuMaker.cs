@@ -89,6 +89,31 @@ namespace SwitchApps.Library.StartMenu
                 fs.Seek(21, SeekOrigin.Begin);
                 fs.WriteByte(0x22);
             }
+
+            IShellLink link5 = (IShellLink)new ShellLink();
+            // Shortcut information:
+            link5.SetDescription("Uninstall SwitchApps");
+            link5.SetPath(Path.Combine(
+                InstallerHelper.InstalledDir,
+                "Uninstall.bat"
+            ));
+            string uninstallIconPath = Path.Combine(
+                InstallerHelper.InstalledDir,
+                "Icon_Uninstall.ico"
+            );
+            link5.SetIconLocation(exePath, 0);
+            // Save shortcut:
+            IPersistFile file5 = (IPersistFile)link5;
+            file5.Save(Path.Combine(appStartMenuDir, "Uninstall.lnk"), false);
+            //using (var fs = new FileStream(
+            //    Path.Combine(appStartMenuDir, "Uninstall.lnk"),
+            //    FileMode.Open,
+            //    FileAccess.ReadWrite
+            //))
+            //{
+            //    fs.Seek(21, SeekOrigin.Begin);
+            //    fs.WriteByte(0x22);
+            //}
         }
 
 

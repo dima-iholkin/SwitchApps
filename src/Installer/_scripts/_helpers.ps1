@@ -8,6 +8,37 @@ function DebugCurrentDir {
 
 
 
+function GetInstallerProductCode {
+  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
+  
+  $productCodeLines = Select-String -Path $projectFile -Pattern "ProductCode" | Select-String -Pattern "8:{"
+  $productCode = ($productCodeLines -split { $_ -eq "{" -or $_ -eq "}" })[1]
+
+  return $productCode
+}
+
+
+
+function BuildUninstallBat {
+  $productCode = GetInstallerProductCode
+
+  $fileContent = @'
+@echo off
+msiexec /x {
+'@ + $productCode + "}"
+
+  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $buildDir = $installerDir + "\_build" # src\Installer\_build
+  $uninstallFile = $buildDir + "\Uninstall.bat" # src\Installer\_build\Uninstall.bat
+
+  Set-Content -Path $uninstallFile -Value $fileContent
+}
+
+
+
 
 enum Platform {
   x64
@@ -34,8 +65,20 @@ function DisableOutOfProcBuild() {
 
 
 
+function BuildNormalInstaller {
+  BuildUninstallBat
+
+  DisableOutOfProcBuild
+  
+  BuildExeAndInstaller -Platform x64 -Mod Normal
+}
+
+
+
 
 function BuildAllInstallers {
+  BuildUninstallBat
+
   DisableOutOfProcBuild
   
   BuildExeAndInstaller -Platform x86 -Mod Normal
@@ -77,11 +120,11 @@ function BuildExe {
   }
   $binFile = $ahkCompilerPath + $binPlatform
 
-  $scriptsDir = (Get-Location).Path # \src\dotNetInstaller\_scripts
-  $installerDir = Split-Path -Path $scriptsDir -Parent # \src\dotNetInstaller
-  $assetsDir = $installerDir + "\_assets" # \src\dotNetInstaller\_assets
-  $buildDir = $installerDir + "\_build" # \src\dotNetInstaller\_build
-  $rootDir = Split-Path -Path $installerDir -Parent # \src\
+  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $assetsDir = $installerDir + "\_assets" # src\Installer\_assets
+  $buildDir = $installerDir + "\_build" # src\Installer\_build
+  $rootDir = Split-Path -Path $installerDir -Parent # src\
 
   $ahkSourceFile = $rootDir + "\SwitchApps.ahk"
   Copy-Item -Path $ahkSourceFile -Destination $buildDir -Force
@@ -112,9 +155,9 @@ function BuildInstaller {
     [Platform] $Platform,
     [Mod] $Mod
   )
-  $scriptsDir = (Get-Location).Path # \src\dotNetInstaller\_scripts
-  $installerDir = Split-Path -Path $scriptsDir -Parent # \src\dotNetInstaller
-  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # \src\dotNetInstaller\SwitchApps_Installer\SwitchApps_Installer.vdproj
+  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
   $solutionFile = $installerDir + "\SwitchApps.sln"
 
   switch ($Platform) {

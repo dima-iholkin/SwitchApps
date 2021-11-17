@@ -33,30 +33,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_238F8882A71D8B7DAE5878B423F2D069"
-        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_357C4547FBA63F4B56575C0920E719E6"
-        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46F992CB0580210AD5876542FA728BA8"
-        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_46F992CB0580210AD5876542FA728BA8"
-        "OwnerKey" = "8:_796E8904088FAEF26BAE9C3051456960"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_49E71D603FF14A3DB26C5F198BACC24E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -99,7 +75,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_796E8904088FAEF26BAE9C3051456960"
+        "MsmKey" = "8:_7A6017771E6853CF4B7FDDC613E137F2"
         "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -107,6 +83,18 @@
         {
         "MsmKey" = "8:_7BFB72C7F47D37DE00ACAFFBBAFEC8B2"
         "OwnerKey" = "8:_4A8CA0518499241670D99154B983A8A5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7C19A38DE7B10E9622F8E4B8437A20F6"
+        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_7C19A38DE7B10E9622F8E4B8437A20F6"
+        "OwnerKey" = "8:_FBEE2FC14CE179AAE2CB031DEBE2AD41"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -142,7 +130,7 @@
         "Entry"
         {
         "MsmKey" = "8:_8B929C1C3B1A83723ABAA7D2E37DBE8A"
-        "OwnerKey" = "8:_357C4547FBA63F4B56575C0920E719E6"
+        "OwnerKey" = "8:_D65DF5DE36D973ACA735B6716D7BE388"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -190,7 +178,7 @@
         "Entry"
         {
         "MsmKey" = "8:_C15D19B096EF71EB8E2297C9BB95D064"
-        "OwnerKey" = "8:_357C4547FBA63F4B56575C0920E719E6"
+        "OwnerKey" = "8:_D65DF5DE36D973ACA735B6716D7BE388"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -203,6 +191,12 @@
         {
         "MsmKey" = "8:_C9349FB683ABB0947429F80FC356B6BE"
         "OwnerKey" = "8:_4A8CA0518499241670D99154B983A8A5"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D65DF5DE36D973ACA735B6716D7BE388"
+        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -226,6 +220,12 @@
         "Entry"
         {
         "MsmKey" = "8:_F7ADC4781BC22C50C55F959DEA9A796A"
+        "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_FBEE2FC14CE179AAE2CB031DEBE2AD41"
         "OwnerKey" = "8:_846658EE43484B02B6A383B432962D9A"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -268,7 +268,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_357C4547FBA63F4B56575C0920E719E6"
+        "OwnerKey" = "8:_D65DF5DE36D973ACA735B6716D7BE388"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -280,19 +280,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_796E8904088FAEF26BAE9C3051456960"
+        "OwnerKey" = "8:_FBEE2FC14CE179AAE2CB031DEBE2AD41"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_46F992CB0580210AD5876542FA728BA8"
+        "OwnerKey" = "8:_7C19A38DE7B10E9622F8E4B8437A20F6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_238F8882A71D8B7DAE5878B423F2D069"
+        "OwnerKey" = "8:_7A6017771E6853CF4B7FDDC613E137F2"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -550,99 +550,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_238F8882A71D8B7DAE5878B423F2D069"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:OneOf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_238F8882A71D8B7DAE5878B423F2D069"
-                    {
-                    "Name" = "8:OneOf.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:OneOf.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_357C4547FBA63F4B56575C0920E719E6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.9.2.0, Culture=neutral, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_357C4547FBA63F4B56575C0920E719E6"
-                    {
-                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_46F992CB0580210AD5876542FA728BA8"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_46F992CB0580210AD5876542FA728BA8"
-                    {
-                    "Name" = "8:Serilog.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Serilog.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_49E71D603FF14A3DB26C5F198BACC24E"
             {
             "SourcePath" = "8:..\\_assets\\Icon_Uninstall.ico"
@@ -659,7 +566,7 @@
             "SharedLegacy" = "11:FALSE"
             "PackageAs" = "3:1"
             "Register" = "3:1"
-            "Exclude" = "11:TRUE"
+            "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
@@ -683,20 +590,51 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_796E8904088FAEF26BAE9C3051456960"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7A6017771E6853CF4B7FDDC613E137F2"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:OneOf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_796E8904088FAEF26BAE9C3051456960"
+                    "_7A6017771E6853CF4B7FDDC613E137F2"
                     {
-                    "Name" = "8:Serilog.Sinks.File.dll"
+                    "Name" = "8:OneOf.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:Serilog.Sinks.File.dll"
+            "SourcePath" = "8:OneOf.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7C19A38DE7B10E9622F8E4B8437A20F6"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_7C19A38DE7B10E9622F8E4B8437A20F6"
+                    {
+                    "Name" = "8:Serilog.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -778,7 +716,7 @@
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8D241F97DE1248BCA8AD15A58EB4EE67"
             {
-            "SourcePath" = "8:..\\_assets\\Uninstall.bat"
+            "SourcePath" = "8:..\\_build\\Uninstall.bat"
             "TargetName" = "8:Uninstall.bat"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -878,6 +816,37 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D65DF5DE36D973ACA735B6716D7BE388"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Microsoft.Win32.TaskScheduler, Version=2.9.2.0, Culture=neutral, PublicKeyToken=e25603a88b3aa7da, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D65DF5DE36D973ACA735B6716D7BE388"
+                    {
+                    "Name" = "8:Microsoft.Win32.TaskScheduler.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Microsoft.Win32.TaskScheduler.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E7C47D27A1AB4293BB63F6D5C0831062"
             {
             "SourcePath" = "8:..\\_assets\\Enable autostart.bat"
@@ -912,6 +881,37 @@
                     }
                 }
             "SourcePath" = "8:Microsoft.Deployment.WindowsInstaller.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FBEE2FC14CE179AAE2CB031DEBE2AD41"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Serilog.Sinks.File, Version=5.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_FBEE2FC14CE179AAE2CB031DEBE2AD41"
+                    {
+                    "Name" = "8:Serilog.Sinks.File.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Serilog.Sinks.File.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
@@ -1007,15 +1007,15 @@
         {
         "Name" = "8:SwitchApps utility"
         "ProductName" = "8:SwitchApps"
-        "ProductCode" = "8:{9E5BE566-6633-4D59-94E3-1E37EEC1C7AB}"
-        "PackageCode" = "8:{77970E55-22F8-4B57-9411-4BD0620F321D}"
+        "ProductCode" = "8:{877A789C-B3C4-4958-B956-29D65136B958}"
+        "PackageCode" = "8:{A5EFBA1A-C985-48ED-AEC0-D344E7C7DA7A}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.1.0"
+        "ProductVersion" = "8:2.0.0"
         "Manufacturer" = "8:Dima Iholkin"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:https://github.com/dima-iholkin/SwitchApps"
@@ -1152,7 +1152,7 @@
             "Transitive" = "11:FALSE"
             "Target" = "8:_8D241F97DE1248BCA8AD15A58EB4EE67"
             "Folder" = "8:_7822713D10EE4FA3848EEB192C899EAB"
-            "WorkingFolder" = "8:_01AE1F5307A843D4BFA5A4CD20C198CB"
+            "WorkingFolder" = "8:_7822713D10EE4FA3848EEB192C899EAB"
             "Icon" = "8:_49E71D603FF14A3DB26C5F198BACC24E"
             "Feature" = "8:"
             }
