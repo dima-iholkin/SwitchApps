@@ -17,7 +17,7 @@ This utility does nearly the same thing through the Windows Taskbar, precisely u
 
 ## Get Support and Contribute
 
-Have any questions? Something gone wrong? Create an issue or a discussion.
+Something went wrong? Have any questions? Please create an issue or a discussion.
 
 ## License
 

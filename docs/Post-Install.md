@@ -1,12 +1,15 @@
 # Post-install instructions:
 
-1. Unpin every app from the Taskbar. Make a screenshot of the taskbar in case you want to restore it later.  
-![Unpin from taskbar](/docs/_assets/01_Taskbar.png?raw=true "Unpin from taskbar")
+1. Unpin every app from the Taskbar.  
+Take a screenshot of the Taskbar Pins or write them down, in case you'd want to restore them later.  
+![Unpin from the taskbar](/docs/_assets/01_Taskbar.png?raw=true "Unpin from the taskbar")
 
-2. [Install the **7+ Taskbar Tweaker**](https://rammichael.com/7-taskbar-tweaker) and turn on the "Don't group apps" option. It seems not easily available for Windows 11 users.  
+2. [Install the **7+ Taskbar Tweaker**](https://rammichael.com/7-taskbar-tweaker) and turn on the **Don't group apps** option.  
+The app seems not available for Windows 11 as of now (November 2021) and maybe never will be. If you find another way to ungroup apps on Windows 11 - it will probably work as well.
 ![7+ Taskbar Tweaker settings](/../assets/readme/7tt.png?raw=true "7+ Taskbar Tweaker settings")
 
-3. Please restart your computer for the important UX changes to apply. Don't worry, these changes will be reverted after an uninstall and reboot.
+3. Please restart your computer for the important UX changes to apply.  
+Don't worry, these changes will be reverted after an uninstall and reboot.
 
 4. After the restart, try pressing `Alt + Tab` and `Alt + Shift + Tab`.
 
@@ -16,7 +19,7 @@ A. With some very rapid key presses, there is a possibility that the utility wil
 
 B. The same can happen when the CPU is under high load, or when the utility is in a cold memory state.
 
-C. Some games and especially the full screen game mode doen't seem to work well with the utility. You can stop the utility during the gameplay.  
+C. Some games and especially the full screen game mode doesn't seem to work well with the utility. You can stop the utility during the gameplay.  
 ![Stop from the Start Menu](/docs/_assets/02_StartMenu.png?raw=true "Stop from the Start Menu")
 
-D. Microsoft Edge on Windows 11 doesn't seem to work well with the utility. So the `Alt + Tab` press there triggers the standard Windows 11 `Alt + Tab` behavior.
+D. Microsoft Edge on Windows 11 doesn't seem to work with the utility. So the `Alt + Tab` press there triggers the standard Windows 11 `Alt + Tab` behavior.
