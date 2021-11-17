@@ -11,6 +11,8 @@ This utility does nearly the same thing through the Windows Taskbar, precisely u
 
 ## Try it
 
+[Pre-install instructions](https://github.com/dima-iholkin/SwitchApps/blob/dev_24_dotnet-installer/docs/Pre-Install.md)
+
 [Get the latest release ➡](https://github.com/dima-iholkin/SwitchApps/releases/latest)
 
 [Post-install instructions](https://github.com/dima-iholkin/SwitchApps/blob/dev_24_dotnet-installer/docs/Post-Install.md)
