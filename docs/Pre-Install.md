@@ -6,4 +6,4 @@
 
 * **Windows 11 users** seem not able to ungroup the Taskbar apps, so should download the `SwitchApps_NoUngroupMod.msi` installer. This mod always chooses the first app from the app group.  
 
-No worries, you can always install another version later.
+No worries, you can try another installer later.
