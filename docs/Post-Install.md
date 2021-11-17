@@ -24,4 +24,4 @@ B. The same can happen when the CPU is under high load, or when the utility is i
 C. Some games and especially the full screen game mode doesn't seem to work well with the utility. You can stop the utility during the gameplay.  
 ![Stop from the Start Menu](/docs/_assets/02_StartMenu.png?raw=true "Stop from the Start Menu")
 
-D. Microsoft Edge on Windows 11 doesn't seem to work with the utility. So the `Alt + Tab` press there triggers the standard Windows 11 `Alt + Tab` behavior.
+D. Microsoft Edge on Windows 11 seems to ignore the utility. So the `Alt + Tab` press there triggers the standard Windows 11 `Alt + Tab` behavior.
