@@ -5,13 +5,13 @@ A ridiculous way to switch apps for Windows 10 and 11 with the standard `Alt + T
 You know how you can change tabs in Chrome and some other web browsers with `Ctrl + Page Up` and `Ctrl + Page Down`?  
 Or change the virtual desktops, if you have them set up, with `Ctrl + Win + Left Arrow` and `Ctrl + Win + Right Arrow`?
 
-This utility does nearly the same thing through the Windows Taskbar, precisely using the open apps there, and decisely seducing your fingers to press `Alt + Tab` again and again.😦
+This utility does nearly the same thing through the Windows Taskbar, precisely using the open apps there, and decisely seducing your fingers to press `Alt + Tab` again and again.🤤
 
 ![SwitchApps demo GIF](/../assets/readme/demo.gif?raw=true "SwitchApps demo GIF")  
 
 ## Try it
 
-[Get the latest release](https://github.com/dima-iholkin/SwitchApps/releases/latest)
+[Get the latest release ➡](https://github.com/dima-iholkin/SwitchApps/releases/latest)
 
 [Post-install instructions](https://github.com/dima-iholkin/SwitchApps/blob/dev_24_dotnet-installer/docs/Post-Install.md)
 
