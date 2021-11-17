@@ -11,11 +11,11 @@ This utility does nearly the same thing through the Windows Taskbar, precisely u
 
 ## Try it
 
-[Pre-install instructions](docs/Pre-Install.md)
+[Pre-install instructions](/_docs/Pre-Install.md)
 
 [Get the latest release ➡](https://github.com/dima-iholkin/SwitchApps/releases/latest)
 
-[Post-install instructions](docs/Post-Install.md)
+[Post-install instructions](/_docs/Post-Install.md)
 
 ## Get Support and Contribute
 
