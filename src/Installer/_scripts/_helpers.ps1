@@ -142,8 +142,6 @@ function BuildExe {
   $iconFile = $assetsDir + "\Icon_SwitchApps.ico"
 
   & $exeFile /in $copiedAhkFile /out $outputFile /icon $iconFile /bin $binFile
-
-  # cd .\scripts\
 }
 
 
