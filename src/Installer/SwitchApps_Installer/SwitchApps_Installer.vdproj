@@ -1008,7 +1008,7 @@
         "Name" = "8:SwitchApps utility"
         "ProductName" = "8:SwitchApps"
         "ProductCode" = "8:{877A789C-B3C4-4958-B956-29D65136B958}"
-        "PackageCode" = "8:{A5EFBA1A-C985-48ED-AEC0-D344E7C7DA7A}"
+        "PackageCode" = "8:{2E509E64-E946-4D96-A03E-FED093EC508E}"
         "UpgradeCode" = "8:{2DF411EE-E094-40E3-9618-B0F9370A4EEE}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1142,20 +1142,6 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_65AD3B4285E44DB9A60901BE7AFCCEB7"
-            {
-            "Name" = "8:Uninstall"
-            "Arguments" = "8:"
-            "Description" = "8:"
-            "ShowCmd" = "3:1"
-            "IconIndex" = "3:0"
-            "Transitive" = "11:FALSE"
-            "Target" = "8:_8D241F97DE1248BCA8AD15A58EB4EE67"
-            "Folder" = "8:_7822713D10EE4FA3848EEB192C899EAB"
-            "WorkingFolder" = "8:_7822713D10EE4FA3848EEB192C899EAB"
-            "Icon" = "8:_49E71D603FF14A3DB26C5F198BACC24E"
-            "Feature" = "8:"
-            }
         }
         "UserInterface"
         {

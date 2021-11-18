@@ -101,19 +101,10 @@ namespace SwitchApps.Library.StartMenu
                 InstallerHelper.InstalledDir,
                 "Icon_Uninstall.ico"
             );
-            link5.SetIconLocation(exePath, 0);
+            link5.SetIconLocation(uninstallIconPath, 0);
             // Save shortcut:
             IPersistFile file5 = (IPersistFile)link5;
             file5.Save(Path.Combine(appStartMenuDir, "Uninstall.lnk"), false);
-            //using (var fs = new FileStream(
-            //    Path.Combine(appStartMenuDir, "Uninstall.lnk"),
-            //    FileMode.Open,
-            //    FileAccess.ReadWrite
-            //))
-            //{
-            //    fs.Seek(21, SeekOrigin.Begin);
-            //    fs.WriteByte(0x22);
-            //}
         }
 
 
