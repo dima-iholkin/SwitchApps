@@ -3,3 +3,5 @@ function _BuildAllInstallers {
 
   BuildAllInstallers
 }
+
+_BuildAllInstallers

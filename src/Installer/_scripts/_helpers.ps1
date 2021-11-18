@@ -3,13 +3,15 @@ $ErrorActionPreference = "Stop"
 
 
 function DebugCurrentDir {
-  dir
+  Get-Location
+
+  $PSScriptRoot
 }
 
 
 
 function GetInstallerProductCode {
-  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
   
@@ -29,7 +31,7 @@ function BuildUninstallBat {
 msiexec /x {
 '@ + $productCode + "}"
 
-  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $buildDir = $installerDir + "\_build" # src\Installer\_build
   $uninstallFile = $buildDir + "\Uninstall.bat" # src\Installer\_build\Uninstall.bat
@@ -120,7 +122,7 @@ function BuildExe {
   }
   $binFile = $ahkCompilerPath + $binPlatform
 
-  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $assetsDir = $installerDir + "\_assets" # src\Installer\_assets
   $buildDir = $installerDir + "\_build" # src\Installer\_build
@@ -153,7 +155,7 @@ function BuildInstaller {
     [Platform] $Platform,
     [Mod] $Mod
   )
-  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
   $solutionFile = $installerDir + "\SwitchApps.sln"

@@ -7,3 +7,5 @@ function BuildDependencies {
 
   BuildExe -Platform x64 -Mod Normal
 }
+
+BuildDependencies

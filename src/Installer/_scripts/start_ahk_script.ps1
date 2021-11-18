@@ -1,5 +1,5 @@
 function StartAhkScript {
-  $scriptsDir = (Get-Location).Path # src\Installer\_scripts
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $rootDir = Split-Path -Path $installerDir -Parent # src
   
@@ -7,3 +7,5 @@ function StartAhkScript {
 
   start $ahkSourceFile
 }
+
+StartAhkScript
