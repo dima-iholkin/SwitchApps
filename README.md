@@ -2,7 +2,7 @@
 
 A ridiculous way to switch apps for Windows 10 and 11 with the standard `Alt + Tab` and `Alt + Shift + Tab` keyboard shortcuts.
 
-You know how you can change tabs in Chrome and some other web browsers with `Ctrl + Page Up` and `Ctrl + Page Down`?  
+You know how you can change the tabs in Chrome and some other web browsers with `Ctrl + Page Up` and `Ctrl + Page Down`?  
 Or change the virtual desktops, if you have them set up, with `Ctrl + Win + Left Arrow` and `Ctrl + Win + Right Arrow`?
 
 This utility does nearly the same thing through the Windows Taskbar, precisely using the open apps there, and decisely seducing your fingers to press `Alt + Tab` again and again.🤤
