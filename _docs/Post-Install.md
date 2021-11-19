@@ -9,7 +9,7 @@ Turn on the **to run at startup** option.
 ![7+ Taskbar Tweaker run at startup option](/_docs/_assets/04_7tt_autostart.png?raw=true "7+ Taskbar Tweaker run at startup option")  
 Turn on the **Don't group apps** option.  
 ![7+ Taskbar Tweaker don't group apps option](/../assets/readme/7tt.png?raw=true "7+ Taskbar Tweaker don't group apps option")  
-The app seems not available for Windows 11 as of now (November 2021) and may never be. If you find another way to ungroup apps on Windows 11 - it will probably work as well.  
+This app seems not available for Windows 11 as of now (November 2021) and may never be. If you find another way to ungroup apps on Windows 11 - it will probably work as well.  
 The standard Windows 10 and 11 group apps behavior we want to avoid:  
 ![No ungroup on Windows 11](/_docs/_assets/03_NoUngroup.png?raw=true "No ungroup on Windows 11")
 
