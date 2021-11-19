@@ -5,12 +5,12 @@ Take a screenshot of the taskbar Pins or write them down, in case you'd want to 
 ![Unpin from the taskbar](/_docs/_assets/01_Taskbar.png?raw=true "Unpin from the taskbar")
 
 2. [Install **7+ Taskbar Tweaker**](https://rammichael.com/7-taskbar-tweaker)  
-Turn on the **to run at startup** option.  
+Turn on the **to run at startup** option during the installation.  
 ![7+ Taskbar Tweaker run at startup option](/_docs/_assets/04_7tt_autostart.png?raw=true "7+ Taskbar Tweaker run at startup option")  
 Turn on the **Don't group apps** option.  
 ![7+ Taskbar Tweaker don't group apps option](/../assets/readme/7tt.png?raw=true "7+ Taskbar Tweaker don't group apps option")  
 This app seems not available for Windows 11 as of now (November 2021) and may never be. If you find another way to ungroup apps on Windows 11 - it will probably work as well.  
-The standard Windows 10 and 11 group apps behavior we want to avoid:  
+The standard Windows 10 and 11 apps grouping behavior we want to avoid:  
 ![No ungroup on Windows 11](/_docs/_assets/03_NoUngroup.png?raw=true "No ungroup on Windows 11")
 
 3. Please restart your computer for the important UX changes to apply.  
