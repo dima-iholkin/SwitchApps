@@ -4,9 +4,9 @@
 
 	// List of extensions which should be recommended for users of this workspace.
 	"recommendations": [
-		"slevesque.vscode-autohotkey",
+		"mark-wiemer.vscode-autohotkey-plus-plus",
 		"yzhang.markdown-all-in-one",
-		"davidanson.vscode-markdownlint"
+		"ms-vscode.powershell"
 	],
 	// List of extensions recommended by VS Code that should not be recommended for users of this workspace.
 	"unwantedRecommendations": [
