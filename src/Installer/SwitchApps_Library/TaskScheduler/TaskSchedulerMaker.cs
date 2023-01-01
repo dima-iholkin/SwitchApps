@@ -34,6 +34,7 @@ namespace SwitchApps.Library.TaskScheduler
             td.Settings.AllowDemandStart = true;
             td.Settings.AllowHardTerminate = true;
             td.Settings.DisallowStartIfOnBatteries = false;
+            td.Settings.StopIfGoingOnBatteries = false;
             td.Settings.ExecutionTimeLimit = TimeSpan.Zero;
             td.Settings.MultipleInstances = TaskInstancesPolicy.IgnoreNew;
 
