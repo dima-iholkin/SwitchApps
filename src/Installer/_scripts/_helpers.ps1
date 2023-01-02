@@ -51,7 +51,7 @@ enum Platform {
 
 enum Mod {
   Normal
-  NoUngroupMod
+  AppGroupingMod
 }
 
 
@@ -84,8 +84,8 @@ function BuildAllInstallers {
   DisableOutOfProcBuild
   
   BuildExeAndInstaller -Platform x86 -Mod Normal
-  BuildExeAndInstaller -Platform x86 -Mod NoUngroupMod
-  BuildExeAndInstaller -Platform x64 -Mod NoUngroupMod
+  BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
+  BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod
   BuildExeAndInstaller -Platform x64 -Mod Normal
 }
 
@@ -134,7 +134,7 @@ function BuildExe {
 
   switch ($Mod) {
     Normal { }
-    NoUngroupMod { 
+    AppGroupingMod { 
       (Get-Content -path $copiedAhkFile -Raw) -replace "Send {Enter}", "Send {Up} `n Send {Enter}" | Set-Content -Path $copiedAhkFile
     }
     Default { throw "Unexpected mod argument." }
@@ -197,7 +197,7 @@ function BuildInstaller {
   $installerMod
   switch ($Mod) {
     Normal { $installerMod = "" }
-    NoUngroupMod { $installerMod = "_NoUngroupMod" }
+    AppGroupingMod { $installerMod = "_AppGroupingMod" }
     Default { throw "Unexpected mod argument." }
   }
 
