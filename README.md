@@ -12,7 +12,7 @@ A new behavior for `Alt + Tab` and `Alt + Shift + Tab` keyboard shortcuts for Wi
 
 * Recommended to **unpin every app** from the Taskbar, because it interferes with the intended user experience of switching between open apps through the Taskbar. Better to use a diffenent approach to open common apps, for example pin to the Start Menu or create shortcuts on the Desktop.
 
-1. Download [the latest SwitchApps release](https://github.com/dima-iholkin/SwitchApps/releases/latest), choose the installer that best suits you.
+1. Download and install [the latest SwitchApps release](https://github.com/dima-iholkin/SwitchApps/releases/latest), choose the installer that best suits you.
 
 2. For Windows 10 use [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker) to disable the Taskbar app grouping.  
 Choose the **Run at startup** option during the installation.  
