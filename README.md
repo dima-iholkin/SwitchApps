@@ -46,8 +46,8 @@ Choose the **Don't group apps** option in the app.
 * Using [AutoHotKey project](https://www.autohotkey.com) to implement the actual `Alt + Tab` behavior override.
 * Using [Visual Studio Installer Projects](https://marketplace.visualstudio.com/items?itemName=VisualStudioClient.MicrosoftVisualStudio2022InstallerProjects) to provide the complete Installer/Uninstaller experience.
 * Registry changes during the Install process for the best `Alt + Tab` user experience, and the change reversal during the Uninstall process.
-* Task Scheduler task for autostart with highest priviledges.
-* Start Menu shortcuts for easy access to the common actions.
+* Task Scheduler task for autostart with highest privileges.
+* Start Menu shortcuts for easy access to common actions.
 
 
 
