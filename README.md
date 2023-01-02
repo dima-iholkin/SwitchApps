@@ -28,7 +28,7 @@ Choose the **Don't group apps** option in the app.
 
 
 
-## Limitations:
+## Limitations
 
 * Rarely the SwitchApps may send an `Enter` keypress to the active app, which may result in some horrible consequences, so be mindful.
 
@@ -38,6 +38,16 @@ Choose the **Don't group apps** option in the app.
 ![Stop SwitchApps from the Start Menu screenshot](/_docs/_assets/02_StartMenu.png?raw=true)
 
 * Windows 11's Microsoft Edge seems to ignore the utility, so an `Alt + Tab` keypress there triggers the default Windows 11 behavior.
+
+
+
+## Features
+
+* Using [AutoHotKey project](https://www.autohotkey.com) to implement the actual `Alt + Tab` behavior override.
+* Using [Visual Studio Installer Projects](https://marketplace.visualstudio.com/items?itemName=VisualStudioClient.MicrosoftVisualStudio2022InstallerProjects) to provide the complete Installer/Uninstaller experience.
+* Registry changes during the Install process for the best `Alt + Tab` user experience, and the change reversal during the Uninstall process.
+* Task Scheduler task for autostart with highest priviledges.
+* Start Menu shortcuts for easy access to the common actions.
 
 
 
