@@ -108,6 +108,7 @@ namespace SwitchApps.Library.StartMenu
         }
 
 
+
         public void DeleteShortcuts()
         {
             string appStartMenuDir = Path.Combine(

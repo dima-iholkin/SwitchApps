@@ -75,15 +75,6 @@ namespace SwitchApps.Library
 
 
 
-        protected override void OnCommitted(IDictionary savedState)
-        {
-            Process.Start("https://github.com/dima-iholkin/SwitchApps/blob/master/_docs/Post-Install.md");
-
-            base.OnCommitted(savedState);
-        }
-
-
-
         protected override void OnBeforeUninstall(IDictionary savedState)
         {
             try
