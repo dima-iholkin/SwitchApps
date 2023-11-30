@@ -1,6 +1,7 @@
 # <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/1920px-Flag_of_Ukraine.svg.png" width="32" alt="Ukrainian flag"> SwitchApps utility for Windows 10/11
 
 
+**If you use `Alt + Tab` shortcut on Windows, this may be interesting to you.**  
 
 A new behavior for `Alt + Tab` and `Alt + Shift + Tab` keyboard shortcuts for Windows 10/11. It uses the current Taskbar order to switch between apps.
 

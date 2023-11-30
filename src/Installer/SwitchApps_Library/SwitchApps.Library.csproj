@@ -64,6 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MenuAnimation\MenuAnimationManager.cs" />
+    <Compile Include="MenuAnimation\MenuAnimationUtility.cs" />
     <Compile Include="Registry\Exceptions\BackupRegistryRecordCorruptedException.cs" />
     <Compile Include="Registry\Model\RestoreSourceEnum.cs" />
     <Compile Include="Registry\Extensions\RegistryItemExtensions_TopLevel.cs" />
