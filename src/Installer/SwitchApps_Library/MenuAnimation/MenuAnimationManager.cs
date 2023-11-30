@@ -50,7 +50,7 @@ namespace SwitchApps_Library.MenuAnimation
         {
             this._menuAnimationUtility.SetMenuAnimation(false);
 
-            this._logger.Information("MenuAnimation UI modified to {MenuAnimationUI}", false);
+            this._logger.Information("MenuAnimation UI modified to {MenuAnimationUI}.", false);
         }
 
         public void RestoreSetting()
@@ -95,19 +95,19 @@ namespace SwitchApps_Library.MenuAnimation
 
                 this._menuAnimationUtility.SetMenuAnimation(newValue);
 
-                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}", newValue);
+                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}.", newValue);
             }
             else if (backupValue == null && currentValue != MenuAnimationManager.DefaultValue)
             {
                 this._menuAnimationUtility.SetMenuAnimation(MenuAnimationManager.DefaultValue);
 
-                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}", MenuAnimationManager.DefaultValue);
+                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}.", MenuAnimationManager.DefaultValue);
             }
             else if (backupValue.HasValue && currentValue != backupValue.Value)
             {
                 this._menuAnimationUtility.SetMenuAnimation(backupValue.Value);
 
-                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}", backupValue.Value);
+                this._logger.Information("MenuAnimation UI setting set to {MenuAnimationUI}.", backupValue.Value);
             }
 
             // Delete the backup entry:

@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using Serilog.Core;
 
-// Thanks to this honorable man we have it working https://gist.github.com/skepticMike/caa8a43db86f6d027e400ad9196e100a
+// Thanks to this honorable man we have this working https://gist.github.com/skepticMike/caa8a43db86f6d027e400ad9196e100a
 // And thanks to this forum too https://www.tenforums.com/tutorials/6377-change-visual-effects-settings-windows-10-a-6.html
 
 namespace SwitchApps_Library.MenuAnimation
@@ -42,11 +42,11 @@ namespace SwitchApps_Library.MenuAnimation
 
             if (exitValue == false)
             {
-                this._logger.Error("Win32 function call failed with error code {Win32ErrorCode}", Marshal.GetLastWin32Error());
+                this._logger.Error("Win32 function call failed with error code {Win32ErrorCode}.", Marshal.GetLastWin32Error());
                 return null;
             }
 
-            this._logger.Information("Menu animation is {MenuAnimationIsEnabled}", menuAnimationIsEnabled);
+            this._logger.Information("Menu animation is {MenuAnimationIsEnabled}.", menuAnimationIsEnabled);
             return menuAnimationIsEnabled;
         }
 
@@ -62,11 +62,11 @@ namespace SwitchApps_Library.MenuAnimation
 
             if (exitValue == false)
             {
-                this._logger.Error("Win32 function call failed with error code {Win32ErrorCode}", Marshal.GetLastWin32Error());
+                this._logger.Error("Win32 function call failed with error code {Win32ErrorCode}.", Marshal.GetLastWin32Error());
             }
             else
             {
-                this._logger.Information("Menu animation set to {MenuAnimationNewValue}", newValue);
+                this._logger.Information("Menu animation set to {MenuAnimationNewValue}.", newValue);
             }
         }
     }
