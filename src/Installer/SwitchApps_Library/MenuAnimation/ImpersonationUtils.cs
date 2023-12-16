@@ -6,6 +6,10 @@ using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Serilog.Core;
 
+// Thank you to these people https://amiryonatan.blogspot.com/2013/01/impersonating-currentuser_26.html
+// https://stackoverflow.com/questions/3891260/impersonation-the-current-user-using-windowsimpersonationcontext-to-access-netwo
+// https://stackoverflow.com/questions/7613468/getting-the-current-username-when-impersonated
+
 namespace SwitchApps_Library.MenuAnimation
 {
     internal static class ImpersonationUtils
