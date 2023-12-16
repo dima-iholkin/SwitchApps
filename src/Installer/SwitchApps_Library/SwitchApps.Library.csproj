@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MenuAnimation\ImpersonationUtils.cs" />
     <Compile Include="MenuAnimation\MenuAnimationManager.cs" />
     <Compile Include="MenuAnimation\MenuAnimationUtility.cs" />
     <Compile Include="Registry\Exceptions\BackupRegistryRecordCorruptedException.cs" />
@@ -73,7 +74,7 @@
     <Compile Include="Registry\Model\RegistryItemValue.cs" />
     <Compile Include="Registry\Singletons\BackupSubkey.cs" />
     <Compile Include="Registry\Singletons\SoftwareSubkey.cs" />
-    <Compile Include="StartMenu\StartMenuMaker.cs" />
+    <Compile Include="StartMenu\StartMenuManager.cs" />
     <Compile Include="StartMenu\_Helpers\IShellLink.cs" />
     <Compile Include="StartMenu\_Helpers\ShellLink.cs" />
     <Compile Include="_Helpers\InstallerHelper.cs" />
@@ -86,8 +87,8 @@
     <Compile Include="SwitchAppsRegistryItems.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registry\Model\RegistryItem.cs" />
-    <Compile Include="Registry\RegistryMaker.cs" />
-    <Compile Include="TaskScheduler\TaskSchedulerMaker.cs" />
+    <Compile Include="Registry\RegistryManager.cs" />
+    <Compile Include="TaskScheduler\TaskSchedulerManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

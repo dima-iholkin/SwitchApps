@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration.Install;
+using System.Security.Principal;
 using Serilog;
 using Serilog.Core;
 using SwitchApps.Library._Helpers;
 using SwitchApps.Library.Registry;
 using SwitchApps.Library.Registry.Model;
-using SwitchApps.Library.Registry.Singletons;
 using SwitchApps.Library.StartMenu;
 using SwitchApps.Library.TaskScheduler;
 using SwitchApps_Library.MenuAnimation;
@@ -19,6 +19,12 @@ namespace SwitchApps.Library
     public partial class SwitchAppsInstaller : Installer, IDisposable
     {
         // Init:
+
+        private readonly Logger _logger;
+        private readonly RegistryManager _registryManager;
+        private readonly TaskSchedulerManager _taskSchedulerManager;
+        private readonly StartMenuManager _startMenuManager;
+        private readonly MenuAnimationManager _menuAnimationManager;
 
         public SwitchAppsInstaller()
         {
@@ -34,45 +40,38 @@ namespace SwitchApps.Library
                 SwitchAppsRegistryItems.MsOfficeAdPopup
             };
 
-            this._registryMaker = new RegistryMaker(managedRegistryItems);
-            this._taskSchedulerMaker = new TaskSchedulerMaker();
-            this._startMenuMaker = new StartMenuMaker();
-            this._menuAnimationManager = new MenuAnimationManager(_logger);
+            this._registryManager = new RegistryManager(managedRegistryItems);
+            this._taskSchedulerManager = new TaskSchedulerManager(this._logger);
+            this._startMenuManager = new StartMenuManager();
+            this._menuAnimationManager = new MenuAnimationManager(this._logger);
+
+            this._logger.Information("Login username: {LoginUsername}.", InstallerHelper.LoginUsername);
+
+            this._logger.Information(
+                "WindowsIdentity install username: {WindowsIdentityUsername}.", WindowsIdentity.GetCurrent().Name
+            );
         }
 
-        private readonly Logger _logger;
-        private readonly RegistryMaker _registryMaker;
-        private readonly TaskSchedulerMaker _taskSchedulerMaker;
-        private readonly StartMenuMaker _startMenuMaker;
-        private readonly MenuAnimationManager _menuAnimationManager;
-
-        // Using the hooks:
+        // Implement the hooks:
 
         protected override void OnAfterInstall(IDictionary savedState)
         {
             try
             {
-                this._registryMaker.BackupRegistry();
-                this._logger.Information("Finished the registry backup.");
+                this._registryManager.BackupRegistry();
+                this._registryManager.ModifyRegistry();
 
                 this._menuAnimationManager.BackupSetting();
-                this._logger.Information("Finished the MenuAnimation backup.");
-
-                this._registryMaker.ModifyRegistry();
-                this._logger.Information("Finished the registry modification.");
-
                 this._menuAnimationManager.ModifySetting();
-                this._logger.Information("Finished the MenuAnimation modification.");
 
-                this._taskSchedulerMaker.CreateTask()
-                    .Run();
-                this._logger.Information("Created the scheduled task.");
+                this._taskSchedulerManager.CreateTask().Run();
 
-                this._startMenuMaker.CreateShortcuts();
+                this._startMenuManager.CreateShortcuts();
             }
             catch (Exception ex)
             {
                 this._logger.Error(ex, "Installer caught an error. Installation canceled.");
+
                 throw;
             }
 
@@ -83,27 +82,24 @@ namespace SwitchApps.Library
         {
             try
             {
-                this._taskSchedulerMaker.DeleteTask();
-                this._logger.Information("Deleted the scheduled task subtree SwitchApps.");
+                this._taskSchedulerManager.DeleteTask();
 
-                this._registryMaker.RestoreRegistry();
-                this._logger.Information("Finished the registry restore.");
+                this._registryManager.RestoreRegistry();
 
                 this._menuAnimationManager.RestoreSetting();
-                this._logger.Information("Finished the MenuAnimation restore.");
 
-                SoftwareSubkey.Instance.DeleteSubKeyTree("SwitchApps");
-                this._logger.Information("Deleted the backup registry subtree SwitchApps.");
+                this._registryManager.DeleteBackupTree();
 
-                this._startMenuMaker.DeleteShortcuts();
+                this._startMenuManager.DeleteShortcuts();
             }
             catch (Exception ex)
             {
-                // No op.
                 this._logger.Error(ex, "Uninstaller caught an error. Uninstall with finish regardless.");
 
+                // No op.
+
                 // Meaning if there are errors in my code, it should still perform the uninstall successfully.
-                // As it would be a complete disaster to not being able to uninstall an app.
+                // As it would be a complete disaster not being able to uninstall the app.
             }
             finally
             {
