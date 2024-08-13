@@ -101,11 +101,16 @@ function BuildExe {
   $iconFile = $assetsDir + "\Icon_SwitchApps.ico"
   # Build the executable:
   # $binFile -replace ' ', '` '
-  Start-Process -FilePath $exeFile -ArgumentList $(
+  Start-Process -FilePath $exeFile -Wait -ArgumentList $(
     "/in $copiedAhkFile",
     "/out $outputFile",
     "/icon $iconFile"
   )
+  if (Test-Path -Path $outputFile) {
+    Write-Output "SwitchApps.exe created"
+  } else {
+    Write-Output "SwitchApps.exe not created"
+  }
 }
 
 # Start-Process -FilePath "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Ahk2Exe.exe" -ArgumentList ('/in "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.ahk" /out "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.exe" /icon "C:\MySoftware\Projects\SwitchApps\src\Installer\_assets\Icon_SwitchApps.ico" /bin "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Unicode 32-bit.bin" ')
