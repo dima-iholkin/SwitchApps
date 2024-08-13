@@ -17,6 +17,7 @@ function BuildAllInstallers {
   # Build the dependencies and the installers:
   BuildUninstallBat
   DisableOutOfProcBuild
+  # UpdateDevenvConfiguration
   BuildExeAndInstaller -Platform x86 -Mod Normal
   BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
   BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod
@@ -75,7 +76,9 @@ function BuildExe {
   }
   $binFile = $ahkCompilerPath + $binPlatform
   # Copy the base platform AHK file:
-  Copy-Item -Path "$binFile" -Destination "$ahkCompilerPath\AutoHotkeySC.bin" -Force
+  if (Test-Path -Path "$PSScriptRoot\_autohotkey\Compiler\Ahk2Exe.exe") {
+    Copy-Item -Path "$binFile" -Destination "$ahkCompilerPath\AutoHotkeySC.bin" -Force
+  }
   # Set the directory paths:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
@@ -98,7 +101,6 @@ function BuildExe {
   $outputFile = $buildDir + "\SwitchApps.exe"
   $iconFile = $assetsDir + "\Icon_SwitchApps.ico"
   # Build the executable:
-  # $binFile -replace ' ', '` '
   Start-Process -FilePath $exeFile -Wait -ArgumentList $(
     "/in $copiedAhkFile",
     "/out $outputFile",
@@ -146,21 +148,21 @@ function BuildInstaller {
   $toLogOrNot = ""
   $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
   $timeoutReached = $null
-  $proc | Wait-Process -Timeout 30 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
+  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
   if ($timeoutReached) {
     # Terminate the process:
     $proc | Stop-Process
     # Retry the build:
     Write-Output "Retrying the build..."
-    Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
+    Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -Wait
   }
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
     x64 { }
     x86 {
-      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:0"', '"TargetPlatform" = "3:1"' | Set-Content -Path $projectFile
-      (Get-Content -path $projectFile -Raw) -replace 'ProgramFilesFolder', 'ProgramFiles64Folder' | Set-Content -Path $projectFile
+      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:0"', '"TargetPlatform" = "3:1"' | Set-Content -Path $projectFile -Force
+      (Get-Content -path $projectFile -Raw) -replace 'ProgramFilesFolder', 'ProgramFiles64Folder' | Set-Content -Path $projectFile -Force
     }
     Default { throw "Unexpected platform argument." }
   }
@@ -219,6 +221,19 @@ function GetInstallerProductCode {
   $productCodeLines = Select-String -Path $projectFile -Pattern "ProductCode" | Select-String -Pattern "8:{"
   $productCode = ($productCodeLines -split { $_ -eq "{" -or $_ -eq "}" })[1]
   return $productCode
+}
+
+function UpdateDevenvConfiguration {
+  # Set the "devenv.exe" file path:
+  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
+  # Guard clause:
+  if ((Test-Path -Path $devenvFile) -eq $false) {
+    throw "Visual Studio 2022 devenv.exe file not found."
+  }
+  # Run "devenv /updateconfiguration":
+  Write-Output 'Run "devenv /updateconfiguration"'
+  Start-Process -FilePath $devenvFile -ArgumentList ("/updateconfiguration") -NoNewWindow -Wait
 }
 
 # Enums:
