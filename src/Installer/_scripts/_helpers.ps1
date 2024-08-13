@@ -17,6 +17,7 @@ function BuildAllInstallers {
   # Build the dependencies and the installers:
   BuildUninstallBat
   DisableOutOfProcBuild
+  RunVS2022
   # UpdateDevenvConfiguration
   BuildExeAndInstaller -Platform x86 -Mod Normal
   BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
@@ -234,6 +235,30 @@ function UpdateDevenvConfiguration {
   # Run "devenv /updateconfiguration":
   Write-Output 'Run "devenv /updateconfiguration"'
   Start-Process -FilePath $devenvFile -ArgumentList ("/updateconfiguration") -NoNewWindow -Wait
+}
+
+function RunVS2022 {
+  # Set the paths:
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $solutionFile = $installerDir + "\SwitchApps.sln"
+  # Set the "devenv.exe" file path:
+  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
+  # Guard clause:
+  if ((Test-Path -Path $devenvFile) -eq $false) {
+    throw "Visual Studio 2022 devenv.exe file not found."
+  }
+  # Run the solution in VS 2022:
+  Write-Output 'Run the solution in VS 2022...'
+  $proc = Start-Process -FilePath $devenvFile -ArgumentList ("/runexit $solutionFile") -PassThru
+  $timeoutReached = $null
+  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
+  if ($timeoutReached) {
+    # Terminate the process:
+    Write-Output "Terminate the VS 2022 process..."
+    $proc | Stop-Process
+  }
 }
 
 # Enums:
