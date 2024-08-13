@@ -147,7 +147,7 @@ function BuildInstaller {
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
   # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
   $toLogOrNot = ""
-  Start-Process -FilePath $devenvFile -ArgumentList ($solutionFile + " /rebuild Debug $toLogOrNot") -Wait | Wait-Process -Timeout 15
+  Start-Process -FilePath $devenvFile -ArgumentList ("/runexit " + $solutionFile + " /rebuild Debug $toLogOrNot") -Wait
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
