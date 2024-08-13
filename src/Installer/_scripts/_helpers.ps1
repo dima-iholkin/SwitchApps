@@ -147,8 +147,8 @@ function BuildInstaller {
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
   # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
   $toLogOrNot = ""
-  $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
   $timeoutReached = $null
+  $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
   $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
   if ($timeoutReached) {
     # Terminate the process:
