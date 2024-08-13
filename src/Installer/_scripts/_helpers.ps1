@@ -257,10 +257,13 @@ function RunVS2022 {
   $wshell = New-Object -ComObject wscript.shell
   # Wait until activating the target process succeeds.
   # Note: You may want to implement a timeout here.
-  Start-Sleep -Seconds 30
+  Start-Sleep -Seconds 40
   Write-Output "Sending enter to the VS 2022 window"
   $wshell.SendKeys('{ENTER}')
-  Start-Sleep -Seconds 20
+  Start-Sleep -Seconds 10
+  Write-Output "Sending enter to the VS 2022 window"
+  $wshell.SendKeys('{ENTER}')
+  Start-Sleep -Seconds 10
   # Write-Output "Sending enter to the VS 2022 window"
   # $wshell.SendKeys('{ENTER}')
   # Start-Sleep -Seconds 10
