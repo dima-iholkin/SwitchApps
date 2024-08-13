@@ -242,6 +242,7 @@ function RunVS2022 {
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $solutionFile = $installerDir + "\SwitchApps.sln"
+  # $projectFile = $installerDir + "\SwitchApps_Library\SwitchApps.Library.csproj"
   # Set the "devenv.exe" file path:
   $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
   $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
@@ -253,27 +254,12 @@ function RunVS2022 {
   Write-Output 'Run the solution in VS 2022...'
   $proc = Start-Process -FilePath $devenvFile -ArgumentList ("/runexit $solutionFile") -PassThru
   $timeoutReached = $null
-  # Send "enter" keystrokes to the VS 2022 window:
-  $wshell = New-Object -ComObject wscript.shell
-  # Wait until activating the target process succeeds.
-  # Note: You may want to implement a timeout here.
-  Start-Sleep -Seconds 40
-  Write-Output "Sending enter to the VS 2022 window"
-  $wshell.SendKeys('{ENTER}')
-  Start-Sleep -Seconds 10
-  Write-Output "Sending enter to the VS 2022 window"
-  $wshell.SendKeys('{ENTER}')
-  Start-Sleep -Seconds 10
-  # Write-Output "Sending enter to the VS 2022 window"
-  # $wshell.SendKeys('{ENTER}')
-  # Start-Sleep -Seconds 10
-  $proc | Stop-Process
-  # $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
-  # if ($timeoutReached) {
-  #   # Terminate the process:
-  #   Write-Output "Terminate the VS 2022 process..."
-  #   $proc | Stop-Process
-  # }
+  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
+  if ($timeoutReached) {
+    # Terminate the process:
+    Write-Output "Terminate the VS 2022 process..."
+    $proc | Stop-Process
+  }
   cd $installerDir
   ls
 }
