@@ -121,7 +121,8 @@ function BuildInstaller {
     Default { throw "Unexpected platform argument." }
   }
   # Set the "devenv.exe" file path:
-  $devenvFile = "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
   # Guard clause:
   if ((Test-Path -Path $devenvFile) -eq $false) {
     throw "Visual Studio 2022 devenv.exe file not found."
