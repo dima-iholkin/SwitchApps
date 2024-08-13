@@ -62,6 +62,10 @@ function BuildExe {
   else {
     throw "AutoHotKey compiler directory not found.";
   }
+  # Guard clause, check the "AutoHotkeySC.bin" file exists:
+  if ((Test-Path -Path "$ahkCompilerPath\AutoHotkeySC.bin") -eq $false) {
+    Copy-Item -Path "$ahkCompilerPath\Unicode 32-bit.bin" -Destination "$ahkCompilerPath\AutoHotkeySC.bin"
+  }
   if (($Platform -eq "x86") -and ($Mod -eq "Normal")) {
     Write-Output "AutoHotKey compiler directory path: $ahkCompilerPath"
   }
@@ -96,8 +100,15 @@ function BuildExe {
   $outputFile = $buildDir + "\SwitchApps.exe"
   $iconFile = $assetsDir + "\Icon_SwitchApps.ico"
   # Build the executable:
-  & $exeFile /in $copiedAhkFile /out $outputFile /icon $iconFile /bin $binFile
+  # $binFile -replace ' ', '` '
+  Start-Process -FilePath $exeFile -ArgumentList $(
+    "/in $copiedAhkFile",
+    "/out $outputFile",
+    "/icon $iconFile"
+  )
 }
+
+# Start-Process -FilePath "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Ahk2Exe.exe" -ArgumentList ('/in "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.ahk" /out "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.exe" /icon "C:\MySoftware\Projects\SwitchApps\src\Installer\_assets\Icon_SwitchApps.ico" /bin "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Unicode 32-bit.bin" ')
 
 function BuildInstaller {
   [CmdletBinding()]
@@ -131,7 +142,7 @@ function BuildInstaller {
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
   # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
   $toLogOrNot = ""
-  Start-Process -FilePath $devenvFile -ArgumentList ($solutionFile + " /rebuild Debug $toLogOrNot") -Wait -NoNewWindow
+  Start-Process -FilePath $devenvFile -ArgumentList ($solutionFile + " /rebuild Debug $toLogOrNot") -Wait -NoNewWindow | Wait-Process -Timeout 15
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
