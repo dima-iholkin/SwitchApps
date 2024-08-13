@@ -137,7 +137,7 @@ function BuildInstaller {
   }
   # Set the "devenv.exe" file path:
   $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
-  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
+  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.com"
   # Guard clause:
   if ((Test-Path -Path $devenvFile) -eq $false) {
     throw "Visual Studio 2022 devenv.exe file not found."
@@ -154,7 +154,7 @@ function BuildInstaller {
     $proc | Stop-Process
     # Retry the build:
     Write-Output "Retrying the build..."
-    Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -Wait
+    Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
   }
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
