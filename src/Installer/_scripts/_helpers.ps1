@@ -62,10 +62,6 @@ function BuildExe {
   else {
     throw "AutoHotKey compiler directory not found.";
   }
-  # Guard clause, check the "AutoHotkeySC.bin" file exists:
-  if ((Test-Path -Path "$ahkCompilerPath\AutoHotkeySC.bin") -eq $false) {
-    Copy-Item -Path "$ahkCompilerPath\Unicode 32-bit.bin" -Destination "$ahkCompilerPath\AutoHotkeySC.bin"
-  }
   if (($Platform -eq "x86") -and ($Mod -eq "Normal")) {
     Write-Output "AutoHotKey compiler directory path: $ahkCompilerPath"
   }
@@ -78,6 +74,8 @@ function BuildExe {
     Default { throw "Unexpected bin platform argument." }
   }
   $binFile = $ahkCompilerPath + $binPlatform
+  # Copy the base platform AHK file:
+  Copy-Item -Path "$binFile" -Destination "$ahkCompilerPath\AutoHotkeySC.bin" -Force
   # Set the directory paths:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
@@ -92,7 +90,7 @@ function BuildExe {
   switch ($Mod) {
     Normal { }
     AppGroupingMod {
-      (Get-Content -path $copiedAhkFile -Raw) -replace "Send {Enter}", "Send {Up} `n Send {Enter}" | Set-Content -Path $copiedAhkFile
+      (Get-Content -path $copiedAhkFile -Raw) -replace "Send {Enter}", "Send {Up} `n Send {Enter}" | Set-Content -Path $copiedAhkFile -Force
     }
     Default { throw "Unexpected mod argument." }
   }
@@ -108,12 +106,11 @@ function BuildExe {
   )
   if (Test-Path -Path $outputFile) {
     Write-Output "SwitchApps.exe created"
-  } else {
+  }
+  else {
     Write-Output "SwitchApps.exe not created"
   }
 }
-
-# Start-Process -FilePath "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Ahk2Exe.exe" -ArgumentList ('/in "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.ahk" /out "C:\MySoftware\Projects\SwitchApps\src\Installer\_build\SwitchApps.exe" /icon "C:\MySoftware\Projects\SwitchApps\src\Installer\_assets\Icon_SwitchApps.ico" /bin "C:\MySoftware\Projects\SwitchApps\src\Installer\_scripts\_autohotkey\Compiler\Unicode 32-bit.bin" ')
 
 function BuildInstaller {
   [CmdletBinding()]
@@ -131,8 +128,8 @@ function BuildInstaller {
   switch ($Platform) {
     x64 { }
     x86 {
-      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:1"', '"TargetPlatform" = "3:0"' | Set-Content -Path $projectFile
-      (Get-Content -path $projectFile -Raw) -replace 'ProgramFiles64Folder', 'ProgramFilesFolder' | Set-Content -Path $projectFile
+      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:1"', '"TargetPlatform" = "3:0"' | Set-Content -Path $projectFile -Force
+      (Get-Content -path $projectFile -Raw) -replace 'ProgramFiles64Folder', 'ProgramFilesFolder' | Set-Content -Path $projectFile -Force
     }
     Default { throw "Unexpected platform argument." }
   }
@@ -147,7 +144,7 @@ function BuildInstaller {
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
   # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
   $toLogOrNot = ""
-  Start-Process -FilePath $devenvFile -ArgumentList ("/runexit " + $solutionFile + " /rebuild Debug $toLogOrNot") -Wait
+  Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -Wait -NoNewWindow
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
@@ -159,8 +156,8 @@ function BuildInstaller {
     Default { throw "Unexpected platform argument." }
   }
   # Set the paths:
-  $installerFile = $installerDir + "\SwitchApps_Installer\Debug\SwitchApps.msi" # \src\dotNetInstaller\SwitchApps_Installer\Debug\SwitchApps.msi
-  $buildDir = $installerDir + "\_build" # \src\dotNetInstaller\_build
+  $installerFile = $installerDir + "\SwitchApps_Installer\Debug\SwitchApps.msi" # \src\Installer\SwitchApps_Installer\Debug\SwitchApps.msi
+  $buildDir = $installerDir + "\_build" # \src\Installer\_build
   # Set the installer name suffixes:
   switch ($Platform) {
     x64 { $installerPlatform = "_x64" }
