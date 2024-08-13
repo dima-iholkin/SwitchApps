@@ -15,6 +15,9 @@ jobs:
           Expand-Archive -Path "$path\autohotkey.zip" -DestinationPath "$path\_autohotkey\" -Force;
           Remove-Item -Path "$path\autohotkey.zip" -Force;
 
+      - uses: nuget/setup-nuget@v2
+      - run: nuget restore .\src\Installer\SwitchApps.sln
+
       - name: Build the dependencies and the installers
         shell: pwsh
         run: |
