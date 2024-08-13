@@ -9,6 +9,12 @@ function BuildNormalInstaller {
 }
 
 function BuildAllInstallers {
+  # Create the "_build" folder:
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $buildDir = $installerDir + "\_build" # src\Installer\_build
+  New-Item -ItemType Directory -Path $buildDir
+  # Build the dependencies and the installers:
   BuildUninstallBat
   DisableOutOfProcBuild
   BuildExeAndInstaller -Platform x86 -Mod Normal
