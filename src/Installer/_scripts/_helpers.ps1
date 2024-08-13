@@ -253,12 +253,26 @@ function RunVS2022 {
   Write-Output 'Run the solution in VS 2022...'
   $proc = Start-Process -FilePath $devenvFile -ArgumentList ("/runexit $solutionFile") -PassThru
   $timeoutReached = $null
-  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
-  if ($timeoutReached) {
-    # Terminate the process:
-    Write-Output "Terminate the VS 2022 process..."
-    $proc | Stop-Process
-  }
+  # Send "enter" keystrokes to the VS 2022 window:
+  $wshell = New-Object -ComObject wscript.shell
+  # Wait until activating the target process succeeds.
+  # Note: You may want to implement a timeout here.
+  Start-Sleep -Seconds 30
+  Write-Output "Sending enter to the VS 2022 window"
+  $wshell.SendKeys('{ENTER}')
+  Start-Sleep -Seconds 20
+  # Write-Output "Sending enter to the VS 2022 window"
+  # $wshell.SendKeys('{ENTER}')
+  # Start-Sleep -Seconds 10
+  $proc | Stop-Process
+  # $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
+  # if ($timeoutReached) {
+  #   # Terminate the process:
+  #   Write-Output "Terminate the VS 2022 process..."
+  #   $proc | Stop-Process
+  # }
+  cd $installerDir
+  ls
 }
 
 # Enums:
