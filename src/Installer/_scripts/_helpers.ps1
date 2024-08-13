@@ -145,18 +145,17 @@ function BuildInstaller {
   }
   # Build the installer:
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
-  # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
-  $toLogOrNot = ""
-  $timeoutReached = $null
-  $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
-  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
-  if ($timeoutReached) {
-    # Terminate the process:
-    $proc | Stop-Process
-    # Retry the build:
-    Write-Output "Retrying the build..."
-    Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
-  }
+  Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
+  # $timeoutReached = $null
+  # $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
+  # $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
+  # if ($timeoutReached) {
+  #   # Terminate the process:
+  #   $proc | Stop-Process
+  #   # Retry the build:
+  #   Write-Output "Retrying the build..."
+  #   Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
+  # }
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
