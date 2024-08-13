@@ -13,7 +13,7 @@ function BuildAllInstallers {
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $buildDir = $installerDir + "\_build" # src\Installer\_build
-  New-Item -ItemType Directory -Path $buildDir
+  New-Item -ItemType Directory -Path $buildDir -Force
   # Build the dependencies and the installers:
   BuildUninstallBat
   DisableOutOfProcBuild
@@ -131,7 +131,7 @@ function BuildInstaller {
   Write-Output "devenv.exe started: platform $Platform, mod $Mod."
   # $toLogOrNot = "/Out " + $installerDir + "\SwitchApps_Installer\Debug\log.txt"
   $toLogOrNot = ""
-  Start-Process -FilePath $devenvFile -ArgumentList ($solutionFile + " /rebuild Debug $toLogOrNot") -Wait
+  Start-Process -FilePath $devenvFile -ArgumentList ($solutionFile + " /rebuild Debug $toLogOrNot") -Wait -NoNewWindow
   Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
   # Revert the project file's modification after an x86 platform run:
   switch ($Platform) {
