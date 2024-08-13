@@ -9,7 +9,7 @@ jobs:
       - name: Install AutoHotkey v1
         shell: pwsh
         run: |
-          $path = (Get-Item .).FullName + \src\Installer\_scripts;
+          $path = (Get-Item .).FullName + "\src\Installer\_scripts";
           Write-Output "Path: $path";
           Invoke-WebRequest "https://www.autohotkey.com/download/1.1/AutoHotkey_1.1.37.02.zip" -OutFile "$path\autohotkey.zip";
           Expand-Archive -Path "$path\autohotkey.zip" -DestinationPath "$path\_autohotkey\" -Force;
