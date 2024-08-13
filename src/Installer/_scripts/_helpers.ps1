@@ -17,7 +17,7 @@ function BuildAllInstallers {
   # Build the dependencies and the installers:
   BuildUninstallBat
   DisableOutOfProcBuild
-  RunVS2022
+  # RunVS2022
   # UpdateDevenvConfiguration
   BuildExeAndInstaller -Platform x86 -Mod Normal
   BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
