@@ -19,10 +19,13 @@ function BuildAllInstallers {
   DisableOutOfProcBuild
   # RunVS2022
   # UpdateDevenvConfiguration
-  BuildExeAndInstaller -Platform x86 -Mod Normal
-  BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
-  BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod
-  BuildExeAndInstaller -Platform x64 -Mod Normal
+  #
+  # BuildExeAndInstaller -Platform x86 -Mod Normal
+  # BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
+  # BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod
+  # BuildExeAndInstaller -Platform x64 -Mod Normal
+  #
+  BuildExe -Platform x64 -Mod Normal
 }
 
 # Internal functions:
