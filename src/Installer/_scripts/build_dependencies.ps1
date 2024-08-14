@@ -1,7 +1,7 @@
 try
 {
   # Set the root path:
-  Write-Output "Scripts root path: $PSScriptRoot"
+  Write-Host "Scripts root path: $PSScriptRoot"
   . "$PSScriptRoot\_helpers.ps1"
   # Build the dependencies:
   BuildUninstallBat

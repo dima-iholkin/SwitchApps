@@ -2,30 +2,26 @@ $ErrorActionPreference = "Stop"
 
 # Public functions:
 
-function BuildNormalInstaller {
-  BuildUninstallBat
-  DisableOutOfProcBuild
-  BuildExeAndInstaller -Platform x64 -Mod Normal
-}
-
 function BuildAllInstallers {
   # Create the "_build" folder:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
   $buildDir = $installerDir + "\_build" # src\Installer\_build
   New-Item -ItemType Directory -Path $buildDir -Force
-  # Build the dependencies and the installers:
+  # Build the dependencies:
   BuildUninstallBat
+  # Configure VS 2022:
   DisableOutOfProcBuild
-  # RunVS2022
-  # UpdateDevenvConfiguration
-  #
-  # BuildExeAndInstaller -Platform x86 -Mod Normal
-  # BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod
-  # BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod
-  # BuildExeAndInstaller -Platform x64 -Mod Normal
-  #
-  BuildExe -Platform x64 -Mod Normal
+  # Choose the AHK "Compiler" directory path:
+  $ahkCompilerPath = GetAhkCompilerPath
+  # Build the executables and installers:
+  SetProjectFileToPlatform -Platform x64
+  BuildExeAndInstaller -Platform x64 -Mod Normal -AhkCompilerPath $ahkCompilerPath
+  BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath
+  SetProjectFileToPlatform -Platform x86
+  BuildExeAndInstaller -Platform x86 -Mod Normal -AhkCompilerPath $ahkCompilerPath
+  BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath
+  SetProjectFileToPlatform -Platform x64
 }
 
 # Internal functions:
@@ -51,37 +47,22 @@ function BuildExe {
   param (
     [Parameter()]
     [Platform] $Platform,
-    [Mod] $Mod
+    [Mod] $Mod,
+    [String] $AhkCompilerPath
   )
-  # Guard clause:
-  # if ($PSVersionTable.PSVersion.Major -lt 7) {
-  #   throw "The script requires PowerShell 7 or newer.";
-  # }
-  # Set the AHK "compiler" directory path:
-  if (Test-Path -Path "$PSScriptRoot\_autohotkey\Compiler\Ahk2Exe.exe") {
-    $ahkCompilerPath = "$PSScriptRoot\_autohotkey\Compiler"
-  }
-  elseif (Test-Path -Path "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe") {
-    $ahkCompilerPath = "C:\Program Files\AutoHotKey\Compiler"
-  }
-  else {
-    throw "AutoHotKey compiler directory not found.";
-  }
-  if (($Platform -eq "x86") -and ($Mod -eq "Normal")) {
-    Write-Output "AutoHotKey compiler directory path: $ahkCompilerPath"
-  }
   # Set the "Ahk2Exe.exe" file path:
-  $exeFile = $ahkCompilerPath + "\Ahk2Exe.exe"
+  $exeFile = $AhkCompilerPath + "\Ahk2Exe.exe"
   # Set the bin platform file path:
   switch ($Platform) {
     x64 { $binPlatform = "\Unicode 64-bit.bin" }
     x86 { $binPlatform = "\Unicode 32-bit.bin" }
     Default { throw "Unexpected bin platform argument." }
   }
-  $binFile = $ahkCompilerPath + $binPlatform
-  # Copy the base platform AHK file:
-  if (Test-Path -Path "$PSScriptRoot\_autohotkey\Compiler\Ahk2Exe.exe") {
-    Copy-Item -Path "$binFile" -Destination "$ahkCompilerPath\AutoHotkeySC.bin" -Force
+  $binFile = $AhkCompilerPath + $binPlatform
+  # Copy the base platform AHK file, if it's the local "_autohotkey" folder:
+  if ("$PSScriptRoot\_autohotkey\Compiler" -eq $AhkCompilerPath) {
+    Write-Host "Copy $binFile as AutoHotkeySC.bin"
+    Copy-Item -Path "$binFile" -Destination "$AhkCompilerPath\AutoHotkeySC.bin" -Force
   }
   # Set the directory paths:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
@@ -110,12 +91,6 @@ function BuildExe {
     "/out $outputFile",
     "/icon $iconFile"
   )
-  if (Test-Path -Path $outputFile) {
-    Write-Output "SwitchApps.exe created"
-  }
-  else {
-    Write-Output "SwitchApps.exe not created"
-  }
 }
 
 function BuildInstaller {
@@ -125,54 +100,25 @@ function BuildInstaller {
     [Platform] $Platform,
     [Mod] $Mod
   )
-  # Set the paths:
+  # Set the paths for build:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
-  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
-  $solutionFile = $installerDir + "\SwitchApps.sln"
-  # Modify the project file for x86 platform:
-  switch ($Platform) {
-    x64 { }
-    x86 {
-      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:1"', '"TargetPlatform" = "3:0"' | Set-Content -Path $projectFile -Force
-      (Get-Content -path $projectFile -Raw) -replace 'ProgramFiles64Folder', 'ProgramFilesFolder' | Set-Content -Path $projectFile -Force
-    }
-    Default { throw "Unexpected platform argument." }
-  }
-  # Set the "devenv.exe" file path:
+  $solutionFile = $installerDir + "\SwitchApps.sln" # src\Installer\SwitchApps.sln
+  # Set the "devenv.com" file path:
   $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
   $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.com"
   # Guard clause:
   if ((Test-Path -Path $devenvFile) -eq $false) {
-    throw "Visual Studio 2022 devenv.exe file not found."
+    throw "Visual Studio 2022 devenv.com file not found."
   }
   # Build the installer:
-  Write-Output "devenv.exe started: platform $Platform, mod $Mod."
+  Write-Host "devenv.com started: platform $Platform, mod $Mod."
   Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
-  # $timeoutReached = $null
-  # $proc = Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -PassThru
-  # $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
-  # if ($timeoutReached) {
-  #   # Terminate the process:
-  #   $proc | Stop-Process
-  #   # Retry the build:
-  #   Write-Output "Retrying the build..."
-  #   Start-Process -FilePath $devenvFile -ArgumentList ("$solutionFile /Rebuild Debug") -NoNewWindow -Wait
-  # }
-  Write-Output "devenv.exe finished: platform $Platform, mod $Mod."
-  # Revert the project file's modification after an x86 platform run:
-  switch ($Platform) {
-    x64 { }
-    x86 {
-      (Get-Content -path $projectFile -Raw) -replace '"TargetPlatform" = "3:0"', '"TargetPlatform" = "3:1"' | Set-Content -Path $projectFile -Force
-      (Get-Content -path $projectFile -Raw) -replace 'ProgramFilesFolder', 'ProgramFiles64Folder' | Set-Content -Path $projectFile -Force
-    }
-    Default { throw "Unexpected platform argument." }
-  }
-  # Set the paths:
+  Write-Host "devenv.com finished: platform $Platform, mod $Mod."
+  # Set the paths for copy:
   $installerFile = $installerDir + "\SwitchApps_Installer\Debug\SwitchApps.msi" # \src\Installer\SwitchApps_Installer\Debug\SwitchApps.msi
   $buildDir = $installerDir + "\_build" # \src\Installer\_build
-  # Set the installer name suffixes:
+  # Choose the installer name suffixes:
   switch ($Platform) {
     x64 { $installerPlatform = "_x64" }
     x86 { $installerPlatform = "_x86" }
@@ -192,9 +138,10 @@ function BuildExeAndInstaller {
   param (
     [Parameter()]
     [Platform] $Platform,
-    [Mod] $Mod
+    [Mod] $Mod,
+    [String] $AhkCompilerPath
   )
-  BuildExe -Platform $Platform -Mod $Mod
+  BuildExe -Platform $Platform -Mod $Mod -AhkCompilerPath $AhkCompilerPath
   BuildInstaller -Platform $Platform -Mod $Mod
 }
 
@@ -215,6 +162,23 @@ function DisableOutOfProcBuild() {
   Pop-Location
 }
 
+function GetAhkCompilerPath {
+  # Choose the AHK "Compiler" directory path:
+  if (Test-Path -Path "$PSScriptRoot\_autohotkey\Compiler\Ahk2Exe.exe") {
+    $ahkCompilerPath = "$PSScriptRoot\_autohotkey\Compiler"
+  }
+  elseif (Test-Path -Path "C:\Program Files\AutoHotKey\Compiler\Ahk2Exe.exe") {
+    $ahkCompilerPath = "C:\Program Files\AutoHotKey\Compiler"
+  }
+  else {
+    throw "AutoHotKey compiler directory not found.";
+  }
+  # Log the AHK "Compiler" directory path once:
+  Write-Host "AutoHotKey compiler directory path: $ahkCompilerPath"
+  # Return the chosen path:
+  return $ahkCompilerPath
+}
+
 function GetInstallerProductCode {
   # Set the paths:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
@@ -226,44 +190,31 @@ function GetInstallerProductCode {
   return $productCode
 }
 
-function UpdateDevenvConfiguration {
-  # Set the "devenv.exe" file path:
-  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
-  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
-  # Guard clause:
-  if ((Test-Path -Path $devenvFile) -eq $false) {
-    throw "Visual Studio 2022 devenv.exe file not found."
-  }
-  # Run "devenv /updateconfiguration":
-  Write-Output 'Run "devenv /updateconfiguration"'
-  Start-Process -FilePath $devenvFile -ArgumentList ("/updateconfiguration") -NoNewWindow -Wait
-}
-
-function RunVS2022 {
+function SetProjectFileToPlatform {
+  [CmdletBinding()]
+  param (
+    [Parameter()]
+    [Platform] $Platform
+  )
   # Set the paths:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
   $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
-  $solutionFile = $installerDir + "\SwitchApps.sln"
-  # $projectFile = $installerDir + "\SwitchApps_Library\SwitchApps.Library.csproj"
-  # Set the "devenv.exe" file path:
-  $vsInstallPath = & "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
-  $devenvFile = $vsInstallPath + "\Common7\IDE\devenv.exe"
-  # Guard clause:
-  if ((Test-Path -Path $devenvFile) -eq $false) {
-    throw "Visual Studio 2022 devenv.exe file not found."
+  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
+  # Modify the project file:
+  $fileContents = Get-Content -path $projectFile -Raw
+  switch ($Platform) {
+    x64 {
+      if ($fileContents.Contains('"TargetPlatform" = "3:0"') -or $fileContents.Contains('ProgramFilesFolder')) {
+        $fileContents.Replace('"TargetPlatform" = "3:0"', '"TargetPlatform" = "3:1"').Replace('ProgramFilesFolder', 'ProgramFiles64Folder') | Set-Content -Path $projectFile -Force
+      }
+    }
+    x86 {
+      if ($fileContents.Contains('"TargetPlatform" = "3:1"') -or $fileContents.Contains('ProgramFiles64Folder')) {
+        $fileContents.Replace('"TargetPlatform" = "3:1"', '"TargetPlatform" = "3:0"').Replace('ProgramFiles64Folder', 'ProgramFilesFolder') | Set-Content -Path $projectFile -Force
+      }
+    }
+    Default { throw "Unexpected platform argument." }
   }
-  # Run the solution in VS 2022:
-  Write-Output 'Run the solution in VS 2022...'
-  $proc = Start-Process -FilePath $devenvFile -ArgumentList ("/runexit $solutionFile") -PassThru
-  $timeoutReached = $null
-  $proc | Wait-Process -Timeout 60 -ErrorAction SilentlyContinue -ErrorVariable timeoutReached
-  if ($timeoutReached) {
-    # Terminate the process:
-    Write-Output "Terminate the VS 2022 process..."
-    $proc | Stop-Process
-  }
-  cd $installerDir
-  ls
 }
 
 # Enums:
