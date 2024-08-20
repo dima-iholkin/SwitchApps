@@ -23,8 +23,10 @@ jobs:
         run: |
           .\src\Installer\_scripts\build_all_installers.ps1
 
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v4
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@2.9.0
         with:
-          name: my-artifact
-          path: src/Installer/_build/SwitchApps*
+          file: src/Installer/_build/SwitchApps*
+          file_glob: true
+          draft: true
+          release_name: debug

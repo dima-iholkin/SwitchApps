@@ -14,13 +14,15 @@ function BuildAllInstallers {
   DisableOutOfProcBuild
   # Choose the AHK "Compiler" directory path:
   $ahkCompilerPath = GetAhkCompilerPath
+  # Parse the project version:
+  $version = ParseProjectVersion
   # Build the executables and installers:
   SetProjectFileToPlatform -Platform x64
-  BuildExeAndInstaller -Platform x64 -Mod Normal -AhkCompilerPath $ahkCompilerPath
-  BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath
+  BuildExeAndInstaller -Platform x64 -Mod Normal -AhkCompilerPath $ahkCompilerPath -Version $version
+  BuildExeAndInstaller -Platform x64 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath -Version $version
   SetProjectFileToPlatform -Platform x86
-  BuildExeAndInstaller -Platform x86 -Mod Normal -AhkCompilerPath $ahkCompilerPath
-  BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath
+  BuildExeAndInstaller -Platform x86 -Mod Normal -AhkCompilerPath $ahkCompilerPath -Version $version
+  BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath -Version $version
   SetProjectFileToPlatform -Platform x64
 }
 
@@ -98,7 +100,8 @@ function BuildInstaller {
   param (
     [Parameter()]
     [Platform] $Platform,
-    [Mod] $Mod
+    [Mod] $Mod,
+    [String] $Version
   )
   # Set the paths for build:
   $scriptsDir = $PSScriptRoot # src\Installer\_scripts
@@ -130,7 +133,7 @@ function BuildInstaller {
     Default { throw "Unexpected mod argument." }
   }
   # Copy the installer file to the "build" directory:
-  Copy-Item -Path $installerFile -Destination ($buildDir + "\SwitchApps" + $installerPlatform + $installerMod + ".msi") -Force
+  Copy-Item -Path $installerFile -Destination ($buildDir + "\SwitchApps" + $installerPlatform + $installerMod + "-v" + $Version + ".msi") -Force
 }
 
 function BuildExeAndInstaller {
@@ -139,10 +142,11 @@ function BuildExeAndInstaller {
     [Parameter()]
     [Platform] $Platform,
     [Mod] $Mod,
-    [String] $AhkCompilerPath
+    [String] $AhkCompilerPath,
+    [String] $Version
   )
   BuildExe -Platform $Platform -Mod $Mod -AhkCompilerPath $AhkCompilerPath
-  BuildInstaller -Platform $Platform -Mod $Mod
+  BuildInstaller -Platform $Platform -Mod $Mod -Version $Version
 }
 
 function DisableOutOfProcBuild() {
@@ -215,6 +219,16 @@ function SetProjectFileToPlatform {
     }
     Default { throw "Unexpected platform argument." }
   }
+}
+
+function ParseProjectVersion {
+  # Set the paths:
+  $scriptsDir = $PSScriptRoot # src\Installer\_scripts
+  $installerDir = Split-Path -Path $scriptsDir -Parent # src\Installer
+  $projectFile = $installerDir + "\SwitchApps_Installer\SwitchApps_Installer.vdproj" # src\Installer\SwitchApps_Installer\SwitchApps_Installer.vdproj
+  # Parse the version from project file:
+  $fileContents = Select-String -Path $projectFile -Pattern '"ProductVersion" = "8:' -SimpleMatch
+  return $fileContents.Line.Replace('"ProductVersion" = "8:', "").Replace('"', '').Trim()
 }
 
 # Enums:
