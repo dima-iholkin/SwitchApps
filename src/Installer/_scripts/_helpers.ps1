@@ -24,6 +24,8 @@ function BuildAllInstallers {
   BuildExeAndInstaller -Platform x86 -Mod Normal -AhkCompilerPath $ahkCompilerPath -Version $version
   BuildExeAndInstaller -Platform x86 -Mod AppGroupingMod -AhkCompilerPath $ahkCompilerPath -Version $version
   SetProjectFileToPlatform -Platform x64
+  # Build the script and executable that will be uploaded into a draft release:
+  BuildExe -Platform x86 -Mod Normal -AhkCompilerPath $ahkCompilerPath
 }
 
 # Internal functions:

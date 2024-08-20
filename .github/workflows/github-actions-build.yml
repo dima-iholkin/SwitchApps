@@ -1,4 +1,4 @@
-on: [push, workflow_dispatch]
+on: workflow_dispatch
 jobs:
   build:
     runs-on: windows-2022
@@ -29,4 +29,4 @@ jobs:
           file: src/Installer/_build/SwitchApps*
           file_glob: true
           draft: true
-          release_name: debug
+          release_name: draft
