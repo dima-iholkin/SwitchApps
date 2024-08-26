@@ -1,65 +1,67 @@
 # <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Flag_of_Ukraine.svg/1920px-Flag_of_Ukraine.svg.png" width="32" alt="Ukrainian flag"> SwitchApps utility for Windows 10/11
 
+SwitchApps utility for Windows 10/11 changes the behavior of `Alt + Tab` and `Alt + Shift + Tab` keyboard shortcuts, to a behavior based on the order of apps on the Taskbar. 
+
+> This means you finally have a predictable order of switching between apps!
+
+If you're familiar with switching between the tabs in your web browser with keyboard shortcuts `Ctrl + PageUp` and `Ctrl + PageDown` - this is a very similar idea. Under the hood it utilizes the `Win + T` keyboard shortcut behavior.
+
+![Screen capture of SwitchApps usage](/../assets/readme/demo.gif?raw=true "Screen capture of SwitchApps usage")  
 
 
-**If you use `Alt + Tab` shortcut on Windows, this may be interesting to you.**  
 
-A new behavior for `Alt + Tab` and `Alt + Shift + Tab` keyboard shortcuts for Windows 10/11. It uses the current Taskbar order to switch between apps.
+## Recommendations
 
-![SwitchApps demo GIF](/../assets/readme/demo.gif?raw=true "SwitchApps demo GIF")  
+1. Unpin the apps from the Taskbar for the best user experience. 
+2. I believe it's best to disable the app grouping behavior on the Taskbar with:
+    * [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker) for Windows 10,
+    * [Windhawk Mods](https://windhawk.net/mods/taskbar-grouping) for Windows 11.
+
+However you can try it out without any of these changes.
 
 
 
 ## Install instructions
 
-* Recommended to **unpin every app** from the Taskbar, because it interferes with the intended user experience of switching between open apps through the Taskbar. Better to use a diffenent approach to open common apps, for example pin to the Start Menu or create shortcuts on the Desktop.
-
-1. Download and install [the latest SwitchApps release](https://github.com/dima-iholkin/SwitchApps/releases/latest), choose the installer that best suits you.
-
-2. For Windows 10 use [7+ Taskbar Tweaker](https://rammichael.com/7-taskbar-tweaker) to disable the Taskbar app grouping.  
-Choose the **Run at startup** option during the installation.  
-![7+ Taskbar Tweaker the Run at startup option screenshot](/_docs/_assets/04_7tt_autostart.png?raw=true)  
-Choose the **Don't group apps** option in the app.  
-![7+ Taskbar Tweaker the Don't group apps option screenshot](/../assets/readme/7tt.png?raw=true)  
-
-* For Windows 11 you can try this [Windhawk mod](https://windhawk.net/mods/taskbar-grouping) or another solution, if they exist, to disable the Taskbar app grouping.
-
+1. Download and install from [the Releases page](https://github.com/dima-iholkin/SwitchApps/releases/latest).
+2. Recommended to disable the app grouping behavior with 7+ Taskbar Tweaker or Windhawk Mods.
 3. Restart the computer for all changes to apply.
 
-4. Open some apps and try pressing `Alt + Tab` and `Alt + Shift + Tab`.
+
+
+## Support and Contributions
+
+If you encounter any problems or have questions, please contact me [on LinkedIn](linkedin.com/in/dima-iholkin/) or create an Issue/Discussion on GitHub.
 
 
 
-## Limitations
+## Technical details
 
-* Rarely the SwitchApps may send an `Enter` keypress to the active app, which may result in some horrible consequences, so be mindful.
+The keyboard shortcut behaviors are implemented with an AutoHotKey script.  
+Then this script is packaged into an executable by AutoHotKey tool.  
+The installed is created with Microsoft Visual Studio Installer Projects, with custom C# .NET Framework 4.7 code for additional steps during install and uninstall.  
 
-* SwitchApps may not work well during an extreme CPU load or the utility's cold memory state. It will resolve by itself.
+During install:
+* a Task Scheduler task for autostart is created,
+* a couple of Registry keys are backed up and edited for the best user experience,
+* a couple Start Menu shortcuts created to give a user the best control of the utility.
 
-* Some games and especially the full-screen mode games may conflict with the utility. You can stop the utility during the gameplay from the Start Menu.  
-![Stop SwitchApps from the Start Menu screenshot](/_docs/_assets/02_StartMenu.png?raw=true)
+During uninstall:
+* the Task Scheduler task will be removed,
+* the Registry keys will be restored to the original (backed-up) values,
+* the Start Menu shortcuts will be removed.
 
-* Windows 11's Microsoft Edge seems to ignore the utility, so an `Alt + Tab` keypress there triggers the default Windows 11 behavior.
+The installer logs into a file in the installation directory.
 
+```
+C:\Users\[username]\AppData\Roaming\SwitchApps
+```
 
-
-## Features
-
-* Using [AutoHotKey project](https://www.autohotkey.com) to implement the actual `Alt + Tab` behavior override.
-* Using [Visual Studio Installer Projects](https://marketplace.visualstudio.com/items?itemName=VisualStudioClient.MicrosoftVisualStudio2022InstallerProjects) to provide the complete Installer/Uninstaller experience.
-* Registry changes during the Install process for the best `Alt + Tab` user experience, and the change reversal during the Uninstall process.
-* Task Scheduler task for autostart with highest privileges.
-* Start Menu shortcuts for easy access to common actions.
-
-
-
-## Get Support and Contribute
-
-Please create an issue or discussion, if you noticed a bug or have questions.
+The installer requires admin privileges for the best user experience, therefore you may not be able to install the app in some environments due to security concerns.
 
 
 
-## License
+## License information
 
 * **[MIT License](http://opensource.org/licenses/mit-license.php)**
 * Copyright 2021-2024 © <a href="https://github.com/dima-iholkin" target="_blank">Dima Iholkin</a>.
